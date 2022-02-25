@@ -11,6 +11,7 @@ import android.view.View
 import android.widget.*
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -23,10 +24,11 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.policyboss.policybosspro.BaseActivity
 import com.policyboss.policybosspro.BaseActivity.PermissionListener
 import com.policyboss.policybosspro.BuildConfig
+import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity
 import com.policyboss.policybosspro.MyApplication
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ActivityHomeMainBinding
-import com.policyboss.policybosspro.home.HomeActivity
+import com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity
 import com.policyboss.policybosspro.homeMainKotlin.Adapter.MenuAdapter
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity
 import com.policyboss.policybosspro.myaccount.MyAccountActivity
@@ -36,6 +38,7 @@ import com.policyboss.policybosspro.switchuser.SwitchUserActivity
 import com.policyboss.policybosspro.utility.CircleTransform
 import com.policyboss.policybosspro.utility.Constants
 import com.policyboss.policybosspro.utility.ReadDeviceID
+import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse
@@ -84,6 +87,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     lateinit var bottomSheetDialog : BottomSheetDialog
     lateinit var ivProfile : ImageView
     lateinit var shareProdDialog: AlertDialog
+    lateinit var  MyUtilitiesDialog: AlertDialog
 
     lateinit var txtDetails : TextView
     lateinit var txtEntityName :TextView
@@ -228,7 +232,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
             FBAID =  loginResponseEntity.fbaId.toString()
             txtDetails.text = "" + loginResponseEntity.fullName
-            txtEntityName.text =  BuildConfig.VERSION_NAME
+            txtEntityName.text = "V"+ BuildConfig.VERSION_NAME
 
         }else{
             txtDetails.text = ""
@@ -347,7 +351,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
-        adapter = SliderDashboardAdapter(this, listInsur,0,this)
+        adapter = SliderDashboardAdapter(this, listInsur, 0, this)
         viewPager2.adapter = adapter
 
 
@@ -577,6 +581,64 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     }
 
+    override fun ConfirmnMyUtilitiesAlert() {
+        if (this::shareProdDialog.isInitialized  && shareProdDialog.isShowing()) {
+            return
+        } else {
+            val builder = AlertDialog.Builder(this@HomeMainActivity, R.style.CustomDialog)
+            var btnone: Button
+            var btntwo: Button
+            val txtTile: TextView
+            var txtBody: TextView
+            var txtMob: TextView
+            val ivCross: ImageView
+            val cvMPS: CardView
+            val cvIncomeCalculator: CardView
+            val cvMyTrainingCalender: CardView
+            val cvHelpFeedback: CardView
+            val inflater = this.layoutInflater
+            val dialogView = inflater.inflate(R.layout.layout_menu_dashboard3, null)
+            builder.setView(dialogView)
+            MyUtilitiesDialog = builder.create()
+            // set the custom dialog components - text, image and button
+            txtTile = dialogView.findViewById<View>(R.id.txtTile) as TextView
+            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = dialogView.findViewById<View>(R.id.ivCross) as ImageView
+            cvMPS = dialogView.findViewById<View>(R.id.cvMPS) as CardView
+            cvIncomeCalculator = dialogView.findViewById<View>(R.id.cvIncomeCalculator) as CardView
+            cvMyTrainingCalender = dialogView.findViewById<View>(R.id.cvMyTrainingCalender) as CardView
+            cvHelpFeedback = dialogView.findViewById<View>(R.id.cvHelpFeedback) as CardView
+            cvMPS.setOnClickListener {
+                MyUtilitiesDialog.dismiss()
+                MasterController(this@HomeMainActivity).getMpsData(this@HomeMainActivity)
+                //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+            }
+            cvIncomeCalculator.setOnClickListener {
+                MyUtilitiesDialog.dismiss()
+                //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
+                startActivity(Intent(this@HomeMainActivity, IncomePotentialActivity::class.java))
+            }
+            cvMyTrainingCalender.setOnClickListener {
+                MyUtilitiesDialog.dismiss()
+                startActivity(Intent(this@HomeMainActivity, CommonWebViewActivity::class.java)
+                        .putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + loginResponseEntity.fbaId.toString())
+                        .putExtra("NAME", "" + "My Training Calender")
+                        .putExtra("TITLE", "" + "My Training Calender"))
+            }
+            cvHelpFeedback.setOnClickListener {
+                MyUtilitiesDialog.dismiss()
+                startActivity(Intent(this@HomeMainActivity, HelpFeedBackActivity::class.java))
+                //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+            }
+            //pending
+            ivCross.setOnClickListener { MyUtilitiesDialog.dismiss() }
+            MyUtilitiesDialog.setCancelable(false)
+            MyUtilitiesDialog.show()
+        }
+    }
+
     //endregion
 
 
@@ -622,7 +684,10 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
           R.id.txtknwyour -> {
 
-              openWebViewPopUp(viewPager2, userConstantEntity.notificationpopupurl, true, "")
+              if (this::userConstantEntity.isInitialized) {
+                  openWebViewPopUp(viewPager2, userConstantEntity.notificationpopupurl, true, "")
+
+              }
 
 
           }

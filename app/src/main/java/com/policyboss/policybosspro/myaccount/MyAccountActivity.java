@@ -20,6 +20,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
@@ -48,7 +50,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.policyboss.policybosspro.BaseActivity;
+import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.homeMainKotlin.BottomSheetDialogMenuFragment;
 import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
@@ -106,6 +110,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     int type;
 
     BubbleTabBar bubbleTabBar;
+    AlertDialog MyUtilitiesDialog;
     LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile, ivAbout,
             ivPhotoCam, ivPhotoView, ivPanCam, ivPanView, ivCancelCam, ivCancelView, ivAadharCam, ivAadharView,
@@ -2131,6 +2136,99 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     public void onSwitchUser() {
 
         startActivityForResult(new Intent(MyAccountActivity.this, SwitchUserActivity.class), Constants.SWITCH_USER_REQUEST_CODE);
+
+    }
+
+    @Override
+    public void ConfirmnMyUtilitiesAlert() {
+
+        if (MyUtilitiesDialog != null && MyUtilitiesDialog.isShowing()) {
+
+            return;
+        } else {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(MyAccountActivity.this, R.style.CustomDialog);
+
+            Button btnone, btntwo;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+            CardView cvMPS, cvIncomeCalculator,
+                    cvMyTrainingCalender, cvHelpFeedback;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard3, null);
+
+            builder.setView(dialogView);
+            MyUtilitiesDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+            cvMPS = (CardView) dialogView.findViewById(R.id.cvMPS);
+            cvIncomeCalculator = (CardView) dialogView.findViewById(R.id.cvIncomeCalculator);
+            cvMyTrainingCalender = (CardView) dialogView.findViewById(R.id.cvMyTrainingCalender);
+            cvHelpFeedback = (CardView) dialogView.findViewById(R.id.cvHelpFeedback);
+
+
+            cvMPS.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+
+                    new MasterController(MyAccountActivity.this).getMpsData(MyAccountActivity.this);
+                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                    //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                }
+            });
+
+            cvIncomeCalculator.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+                    //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
+                    startActivity(new Intent(MyAccountActivity.this, IncomePotentialActivity.class));
+                }
+            });
+
+            cvMyTrainingCalender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+
+                    startActivity(new Intent(MyAccountActivity.this, CommonWebViewActivity.class)
+                            .putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginEntity.getFBAId()))
+                            .putExtra("NAME", "" + "My Training Calender")
+                            .putExtra("TITLE", "" + "My Training Calender"));
+
+                }
+            });
+
+            cvHelpFeedback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+                    startActivity(new Intent(MyAccountActivity.this, HelpFeedBackActivity.class));
+                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+
+                }
+            });
+//pending
+
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+
+                }
+            });
+            MyUtilitiesDialog.setCancelable(false);
+            MyUtilitiesDialog.show();
+        }
+
 
     }
 }

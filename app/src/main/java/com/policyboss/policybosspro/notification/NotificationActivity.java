@@ -1,5 +1,6 @@
 package com.policyboss.policybosspro.notification;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -7,6 +8,8 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.policyboss.policybosspro.BuildConfig;
+import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
+import com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.homeMainKotlin.BottomSheetDialogMenuFragment;
 import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
@@ -18,10 +21,17 @@ import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
+
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.policyboss.policybosspro.BaseActivity;
@@ -38,6 +48,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEntity;
@@ -55,6 +66,8 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     PrefManager prefManager;
 
     BubbleTabBar bubbleTabBar;
+
+   AlertDialog MyUtilitiesDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -329,4 +342,100 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
 
     }
+
+
+
+    @Override
+    public void ConfirmnMyUtilitiesAlert() {
+
+        if (MyUtilitiesDialog != null && MyUtilitiesDialog.isShowing()) {
+
+            return;
+        } else {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(NotificationActivity.this, R.style.CustomDialog);
+
+            Button btnone, btntwo;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+            CardView cvMPS, cvIncomeCalculator,
+                    cvMyTrainingCalender, cvHelpFeedback;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard3, null);
+
+            builder.setView(dialogView);
+            MyUtilitiesDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+            cvMPS = (CardView) dialogView.findViewById(R.id.cvMPS);
+            cvIncomeCalculator = (CardView) dialogView.findViewById(R.id.cvIncomeCalculator);
+            cvMyTrainingCalender = (CardView) dialogView.findViewById(R.id.cvMyTrainingCalender);
+            cvHelpFeedback = (CardView) dialogView.findViewById(R.id.cvHelpFeedback);
+
+
+            cvMPS.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+
+                    new MasterController(NotificationActivity.this).getMpsData(NotificationActivity.this);
+                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
+                    //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
+                }
+            });
+
+            cvIncomeCalculator.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+                    //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
+                    startActivity(new Intent(NotificationActivity.this, IncomePotentialActivity.class));
+                }
+            });
+
+            cvMyTrainingCalender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+
+                    startActivity(new Intent(NotificationActivity.this, CommonWebViewActivity.class)
+                            .putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginEntity.getFBAId()))
+                            .putExtra("NAME", "" + "My Training Calender")
+                            .putExtra("TITLE", "" + "My Training Calender"));
+
+                }
+            });
+
+            cvHelpFeedback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+                    startActivity(new Intent(NotificationActivity.this, HelpFeedBackActivity.class));
+                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+
+                }
+            });
+//pending
+
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+
+                }
+            });
+            MyUtilitiesDialog.setCancelable(false);
+            MyUtilitiesDialog.show();
+        }
+
+
+    }
+
 }
