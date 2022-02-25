@@ -17,9 +17,12 @@
     <color name="header_text_color1">#3c4651</color>
     <color name="secondary_text_color">#9ba0a6</color>
     <color name="tab_color">#00476e</color>
+    <color name="off_white">#fafafa</color>
 
 
     <color name="button_color">@color/colorPrimary</color>
+    <color name="blue_card">#b1eafe</color>
+    <color name="blue_menu">#d2f2fd</color>
 
     <color name="blue">#005faf</color>
     <color name="holo_red_dark">#ffcc0000</color>

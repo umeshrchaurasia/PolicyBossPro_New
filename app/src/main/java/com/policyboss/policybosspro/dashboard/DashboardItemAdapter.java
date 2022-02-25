@@ -129,7 +129,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             }
 
 
-             // IsExclusive() Verifying Data Comming From server in static case ie Loan it is null
+            // IsExclusive() Verifying Data Comming From server in static case ie Loan it is null
 
             if (listInsur.get(position).getIsExclusive() != null) {
 
@@ -186,9 +186,6 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                     //  ((DashboardItemHolder) holder).card_view.setBackgroundResource(R.drawable.customeborder_grey_thin);
                 }
             }
-
-
-
 
 
             //endregion
@@ -296,13 +293,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                 }
 
                 //mContext.startActivity(new Intent(mContext, PrivateCarDetailActivity.class));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
+                //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Motor insurance tab on home page"), Constants.PRIVATE_CAR), null);
                 MyApplication.getInstance().trackEvent(Constants.PRIVATE_CAR, "Clicked", "Motor insurance tab on home page");
                 break;
             case 23:
 
                 // KOTAK
-                String kotakUrl =  dbPersistanceController.getUserConstantsData().getEliteKotakUrl();
+                String kotakUrl = dbPersistanceController.getUserConstantsData().getEliteKotakUrl();
 
 
                 try {
@@ -317,13 +314,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
                         + "&device_id=" + Utility.getDeviceId(mContext.getActivity())
                         + "&product_id=23&login_ssid=" + parent_ssid;
-                kotakUrl = kotakUrl + appendInKotak ;
+                kotakUrl = kotakUrl + appendInKotak;
 
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), CommonWebViewActivity.class)
                         .putExtra("URL", kotakUrl)
                         .putExtra("dashBoardtype", "INSURANCE")
-                        .putExtra("NAME", "Kotak Group health Care" )
-                        .putExtra("TITLE", "Kotak Group health Care" ));
+                        .putExtra("NAME", "Kotak Group health Care")
+                        .putExtra("TITLE", "Kotak Group health Care"));
 
                 break;
 
@@ -334,7 +331,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                                 + dbPersistanceController.getUserData().getFBAId())
                         .putExtra("NAME", "FIN-PEACE")
                         .putExtra("TITLE", "FIN-PEACE"));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
+                //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Fin Peace tab on home page"), Constants.FIN_PEACE), null);
                 MyApplication.getInstance().trackEvent(Constants.FIN_PEACE, "Clicked", "Fin Peace tab on home page");
                 break;
             case 2:
@@ -403,7 +400,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .putExtra("NAME", "PERSONAL LOAN")
                         .putExtra("TITLE", "PERSONAL LOAN"));
 
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
+                //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Personal loan tab on home page"), Constants.PERSONA_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.PERSONA_LOAN, "Clicked", "Personal loan tab on home page");
                 break;
             case 8:
@@ -416,7 +413,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .putExtra("URL", loanurl)
                         .putExtra("NAME", "LAP")
                         .putExtra("TITLE", "LAP"));
-             //   new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
+                //   new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("LAP tab on home page"), Constants.LAP), null);
                 MyApplication.getInstance().trackEvent(Constants.LAP, "Clicked", "LAP tab on home page");
                 break;
             case 4:
@@ -430,7 +427,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .putExtra("URL", loanurl)
                         .putExtra("NAME", "CREDIT CARD")
                         .putExtra("TITLE", "CREDIT CARD"));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Credit Card tab on home page"), Constants.CREDIT_CARD), null);
+                //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Credit Card tab on home page"), Constants.CREDIT_CARD), null);
                 MyApplication.getInstance().trackEvent(Constants.CREDIT_CARD, "Clicked", "Credit Card tab on home page");
                 break;
             case 6:
@@ -444,10 +441,9 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .putExtra("URL", loanurl)
                         .putExtra("NAME", "BUSINESS LOAN")
                         .putExtra("TITLE", "BUSINESS LOAN"));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
+                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Business tab on home page"), Constants.BUSINESS_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
-
 
 
             case 81:
@@ -458,7 +454,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
                         .putExtra("URL", loanurl)
                         .putExtra("NAME", "CAR LOAN TOP UP")
                         .putExtra("TITLE", "CAR LOAN TOP UP"));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("CAR LOAN TOP UP"), Constants.CAR_TOP_LOAN), null);
+                //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("CAR LOAN TOP UP"), Constants.CAR_TOP_LOAN), null);
                 MyApplication.getInstance().trackEvent(Constants.BUSINESS_LOAN, "Clicked", "Business tab on home page");
                 break;
 
@@ -466,7 +462,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 9:
 
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), QuickLeadActivity.class));
-              //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
+                //  new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Quick Lead tab on home page"), Constants.QUICK_LEAD), null);
                 MyApplication.getInstance().trackEvent(Constants.QUICK_LEAD, "Clicked", "Quick Lead tab on home page");
                 break;
 
@@ -502,7 +498,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
 
                 //Toast.makeText(mContext.getContext(), "WIP.", Toast.LENGTH_SHORT).show();
                 //mContext.startActivity(new Intent(mContext, TwoWheelerQuoteAppActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
+                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Two Wheeler tab on home page"), Constants.TWO_WHEELER), null);
                 MyApplication.getInstance().trackEvent(Constants.TWO_WHEELER, "Clicked", "Two Wheeler tab on home page");
                 break;
 
@@ -510,7 +506,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 11:
                 //health check up
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), HealthCheckUpListActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
+                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Health CheckUp"), Constants.HEALTH_CHECKUP), null);
                 MyApplication.getInstance().trackEvent(Constants.HEALTH_CHECKUP, "Clicked", "Health CheckUp tab on home page");
                 break;
 
@@ -560,13 +556,13 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 15: //ncd
                 //car
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), NCDActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Campaign "), Constants.CAMPAIGN), null);
+                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Campaign "), Constants.CAMPAIGN), null);
                 MyApplication.getInstance().trackEvent(Constants.CAMPAIGN, "Clicked", "CAMPAIGN");
 
                 break;
             case 16:
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), AddNewOfflineQuotesActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Offline quote "), Constants.CAMPAIGN), null);
+                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Offline quote "), Constants.CAMPAIGN), null);
                 MyApplication.getInstance().trackEvent(Constants.OFFLINE, "Clicked", "OFFLINE");
                 break;
 
@@ -579,7 +575,7 @@ public class DashboardItemAdapter extends RecyclerView.Adapter<RecyclerView.View
             case 18:
                 //Life Insurance
                 mContext.getActivity().startActivity(new Intent(mContext.getActivity(), TermSelectionActivity.class));
-               // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
+                // new TrackingController(mContext.getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Life insurance tab on home page"), Constants.LIFE_INS), null);
                 MyApplication.getInstance().trackEvent(Constants.LIFE_INS, "Clicked", "Life insurance tab on home page");
                 break;
 

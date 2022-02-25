@@ -7,6 +7,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
@@ -48,8 +49,16 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
+import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.homeMainKotlin.BottomSheetDialogMenuFragment;
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
+import com.policyboss.policybosspro.notification.NotificationActivity;
+import com.policyboss.policybosspro.notification.NotificationSmsActivity;
+import com.policyboss.policybosspro.splashscreen.SplashScreenActivity;
+import com.policyboss.policybosspro.switchuser.SwitchUserActivity;
 import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
+import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -59,6 +68,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 
+import io.ak1.BubbleTabBar;
+import io.ak1.OnBubbleClickListener;
 import io.realm.Realm;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
@@ -71,6 +82,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.AccountDtlEntit
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.DocAvailableEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.IfscEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotifyEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.RegisterRequestEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.DocumentResponse;
@@ -86,12 +98,14 @@ import okhttp3.MultipartBody;
  * Created by daniyalshaikh on 10/01/18.
  */
 
-public class MyAccountActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber, BaseActivity.PopUpListener {
+public class MyAccountActivity extends BaseActivity implements View.OnClickListener, View.OnFocusChangeListener, IResponseSubcriber, BaseActivity.PopUpListener , BottomSheetDialogMenuFragment.IBottomMenuCallback {
 
     private static final int CAMERA_REQUEST = 1888;
     private static final int SELECT_PICTURE = 1800;
     PrefManager prefManager;
     int type;
+
+    BubbleTabBar bubbleTabBar;
     LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile, ivAbout,
             ivPhotoCam, ivPhotoView, ivPanCam, ivPanView, ivCancelCam, ivCancelView, ivAadharCam, ivAadharView,
@@ -142,6 +156,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     };
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -149,6 +165,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setElevation(0);
         dbPersistanceController = new DBPersistanceController(this);
         loginResponseEntity = dbPersistanceController.getUserData();
         loginEntity = dbPersistanceController.getUserData();
@@ -168,8 +185,59 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             new MasterController(this).geUserConstant(1, this);
         }
 
+        // region Handling Bottom bar selection
+
+        if (getIntent().getExtras() != null) {
+
+            // For getting User Click Action
+            if (getIntent().getExtras().getString(Constants.BOTTOM_TYPE) != null) {
+
+                String type = getIntent().getExtras().getString(Constants.BOTTOM_TYPE);
+
+                switch(type) {
+
+                    case "nav_home" :
+
+
+                        bubbleTabBar.setSelectedWithId(R.id.nav_home, true);
+
+                        break;
+
+                    case "nav_menu":
+                        bubbleTabBar.setSelectedWithId(R.id.nav_menu, true);
+
+
+                        break;
+
+
+
+                    case "nav_notification" :
+
+                        bubbleTabBar.setSelectedWithId(R.id.nav_notification, true);
+
+
+                        break;
+
+
+                    case "nav_profile" :
+
+                        bubbleTabBar.setSelectedWithId(R.id.nav_profile, true);
+
+
+                        break;
+                }
+
+            }
+
+        }
+
+        //endregion
+
         showDialog("Fetching Detail...");
         new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
+
+
+
 
 
     }
@@ -245,9 +313,59 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             }
         });
 
+
+       // bubbleTabBar.setSelectedWithId(R.id.nav_profile,true);
+      //  bubbleTabBar.set
+
+
+
+        bubbleTabBar.addBubbleListener(new OnBubbleClickListener() {
+            @Override
+            public void onBubbleClick(int id) {
+
+
+
+               switch (id){
+                   case R.id.nav_home:
+
+
+                       Intent intent = new Intent(MyAccountActivity.this, HomeMainActivity.class);
+                       intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                       intent.putExtra(Constants.BOTTOM_TYPE,"nav_home");
+                       startActivity(intent);
+                       finish();
+                       overridePendingTransition(0,0);
+
+                       break;
+
+                   case R.id.nav_menu:
+
+
+                       BottomSheetDialogMenuFragment bottomSheetDialogMenuFragment =new  BottomSheetDialogMenuFragment();
+                       bottomSheetDialogMenuFragment.show(getSupportFragmentManager(), bottomSheetDialogMenuFragment.getTag());
+
+                       break;
+
+
+                   case R.id.nav_notification:
+
+                       Intent intent3 = new Intent(MyAccountActivity.this, NotificationActivity.class);
+                       intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                       intent3.putExtra(Constants.BOTTOM_TYPE,"nav_notification");
+                       startActivity(intent3);
+                       finish();
+                       overridePendingTransition(0,0);
+
+                       break;
+
+               }
+            }
+        });
+
     }
 
     private void initWidgets() {
+        bubbleTabBar =  (BubbleTabBar) findViewById(R.id.bubbleTabBar);
         mainScrollView = (ScrollView) findViewById(R.id.mainScrollView);
         ivAddress = (ImageView) findViewById(R.id.ivAddress);
         ivMyProfile = (ImageView) findViewById(R.id.ivMyProfile);
@@ -1636,6 +1754,24 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         //endregion
 
 
+
+        if (requestCode == Constants.SWITCH_USER_REQUEST_CODE) {
+            if (data != null) {
+                //switchUserBinding();
+//                dbPersistanceController = new DBPersistanceController(this);
+//                loginResponseEntity = dbPersistanceController.getUserData();
+                // init_headers();
+
+                Intent intent = new Intent(this, MyAccountActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+
+            }
+
+        }
+
+
         // region  commented Below   Code for Image and Camara Handling
 //
 //        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
@@ -1958,8 +2094,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
             case android.R.id.home:
-                onBackPressed();
 
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -1968,9 +2104,33 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
 
-        supportFinishAfterTransition();
-        super.onBackPressed();
+        Intent intent = new Intent(MyAccountActivity.this, HomeMainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
+
+        overridePendingTransition(0,0);
+
     }
 
 
+
+    @Override
+    public void onClickLogout() {
+
+        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+
+
+        dialogLogout(MyAccountActivity.this);
+    }
+
+    @Override
+    public void onSwitchUser() {
+
+        startActivityForResult(new Intent(MyAccountActivity.this, SwitchUserActivity.class), Constants.SWITCH_USER_REQUEST_CODE);
+
+    }
 }

@@ -33,22 +33,20 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eula);
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         initWidgets();
         setListener();
         prefManager = new PrefManager(this);
-        if (prefManager.IsBikeMasterUpdate())
-            new MasterController(this).getBikeMaster(this);
-        if (prefManager.IsCarMasterUpdate())
-            new MasterController(this).getCarMaster(this);
-        if (prefManager.IsRtoMasterUpdate())
-            new MasterController(this).getRTOMaster(this);
-        if (prefManager.IsInsuranceMasterUpdate())
-            new MasterController(this).getInsuranceMaster(this);
-        if (prefManager.getIsRblCityMaster())
-            new CreditCardController(this).getRblCityMaster(null);
+//        if (prefManager.IsBikeMasterUpdate())
+//            new MasterController(this).getBikeMaster(this);
+//        if (prefManager.IsCarMasterUpdate())
+//            new MasterController(this).getCarMaster(this);
+//        if (prefManager.IsRtoMasterUpdate())
+//            new MasterController(this).getRTOMaster(this);
+//        if (prefManager.IsInsuranceMasterUpdate())
+//            new MasterController(this).getInsuranceMaster(this);
+//        if (prefManager.getIsRblCityMaster())
+//            new CreditCardController(this).getRblCityMaster(null);
         settingWebview();
     }
 
@@ -68,26 +66,9 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
         switch (view.getId()) {
             case R.id.btnAgree:
 
-
-                if (checkAllMastersIsUpdate()) {
                     prefManager.setFirstTimeLaunch(false);
                     startActivity(new Intent(this, LoginActivity.class));
-                } else {
 
-                    if (prefManager.IsBikeMasterUpdate())
-                        new MasterController(this).getBikeMaster(this);
-                    if (prefManager.IsCarMasterUpdate())
-                        new MasterController(this).getCarMaster(this);
-                    if (prefManager.IsRtoMasterUpdate())
-                        new MasterController(this).getRTOMaster(this);
-                    if (prefManager.IsInsuranceMasterUpdate())
-                        new MasterController(this).getInsuranceMaster(this);
-                    if (prefManager.getIsRblCityMaster())
-                        new CreditCardController(this).getRblCityMaster(this);
-
-                    prefManager.setFirstTimeLaunch(false);
-                    startActivity(new Intent(this, LoginActivity.class));
-                }
                 break;
             case R.id.btnDisAgree:
                 finish();
@@ -97,27 +78,7 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        if (response instanceof BikeMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                // startActivity(new Intent(EulaActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof CarMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(EulaActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof CityMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(EulaActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof InsuranceMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(EulaActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof RblCityMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(EulaActivity.this, LoginActivity.class));
-            }
-        }
+
     }
 
     @Override
@@ -126,18 +87,6 @@ public class EulaActivity extends BaseActivity implements View.OnClickListener, 
       //  Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    public boolean checkAllMastersIsUpdate() {
-        if (prefManager.IsBikeMasterUpdate())
-            return false;
-        else if (prefManager.IsCarMasterUpdate())
-            return false;
-        else if (prefManager.IsRtoMasterUpdate())
-            return false;
-        else if (prefManager.IsInsuranceMasterUpdate())
-            return false;
-
-        return true;
-    }
 
     private void settingWebview() {
         WebSettings settings = webView.getSettings();

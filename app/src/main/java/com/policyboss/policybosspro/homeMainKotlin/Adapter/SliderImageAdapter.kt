@@ -1,33 +1,50 @@
 package com.demo.kotlindemoapp.HomeMain.CarouselViewPager.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.SliderData
-import com.demo.kotlindemoapp.R
-import com.demo.kotlindemoapp.home.HomeFragment
+import com.bumptech.glide.Glide
+import com.policyboss.policybosspro.BuildConfig
+import com.policyboss.policybosspro.MyApplication
+import com.policyboss.policybosspro.R
+import com.policyboss.policybosspro.health.HealthQuoteAppActivity
+import com.policyboss.policybosspro.healthcheckupplans.HealthCheckUpListActivity
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity
+import com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity
+import com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity
+import com.policyboss.policybosspro.ncd.NCDActivity
+import com.policyboss.policybosspro.offline_quotes.AddNewOfflineQuotesActivity
+import com.policyboss.policybosspro.quicklead.QuickLeadActivity
+import com.policyboss.policybosspro.term.termselection.TermSelectionActivity
+import com.policyboss.policybosspro.ultralaksha.ultra_selection.UltraLakshaSelectionActivity
+import com.policyboss.policybosspro.utility.Constants
+import com.policyboss.policybosspro.webviews.CommonWebViewActivity
+import magicfinmart.datacomp.com.finmartserviceapi.Utility
+import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
+import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity
 
 class SliderImageAdapter(
 
-    val context: Context,
-    val fragment: Fragment,
-    val rvImgSlide: RecyclerView,
-    val sliderImgList: ArrayList<SliderData>
+        val mContext: Context,
+        val insurImgList: MutableList<DashboardMultiLangEntity>
 )  : RecyclerView.Adapter<SliderImageAdapter.ImageViewHolder>(){
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageViewHolder {
 
         val view  = LayoutInflater.from(parent.context).inflate(
-            R.layout.slider_image_model,
-            parent,
-            false
+                R.layout.slider_image_model,
+                parent,
+                false
         )
 
         return ImageViewHolder(view)
@@ -36,28 +53,31 @@ class SliderImageAdapter(
     override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
 
 
-        holder.txtSlideImg.text = sliderImgList[position].title
-        holder.imgSlide.setImageResource(sliderImgList[position].image)
+        holder.txtSlideImg.text = insurImgList[position].productName.toString().toUpperCase()
+                                    .replace("INSURANCE", "", false)
 
-//         if(position  == sliderImgList.size - 1)
-//        {
-//            rvImgSlide.post(run)
-//        }
+        if (insurImgList[position].icon == -1) {
+            Glide.with(mContext)
+                    .load(insurImgList[position].serverIcon)
+                    .into((holder.imgSlide))
+        } else {
+            holder.imgSlide.setImageResource(insurImgList[position].icon)
+        }
 
-        if(sliderImgList[position].isChecked){
+        if(insurImgList[position].checked){
 
             holder.sliderLinearParent.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.blue_menu
-                )
+                    ContextCompat.getColor(
+                            mContext,
+                            R.color.blue_menu
+                    )
             )
         }else{
             holder.sliderLinearParent.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.bg_light
-                )
+                    ContextCompat.getColor(
+                            mContext,
+                            R.color.bg_light
+                    )
             )
 
         }
@@ -65,19 +85,12 @@ class SliderImageAdapter(
         holder.sliderLinearParent.setOnClickListener {
 
 
-            holder.sliderLinearParent.setBackgroundColor(
-                ContextCompat.getColor(
-                    context,
-                    R.color.blue_menu
-                )
-            )
 
-            modifySliderList(sliderImgList[position])
 
-           // getPosition(position)
-          // context (getSliderImagePosition(position))
+            modifySliderList(position, insurImgList[position])
 
-            (fragment as HomeFragment).getSliderImagePosition(position)
+
+            (mContext as HomeMainActivity).getSliderImagePosition(position)
 
         }
 
@@ -88,21 +101,21 @@ class SliderImageAdapter(
     }
 
     override fun getItemCount(): Int {
-       return sliderImgList.size
+       return insurImgList.size
     }
 
 
 
-    fun modifySliderList(MainslideData: SliderData){
+    fun modifySliderList(position: Int, MainslideData: DashboardMultiLangEntity){
         var pos = 0
-      for(slideData in sliderImgList){
+      for(slideData in insurImgList){
 
-          if(slideData.title.equals(MainslideData.title)){
+          if(slideData.productId == MainslideData.productId){
 
-              sliderImgList[pos].isChecked = true
+              insurImgList[pos].checked = true
           }else{
 
-              sliderImgList[pos].isChecked = false
+              insurImgList[pos].checked= false
           }
 
           pos = pos + 1
@@ -120,12 +133,6 @@ class SliderImageAdapter(
     }
 
 
-    private val run = object : Runnable {
-        override fun run() {
 
-            sliderImgList.addAll(sliderImgList)
-            notifyDataSetChanged()
-        }
 
-    }
 }

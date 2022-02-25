@@ -37,6 +37,11 @@ public class DashboardMultiLangEntity extends RealmObject {
     private String info;
 
 
+
+    private Boolean isChecked;
+
+
+
     public DashboardMultiLangEntity(String type, int productId, String productName, String productDetails, int icon, String productNameKey, String productDetailsKey) {
         this.type = type;
         this.productId = productId;
@@ -57,6 +62,7 @@ public class DashboardMultiLangEntity extends RealmObject {
         this.popupmsg = "";
         this.title = "";
         this.info = "";
+        this.isChecked = false;
 
     }
 
@@ -213,6 +219,14 @@ public class DashboardMultiLangEntity extends RealmObject {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public Boolean getChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(Boolean checked) {
+        isChecked = checked;
     }
 
 

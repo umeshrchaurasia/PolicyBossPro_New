@@ -1,12 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg_dashboard"
     tools:context="com.policyboss.policybosspro.myaccount.MyAccountActivity">
 
+    <ImageView
+        android:id="@+id/imgBackground"
+        android:layout_width="match_parent"
+        android:layout_height="360dp"
+        android:background="@drawable/background_top">
+
+    </ImageView>
+
+
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/app_bar"
+        app:elevation="0dp"
+        android:background="@android:color/transparent"
+        android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/AppTheme.AppBarOverlay">
@@ -16,17 +30,45 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:layout_gravity="center"
-            android:background="?attr/colorPrimary"
+            android:background="@android:color/transparent"
             android:fitsSystemWindows="true"
             app:layout_collapseMode="pin"
             app:layout_scrollFlags="snap|enterAlways|enterAlwaysCollapsed"
-            app:popupTheme="@style/AppTheme.PopupOverlay"
+
             app:titleTextAppearance="@style/TextStyle.Toolbar"
             app:titleTextColor="@color/white" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <include layout="@layout/content_myaccount" />
+    <include layout="@layout/content_myaccount"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@+id/app_bar"
+       android:layout_above="@+id/bubbleTabBar"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        />
+
+    <io.ak1.BubbleTabBar
+        android:id="@+id/bubbleTabBar"
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        app:bubbletab_menuResource="@menu/bottom_navigation_tab_menu_profile"
+
+        android:background="@color/white"
+        android:elevation="@dimen/_3dp"
+
+        app:bubbletab_disabled_icon_color="@color/black"
+
+        app:bubbletab_icon_size="22dp"
+        app:bubbletab_title_size="14sp"
+        app:bubbletab_icon_padding="5sp"
+        app:bubbletab_vertical_padding="10dp"
+        app:bubbletab_tab_corner_radius="25dp">
+    </io.ak1.BubbleTabBar>
+
+</RelativeLayout>

@@ -27,6 +27,7 @@ import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
 import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.register.RegisterActivity;
 import com.policyboss.policybosspro.utility.Constants;
@@ -367,12 +368,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
             if (!prefManager.getSharePushType().equals("")) {
 
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                Intent intent = new Intent(LoginActivity.this, HomeMainActivity.class);
                 intent.putExtra(Utility.PUSH_LOGIN_PAGE, "555");
                 startActivity(intent);
 
             } else {
-                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                Intent intent = new Intent(LoginActivity.this, HomeMainActivity.class);
                 startActivity(intent);
 
             }

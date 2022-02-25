@@ -17,7 +17,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     lintOptions {
         checkReleaseBuilds false
@@ -27,7 +27,10 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    buildFeatures {
+        viewBinding true
 
+    }
     signingConfigs {
         release {
             keyAlias 'PolicyBossPro'
@@ -39,9 +42,9 @@ android {
     defaultConfig {
         multiDexEnabled true
         applicationId "com.policyboss.policybosspro"
-        minSdkVersion 19
-        targetSdkVersion 30
-        versionCode 7
+        minSdkVersion 21
+        targetSdkVersion 31
+        versionCode 8
 
         versionName "0.0.7"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -86,6 +89,17 @@ android {
             ext.enableCrashlytics = false
         }
     }
+//    kotlinOptions {
+//        jvmTarget = '1.8'
+//    }
+
+    // Added 05  {Not taking directly : No method error found }
+    tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+        kotlinOptions {
+            jvmTarget = "1.8"
+        }
+    }
+
 
 }
 
@@ -97,8 +111,12 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.gms:play-services-vision:19.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
-    implementation 'androidx.navigation:navigation-fragment:2.0.0'
-    implementation 'androidx.navigation:navigation-ui:2.0.0'
+
+//    implementation 'androidx.navigation:navigation-fragment:2.0.0'
+//    implementation 'androidx.navigation:navigation-ui:2.0.0'
+//    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+//    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
+//
     testImplementation 'junit:junit:4.12'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'org.adw.library:discrete-seekbar:1.0.1'
@@ -112,7 +130,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation project(path: ':finmartserviceapi')
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.3.+'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
 
     implementation 'com.google.code.gson:gson:2.8.2'
     implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
@@ -123,12 +141,18 @@ dependencies {
     implementation 'org.matomo.sdk:tracker:4.0.2'
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "androidx.core:core-ktx:1.7.0"
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.4.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.1'
 
 
     implementation 'com.razorpay:checkout:1.5.15' //razor Pay
 
+    implementation  'io.ak1:bubbletabbar:1.0.8'
+
+    implementation "androidx.viewpager2:viewpager2:1.0.0"
 
 }
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
+

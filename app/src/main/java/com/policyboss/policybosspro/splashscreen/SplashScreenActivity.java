@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
 import com.policyboss.policybosspro.introslider.WelcomeActivity;
 import com.policyboss.policybosspro.login.LoginActivity;
 
@@ -82,30 +83,12 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
             //reset user behaviour flag to send data on every app launch
             prefManager.saveUserbehaviourState(false);
             new MasterController(this).geUserConstant(0, this);
-            new MasterController(this).getConstants(this);
+           // new MasterController(this).getConstants(this);
             new MasterController(this).getMenuMaster(this);
 
 
         }
-       /* if (userConstantEntity != null) {
-            new MasterController(this).geUserConstant(0, this);
-        }*/
 
-
-       //region Comment
-     //       prefManager.updateCheckMsgFirst("" + 0);
-
-//        prefManager.setIsUpdateShown(true);
-//        if (prefManager.IsBikeMasterUpdate())
-//            new MasterController(this).getBikeMaster(this);
-//        if (prefManager.IsCarMasterUpdate())
-//            new MasterController(this).getCarMaster(this);
-//        if (prefManager.IsRtoMasterUpdate())
-//            new MasterController(this).getRTOMaster(this);
-//        if (prefManager.IsInsuranceMasterUpdate())
-//            new MasterController(this).getInsuranceMaster(this);
-
-          //endregion
         if (prefManager.isFirstTimeLaunch()) {
 
             startActivity(new Intent(this, WelcomeActivity.class));
@@ -119,40 +102,17 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                 public void run() {
 
                     //region comment
-                                        if (checkAllMastersIsUpdate()) {
+
                         if (loginResponseEntity != null) {
-                            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
+                            startActivity(new Intent(SplashScreenActivity.this, HomeMainActivity.class));
                         } else {
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         }
-                    }
-                    else {
 
 
-                        if (prefManager.IsBikeMasterUpdate())
-                            new MasterController(SplashScreenActivity.this).getBikeMaster(SplashScreenActivity.this);
-                        if (prefManager.IsCarMasterUpdate())
-                            new MasterController(SplashScreenActivity.this).getCarMaster(SplashScreenActivity.this);
-                        if (prefManager.IsRtoMasterUpdate())
-                            new MasterController(SplashScreenActivity.this).getRTOMaster(SplashScreenActivity.this);
-                        if (prefManager.IsInsuranceMasterUpdate())
-                            new MasterController(SplashScreenActivity.this).getInsuranceMaster(SplashScreenActivity.this);
-                        if (prefManager.getIsRblCityMaster())
-                            new CreditCardController(SplashScreenActivity.this).getRblCityMaster(SplashScreenActivity.this);
-
-                        if (loginResponseEntity != null) {
-                            startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-                        } else {
-                            startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-                        }
-                    }
                     //endregion
 
-//                    if (loginResponseEntity != null) {
-//                        startActivity(new Intent(SplashScreenActivity.this, HomeActivity.class));
-//                    } else {
-//                        startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-//                    }
+
                 }
             }, SPLASH_DISPLAY_LENGTH);
         }
@@ -161,23 +121,7 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        if (response instanceof BikeMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof CarMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof CityMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        } else if (response instanceof InsuranceMasterResponse) {
-            if (checkAllMastersIsUpdate()) {
-                //startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
-            }
-        }
+
     }
 
     @Override

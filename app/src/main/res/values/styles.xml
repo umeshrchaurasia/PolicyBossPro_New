@@ -22,6 +22,10 @@
         <item name="actionButtonStyle">@style/CustomActionButtonStyle</item>
     </style>
 
+    <style name="noAnimTheme" parent="AppTheme">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
     <style name="CustomActionButtonStyle" parent="Widget.AppCompat.ActionButton">
         <item name="android:paddingStart">0dip</item>
         <item name="android:paddingEnd">0dip</item>
@@ -229,7 +233,35 @@
         <item name="android:textColor">@color/description_text</item>
     </style>
 
+    <style name="TextViewStyle.BannerRegular" parent="TextViewStyle">
+        <item name="android:fontFamily">@font/poppinsregular</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 
+    <style name="TextViewStyle.BannerLarge" parent="TextViewStyle">
+        <item name="android:fontFamily">@font/poppinsregular</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextViewStyle.BannerRegular.small" parent="TextViewStyle">
+        <item name="android:fontFamily">@font/poppinsregular</item>
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextViewStyle.BannerBold" parent="TextViewStyle">
+        <item name="android:fontFamily">@font/poppinsbold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="TextViewStyle.BannerMedium" parent="TextViewStyle">
+        <item name="android:fontFamily">@font/poppinsmedium</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
     <!---->
     <style name="HeaderLayout">
         <item name="android:layout_width">match_parent</item>
@@ -412,6 +444,34 @@
         <item name="behavior_peekHeight">350dp</item>
     </style>
 
+    <style name="bottomSheetDialogMax" parent="Theme.Design.Light.BottomSheetDialog">
+
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+
+    </style>
+
+    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/rounded_dialog</item>
+    </style>
 
     <!--Credit card spinner style-->
     <style name="spinner_style">
@@ -432,5 +492,8 @@
         <item name="android:paddingRight">@dimen/list_item_padding</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
     </style>
+
+
+
 
 </resources>

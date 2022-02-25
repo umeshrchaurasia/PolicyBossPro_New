@@ -43,6 +43,12 @@ public class Constants {
     public static String LOGIN = "FBA LOGIN";
     public static String REGISTER = "FBA REGISTER";
 
+
+    public static String BOTTOM_TYPE = "BOTTOM_HOME.";
+  ;
+    public static int BOTTOM_REQUEST_CODE = 25;
+
+
     public static String SALES_MATERIAL = "CUSTOMER COMM.";
     public static String PENDING_CASES = "PENDING CASES";
     public static String KNOWLEDGE_GURU = "KNOWLEDGE GURU";

@@ -1,12 +1,23 @@
 package com.policyboss.policybosspro.notification;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.policyboss.policybosspro.BuildConfig;
+import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.homeMainKotlin.BottomSheetDialogMenuFragment;
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
+import com.policyboss.policybosspro.login.LoginActivity;
+import com.policyboss.policybosspro.myaccount.MyAccountActivity;
+import com.policyboss.policybosspro.switchuser.SwitchUserActivity;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import com.google.android.material.snackbar.Snackbar;
+
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.Toolbar;
@@ -20,6 +31,8 @@ import com.policyboss.policybosspro.utility.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.ak1.BubbleTabBar;
+import io.ak1.OnBubbleClickListener;
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager;
 import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
@@ -31,7 +44,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.NotificationEnt
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.NotificationResponse;
 
-public class NotificationActivity extends BaseActivity implements IResponseSubcriber {
+public class NotificationActivity extends BaseActivity implements IResponseSubcriber , BottomSheetDialogMenuFragment.IBottomMenuCallback{
 
     RecyclerView rvNotify;
     List<NotificationEntity>  NotificationLst;
@@ -40,6 +53,8 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     UserConstantEntity userConstantEntity;
     LoginResponseEntity loginEntity;
     PrefManager prefManager;
+
+    BubbleTabBar bubbleTabBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +73,90 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
         initialize();
 
-       // getNotificationData
+      //  bubbleTabBar.setSelectedWithId(R.id.nav_notification,true);
+        // region Handling Bottom bar selection
+
+        if (getIntent().getExtras() != null) {
+
+            // For getting User Click Action
+            if (getIntent().getExtras().getString(Constants.BOTTOM_TYPE) != null) {
+
+                String type = getIntent().getExtras().getString(Constants.BOTTOM_TYPE);
+
+                switch(type) {
+
+
+
+                    case "nav_notification" :
+
+                        bubbleTabBar.setSelectedWithId(R.id.nav_notification, true);
+
+
+                        break;
+
+
+
+
+
+                }
+
+            }
+
+        }
+
+        //endregion
         showDialog("Fetching Data...");
         new RegisterController(NotificationActivity.this).getNotificationData(String.valueOf(loginEntity.getFBAId()), NotificationActivity.this);
+
+
+
+
+        bubbleTabBar.addBubbleListener(new OnBubbleClickListener() {
+            @Override
+            public void onBubbleClick(int id) {
+
+
+
+
+                switch (id){
+                    case R.id.nav_home:
+
+                        Intent intent = new Intent(NotificationActivity.this, HomeMainActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra(Constants.BOTTOM_TYPE,"nav_home");
+                        startActivity(intent);
+                        finish();
+
+                        overridePendingTransition(0,0);
+                        break;
+
+                    case R.id.nav_menu:
+
+                        BottomSheetDialogMenuFragment bottomSheetDialogMenuFragment =new  BottomSheetDialogMenuFragment();
+                        bottomSheetDialogMenuFragment.show(getSupportFragmentManager(), bottomSheetDialogMenuFragment.getTag());
+
+
+                        break;
+
+                    case R.id.nav_profile:
+
+                        Intent intent3 = new Intent(NotificationActivity.this, MyAccountActivity.class);
+                        intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent3.putExtra(Constants.BOTTOM_TYPE,"nav_profile");
+                        startActivity(intent3);
+                        finish();
+                        overridePendingTransition(0,0);
+
+                        break;
+
+
+                    }
+
+
+
+                }
+
+        });
 
 
     }
@@ -72,6 +168,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
         prefManager.setNotificationCounter(0);
 
+        bubbleTabBar =  (BubbleTabBar) findViewById(R.id.bubbleTabBar);
         rvNotify = (RecyclerView) findViewById(R.id.rvNotify);
         rvNotify.setHasFixedSize(true);
 
@@ -92,6 +189,26 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == Constants.SWITCH_USER_REQUEST_CODE) {
+            if (data != null) {
+                //switchUserBinding();
+//                dbPersistanceController = new DBPersistanceController(this);
+//                loginEntity = dbPersistanceController.getUserData();
+
+                Intent intent = new Intent(this, NotificationActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+
+
+                // init_headers();
+            }
+
+        }
+    }
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
@@ -128,6 +245,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
         switch (item.getItemId()) {
             case android.R.id.home:
+
                 onBackPressed();
 
                 return true;
@@ -137,12 +255,14 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent();
 
-       // intent.putExtra("COUNTER", "0");
-        setResult(Constants.REQUEST_CODE, intent);
+        Intent intent = new Intent(NotificationActivity.this, HomeMainActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
         finish();
-        super.onBackPressed();
+
+        overridePendingTransition(0,0);
+
     }
 
     private void navigateViaNotification(String prdID, String WebURL, String Title) {
@@ -188,5 +308,25 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     }
 
 
+    @Override
+    public void onClickLogout() {
 
+        SharedPreferences preferences = getSharedPreferences(Constants.SWITCh_ParentDeatils_FINMART, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            //  shortcutManager.removeAllDynamicShortcuts();
+        }
+        dialogLogout(NotificationActivity.this);
+    }
+
+    @Override
+    public void onSwitchUser() {
+
+        startActivityForResult(new Intent(NotificationActivity.this, SwitchUserActivity.class), Constants.SWITCH_USER_REQUEST_CODE);
+
+
+    }
 }
