@@ -10,7 +10,7 @@
     <ImageView
         android:id="@+id/imgBackground"
         android:layout_width="match_parent"
-        android:layout_height="360dp"
+        android:layout_height="310dp"
         android:background="@drawable/background_top">
 
     </ImageView>
@@ -54,8 +54,23 @@
 
         <include layout="@layout/content_home_main"
             android:id="@+id/included_home_main"
+            android:visibility="visible"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             />
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmerDashboard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <include layout="@layout/shimmer_content_home_main"
+                android:id="@+id/included_shimmer_home_main"
+                android:visibility="gone"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                />
+        </com.facebook.shimmer.ShimmerFrameLayout>
+
+
 
 
     </RelativeLayout>
@@ -65,7 +80,6 @@
         android:layout_above="@+id/bubbleTabBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/red_descent"
         android:orientation="vertical" />
 
     <io.ak1.BubbleTabBar

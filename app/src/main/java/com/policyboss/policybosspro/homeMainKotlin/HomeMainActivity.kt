@@ -3,6 +3,7 @@ package com.policyboss.policybosspro.homeMainKotlin
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageInfo
+import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -178,8 +179,11 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     override fun onResume() {
         super.onResume()
-        showDialog()
+       // showDialog()
 
+        binding.includedShimmerHomeMain.lyShimmerDashboardParent.visibility = View.VISIBLE
+        binding.includedHomeMain.lyDashboardParent.visibility = View.GONE
+        binding.shimmerDashboard.startShimmerAnimation()
         if (loginResponseEntity != null) {
 
             MasterController(this).geUserConstant(1, this)
@@ -730,7 +734,11 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     override fun OnSuccess(response: APIResponse?, message: String?) {
 
-        cancelDialog()
+        //cancelDialog()
+
+        binding.includedShimmerHomeMain.lyShimmerDashboardParent.visibility = View.GONE
+        binding.includedHomeMain.lyDashboardParent.visibility = View.VISIBLE
+        binding.shimmerDashboard.stopShimmerAnimation()
         if (response is UserConstatntResponse) {
 
             if (response.getStatusNo() == 0) {
@@ -798,7 +806,11 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     }
 
     override fun OnFailure(t: Throwable?) {
-        cancelDialog()
+        //scancelDialog()
+
+        binding.includedShimmerHomeMain.lyShimmerDashboardParent.visibility = View.GONE
+        binding.includedHomeMain.lyDashboardParent.visibility = View.VISIBLE
+        binding.shimmerDashboard.stopShimmerAnimation()
     }
 
     override fun onClickLogout() {

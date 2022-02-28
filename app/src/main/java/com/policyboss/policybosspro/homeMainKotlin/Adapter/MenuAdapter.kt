@@ -33,6 +33,7 @@ class MenuAdapter (
         var imgMenu : ImageView
         var imgArrow : ImageView
         var txtMenuName : TextView
+        var menuView : View
         var rvChildMenu : RecyclerView
 
         init {
@@ -41,6 +42,7 @@ class MenuAdapter (
             imgMenu = itemView.findViewById(R.id.imgMenu)
             imgArrow = itemView.findViewById(R.id.imgArrow)
             txtMenuName = itemView.findViewById(R.id.txtMenuName)
+            menuView = itemView.findViewById(R.id.menuView)
             rvChildMenu = itemView.findViewById(R.id.rvChildMenu)
 
             rvChildMenu.layoutManager = LinearLayoutManager(mContext.requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -57,10 +59,12 @@ class MenuAdapter (
             if(menuHeader.isExpanded){
 
                 rvChildMenu.visibility = View.VISIBLE
+                menuView.visibility =  View.VISIBLE
 
             }else{
 
                 rvChildMenu.visibility = View.GONE
+                menuView.visibility =  View.GONE
 
 
             }
@@ -100,11 +104,13 @@ class MenuAdapter (
 
 
                 holder.rvChildMenu.visibility = View.GONE
+                holder.menuView.visibility =  View.GONE
 
             }else{
 
 
                 holder.rvChildMenu.visibility = View.VISIBLE
+                holder.menuView.visibility =  View.VISIBLE
 
 
 

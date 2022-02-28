@@ -23,6 +23,7 @@
     <color name="button_color">@color/colorPrimary</color>
     <color name="blue_card">#b1eafe</color>
     <color name="blue_menu">#d2f2fd</color>
+    <color name="blue_card_bg">#afe2f5</color>
 
     <color name="blue">#005faf</color>
     <color name="holo_red_dark">#ffcc0000</color>
@@ -53,6 +54,7 @@
     <!--RBA-->
     <color name="white">#ffffff</color>
     <color name="lightGrey">#E0E0E0</color>
+    <color name="shimmer_color">#BFBDBD</color>
     <color name="text_edit_color">#868686</color>
     <color name="green_descent">#42ceb2</color>
     <!--vector colors-->

@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.policyboss.policybosspro.BuildConfig;
 import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
 import com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity;
@@ -66,6 +67,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     PrefManager prefManager;
 
     BubbleTabBar bubbleTabBar;
+    ShimmerFrameLayout shimmerNotify;
 
    AlertDialog MyUtilitiesDialog;
 
@@ -118,7 +120,8 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
         }
 
         //endregion
-        showDialog("Fetching Data...");
+       // showDialog("Fetching Data...");
+        shimmerNotify.startShimmerAnimation();
         new RegisterController(NotificationActivity.this).getNotificationData(String.valueOf(loginEntity.getFBAId()), NotificationActivity.this);
 
 
@@ -181,6 +184,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
         prefManager.setNotificationCounter(0);
 
+        shimmerNotify = (ShimmerFrameLayout) findViewById(R.id.shimmerNotify);
         bubbleTabBar =  (BubbleTabBar) findViewById(R.id.bubbleTabBar);
         rvNotify = (RecyclerView) findViewById(R.id.rvNotify);
         rvNotify.setHasFixedSize(true);
@@ -225,7 +229,13 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
     @Override
     public void OnSuccess(APIResponse response, String message) {
-        cancelDialog();
+
+      //  cancelDialog();
+
+
+        shimmerNotify.stopShimmerAnimation();
+        shimmerNotify.setVisibility(View.GONE);
+
         if (response instanceof NotificationResponse) {
 
             if (response.getStatusNo() == 0) {
@@ -233,8 +243,10 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
                     NotificationLst = ((NotificationResponse) response).getMasterData();
 
+
                     mAdapter = new NotificationAdapter(NotificationActivity.this, NotificationLst);
                     rvNotify.setAdapter(mAdapter);
+                    rvNotify.setVisibility(View.VISIBLE);
                 } else {
                     rvNotify.setAdapter(null);
                     Snackbar.make(rvNotify, "No Notification  Data Available", Snackbar.LENGTH_SHORT).show();
@@ -249,7 +261,9 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
     @Override
     public void OnFailure(Throwable t) {
-        cancelDialog();
+       // cancelDialog();
+        shimmerNotify.stopShimmerAnimation();
+        shimmerNotify.setVisibility(View.GONE);
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 

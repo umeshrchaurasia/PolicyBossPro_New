@@ -17,7 +17,6 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/btnSave"
         android:layout_marginBottom="8dp"
-        android:paddingBottom="5dp"
         android:scrollbars="none">
 
 
@@ -71,7 +70,7 @@
                                 />
 
 
-                            <ImageView
+                                <ImageView
                                 android:id="@+id/ivProfile"
                                 android:layout_width="40dp"
                                 android:layout_height="40dp"
@@ -91,13 +90,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/customeborder_blue_thin"
+                    android:layout_marginBottom="@dimen/eight"
                     android:orientation="vertical">
 
 
                     <RelativeLayout
                         android:id="@+id/rlMyProfile"
-                        style="@style/HeaderLayout"
+                        style="@style/HeaderLayoutWhite"
                         android:padding="8dp">
 
                         <ImageView
@@ -118,7 +117,7 @@
                             android:layout_marginLeft="15dp"
                             android:text="MY PROFILE"
                             android:textAllCaps="true"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="normal" />
 
 
@@ -131,7 +130,7 @@
 
                     <LinearLayout
                         android:id="@+id/llMyProfile"
-                        style="@style/LinearLayoutStyle"
+                        style="@style/LinearLayoutGreyStyle"
                         android:animateLayoutChanges="true"
                         android:visibility="gone">
 
@@ -197,7 +196,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rlAddress"
-                        style="@style/HeaderLayout"
+                        style="@style/HeaderLayoutWhite"
                         android:padding="8dp">
 
                         <ImageView
@@ -218,7 +217,7 @@
                             android:layout_marginLeft="15dp"
                             android:text="ADDRESS"
                             android:textAllCaps="true"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="normal" />
 
 
@@ -231,7 +230,7 @@
 
                     <LinearLayout
                         android:id="@+id/llAddress"
-                        style="@style/LinearLayoutStyle"
+                        style="@style/LinearLayoutGreyStyle"
                         android:animateLayoutChanges="true"
                         android:visibility="gone">
 
@@ -339,7 +338,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rlBankDetail"
-                        style="@style/HeaderLayout"
+                        style="@style/HeaderLayoutWhite"
                         android:padding="8dp">
 
                         <ImageView
@@ -360,7 +359,7 @@
                             android:layout_marginLeft="15dp"
                             android:text="BANK DETAILS"
                             android:textAllCaps="true"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="normal" />
 
 
@@ -374,7 +373,7 @@
 
                     <LinearLayout
                         android:id="@+id/llBankDetail"
-                        style="@style/LinearLayoutStyle"
+                        style="@style/LinearLayoutGreyStyle"
                         android:animateLayoutChanges="true"
                         android:visibility="gone">
 
@@ -593,7 +592,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rlDocumentUpload"
-                        style="@style/HeaderLayout"
+                        style="@style/HeaderLayoutWhite"
                         android:padding="8dp">
 
                         <ImageView
@@ -614,7 +613,7 @@
                             android:layout_marginLeft="15dp"
                             android:text="DOCUMENTS UPLOAD"
                             android:textAllCaps="true"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="normal" />
 
 
@@ -629,7 +628,7 @@
                         android:id="@+id/llDocumentUpload"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        style="@style/LinearLayoutStyle"
+                        style="@style/LinearLayoutGreyStyle"
                         android:animateLayoutChanges="true"
                         android:orientation="vertical"
                         android:visibility="gone">
@@ -868,7 +867,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rlPOSP"
-                        style="@style/HeaderLayout"
+                        style="@style/HeaderLayoutWhite"
                         android:padding="8dp">
 
                         <ImageView
@@ -889,7 +888,7 @@
                             android:layout_marginLeft="15dp"
                             android:text="POSP INFORMATION"
                             android:textAllCaps="true"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="normal" />
 
 
@@ -902,7 +901,7 @@
 
                     <LinearLayout
                         android:id="@+id/llPosp"
-                        style="@style/LinearLayoutStyle"
+                        style="@style/LinearLayoutGreyStyle"
                         android:animateLayoutChanges="true"
                         android:visibility="gone">
 
@@ -968,7 +967,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rlAbout"
-                        style="@style/HeaderLayout"
+                        style="@style/HeaderLayoutWhite"
                         android:padding="8dp">
 
                         <ImageView
@@ -989,7 +988,7 @@
                             android:layout_marginLeft="15dp"
                             android:text="ABOUT ME"
                             android:textAllCaps="true"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="normal" />
 
 
@@ -1002,10 +1001,10 @@
 
                     <LinearLayout
                         android:id="@+id/llAbout"
-                        style="@style/LinearLayoutStyle"
+                        style="@style/LinearLayoutGreyStyle"
                         android:animateLayoutChanges="true"
 
-                        android:visibility="visible">
+                        android:visibility="gone">
 
                         <androidx.cardview.widget.CardView
                             android:layout_width="match_parent"
@@ -1520,7 +1519,7 @@
 
                     <RelativeLayout
                         android:id="@+id/rlNotify"
-                        style="@style/HeaderLayout"
+                        style="@style/HeaderLayoutWhite"
                         android:padding="8dp">
 
                         <ImageView
@@ -1541,7 +1540,7 @@
                             android:layout_marginLeft="15dp"
                             android:text="NOTIFICATION SETTING"
                             android:textAllCaps="true"
-                            android:textColor="@color/white"
+                            android:textColor="@color/colorPrimary"
                             android:textStyle="normal" />
 
 
@@ -1554,10 +1553,10 @@
 
                     <LinearLayout
                         android:id="@+id/llNotify"
-                        style="@style/LinearLayoutStyle"
+                        style="@style/LinearLayoutGreyStyle"
                         android:animateLayoutChanges="true"
 
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <RelativeLayout
                             android:layout_width="match_parent"
@@ -1593,8 +1592,6 @@
 
 
 
-
-
                 </LinearLayout>
 
 
@@ -1611,8 +1608,10 @@
     <Button
         android:id="@+id/btnSave"
         style="@style/ButtonStyle"
+        android:layout_marginRight="@dimen/eight"
+        android:layout_marginLeft="@dimen/eight"
         android:layout_alignParentBottom="true"
-        android:minHeight="36dp"
+        android:minHeight="42dp"
         android:text="SAVE INFORMATION"
         android:textStyle="bold" />
 

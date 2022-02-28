@@ -9,8 +9,33 @@
     tools:context="com.policyboss.policybosspro.notification.NotificationActivity"
     tools:showIn="@layout/activity_notification">
 
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerNotify"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_push_notify_item"/>
+            <include layout="@layout/shimmer_push_notify_item"/>
+            <include layout="@layout/shimmer_push_notify_item"/>
+            <include layout="@layout/shimmer_push_notify_item"/>
+            <include layout="@layout/shimmer_push_notify_item"/>
+            <include layout="@layout/shimmer_push_notify_item"/>
+            <include layout="@layout/shimmer_push_notify_item"/>
+
+        </LinearLayout>
+
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNotify"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingBottom="5dp">
