@@ -3,16 +3,13 @@ package com.policyboss.policybosspro.homeMainKotlin
 import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageInfo
-import android.opengl.Visibility
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -25,11 +22,9 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.policyboss.policybosspro.BaseActivity
 import com.policyboss.policybosspro.BaseActivity.PermissionListener
 import com.policyboss.policybosspro.BuildConfig
-import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity
 import com.policyboss.policybosspro.MyApplication
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ActivityHomeMainBinding
-import com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity
 import com.policyboss.policybosspro.homeMainKotlin.Adapter.MenuAdapter
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity
 import com.policyboss.policybosspro.myaccount.MyAccountActivity
@@ -39,7 +34,6 @@ import com.policyboss.policybosspro.switchuser.SwitchUserActivity
 import com.policyboss.policybosspro.utility.CircleTransform
 import com.policyboss.policybosspro.utility.Constants
 import com.policyboss.policybosspro.utility.ReadDeviceID
-import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse
@@ -60,7 +54,7 @@ import java.util.*
 class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListener, BaseActivity.PopUpListener,
         BaseActivity.WebViewPopUpListener, PermissionListener , BottomSheetDialogMenuFragment.IBottomMenuCallback, SliderDashboardAdapter.IDashboardAdapterCallBack{
 
-    lateinit var toolbar: ActionBar
+   // lateinit var toolbar: ActionBar
     lateinit var binding :ActivityHomeMainBinding
 
     lateinit var viewPager2 : ViewPager2
@@ -107,23 +101,12 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         binding = ActivityHomeMainBinding.inflate(layoutInflater)
 
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
-        toolbar = supportActionBar!!
-
-        supportActionBar!!.apply {
-
-            setDisplayHomeAsUpEnabled(false)
-            setDisplayShowHomeEnabled(false)
-        }
-
 
         init()
 
         setListener()
 
         // region Handling Bottom bar selection
-
-
 
 
 
@@ -182,8 +165,11 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
        // showDialog()
 
         binding.includedShimmerHomeMain.lyShimmerDashboardParent.visibility = View.VISIBLE
+        binding.shimmerDashboard.visibility = View.VISIBLE
         binding.includedHomeMain.lyDashboardParent.visibility = View.GONE
         binding.shimmerDashboard.startShimmerAnimation()
+
+
         if (loginResponseEntity != null) {
 
             MasterController(this).geUserConstant(1, this)
@@ -225,6 +211,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         binding.includedHomeMain.txtknwyour.setOnClickListener(this)
 
         binding.includedHomeMain.txtSeeALL.setOnClickListener(this)
+
 
 
     }
@@ -411,32 +398,35 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                     override fun onPageSelected(position: Int) {
                         super.onPageSelected(position)
 
-
-
                         sliderHandler.removeCallbacks(sliderRun)
                         sliderHandler.postDelayed(sliderRun, 2000)
 
-
-//                    val view = viewPager2.getChildAt(position)
-//                    view?.let {
-//                        updatePagerHeightForChild(view, viewPager)
-//                    }
 
                     }
 
 
                 }
 
+
         )
 
-        viewPager2.setOnClickListener(){
 
-            Toast.makeText(this, "Data", Toast.LENGTH_SHORT).show()
-        }
+
+
 
     }
 
 
+    fun stopViewPager()  {
+
+
+        // Toast.makeText(requireContext(),"Pos"+position ,Toast.LENGTH_SHORT).show()
+
+        //viewPager2.setCurrentItem(position, true)
+        sliderHandler.removeCallbacks(sliderRun)
+
+
+    }
     fun getSliderImagePosition(position: Int)  {
 
 
@@ -448,10 +438,6 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     }
 
     //endregion
-
-
-
-
 
 
 
@@ -586,61 +572,13 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     }
 
     override fun ConfirmnMyUtilitiesAlert() {
-        if (this::shareProdDialog.isInitialized  && shareProdDialog.isShowing()) {
-            return
-        } else {
-            val builder = AlertDialog.Builder(this@HomeMainActivity, R.style.CustomDialog)
-            var btnone: Button
-            var btntwo: Button
-            val txtTile: TextView
-            var txtBody: TextView
-            var txtMob: TextView
-            val ivCross: ImageView
-            val cvMPS: CardView
-            val cvIncomeCalculator: CardView
-            val cvMyTrainingCalender: CardView
-            val cvHelpFeedback: CardView
-            val inflater = this.layoutInflater
-            val dialogView = inflater.inflate(R.layout.layout_menu_dashboard3, null)
-            builder.setView(dialogView)
-            MyUtilitiesDialog = builder.create()
-            // set the custom dialog components - text, image and button
-            txtTile = dialogView.findViewById<View>(R.id.txtTile) as TextView
-            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
-            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
-            ivCross = dialogView.findViewById<View>(R.id.ivCross) as ImageView
-            cvMPS = dialogView.findViewById<View>(R.id.cvMPS) as CardView
-            cvIncomeCalculator = dialogView.findViewById<View>(R.id.cvIncomeCalculator) as CardView
-            cvMyTrainingCalender = dialogView.findViewById<View>(R.id.cvMyTrainingCalender) as CardView
-            cvHelpFeedback = dialogView.findViewById<View>(R.id.cvHelpFeedback) as CardView
-            cvMPS.setOnClickListener {
-                MyUtilitiesDialog.dismiss()
-                MasterController(this@HomeMainActivity).getMpsData(this@HomeMainActivity)
-                //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
-                //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-            }
-            cvIncomeCalculator.setOnClickListener {
-                MyUtilitiesDialog.dismiss()
-                //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
-                startActivity(Intent(this@HomeMainActivity, IncomePotentialActivity::class.java))
-            }
-            cvMyTrainingCalender.setOnClickListener {
-                MyUtilitiesDialog.dismiss()
-                startActivity(Intent(this@HomeMainActivity, CommonWebViewActivity::class.java)
-                        .putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + loginResponseEntity.fbaId.toString())
-                        .putExtra("NAME", "" + "My Training Calender")
-                        .putExtra("TITLE", "" + "My Training Calender"))
-            }
-            cvHelpFeedback.setOnClickListener {
-                MyUtilitiesDialog.dismiss()
-                startActivity(Intent(this@HomeMainActivity, HelpFeedBackActivity::class.java))
-                //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
-            }
-            //pending
-            ivCross.setOnClickListener { MyUtilitiesDialog.dismiss() }
-            MyUtilitiesDialog.setCancelable(false)
-            MyUtilitiesDialog.show()
+
+        if(loginResponseEntity != null){
+
+            ConfirmnUtilitiesAlert(loginResponseEntity)
+
         }
+
     }
 
     //endregion
@@ -734,9 +672,10 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     override fun OnSuccess(response: APIResponse?, message: String?) {
 
-        //cancelDialog()
+        cancelDialog()
 
         binding.includedShimmerHomeMain.lyShimmerDashboardParent.visibility = View.GONE
+        binding.shimmerDashboard.visibility = View.VISIBLE
         binding.includedHomeMain.lyDashboardParent.visibility = View.VISIBLE
         binding.shimmerDashboard.stopShimmerAnimation()
         if (response is UserConstatntResponse) {
@@ -806,7 +745,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     }
 
     override fun OnFailure(t: Throwable?) {
-        //scancelDialog()
+        cancelDialog()
 
         binding.includedShimmerHomeMain.lyShimmerDashboardParent.visibility = View.GONE
         binding.includedHomeMain.lyDashboardParent.visibility = View.VISIBLE

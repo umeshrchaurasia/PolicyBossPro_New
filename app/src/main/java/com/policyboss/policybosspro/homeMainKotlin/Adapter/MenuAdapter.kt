@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -60,16 +61,30 @@ class MenuAdapter (
 
                 rvChildMenu.visibility = View.VISIBLE
                 menuView.visibility =  View.VISIBLE
+                imgArrow.setImageDrawable(ContextCompat.getDrawable(mContext.requireContext(),R.drawable.minus))
 
             }else{
 
                 rvChildMenu.visibility = View.GONE
                 menuView.visibility =  View.GONE
+                imgArrow.setImageDrawable(ContextCompat.getDrawable(mContext.requireContext(),R.drawable.pluse))
 
 
             }
 
-            rvChildMenu.adapter = MenuChildAdapter(mContext,menuHeader.menuChildSection)
+            if(!menuHeader.headerName.equals("LOG-OUT")){
+                rvChildMenu.adapter = MenuChildAdapter(mContext,menuHeader.menuChildSection)
+
+               // imgArrow.visibility =  View.VISIBLE
+
+
+            }else{
+
+                rvChildMenu.adapter = null
+
+                //imgArrow.visibility =  View.GONE
+
+            }
 
 
         }
@@ -100,17 +115,25 @@ class MenuAdapter (
 
         holder.lyParent.setOnClickListener{
 
+            if(menuHeader.headerName.equals("LOG-OUT")){
+
+            }
             if(menuHeader.isExpanded){
 
 
                 holder.rvChildMenu.visibility = View.GONE
                 holder.menuView.visibility =  View.GONE
+                holder.imgArrow.setImageDrawable(ContextCompat.getDrawable(mContext.requireContext(),R.drawable.pluse))
 
-            }else{
+
+            }
+
+            else{
 
 
                 holder.rvChildMenu.visibility = View.VISIBLE
                 holder.menuView.visibility =  View.VISIBLE
+                holder.imgArrow.setImageDrawable(ContextCompat.getDrawable(mContext.requireContext(),R.drawable.minus))
 
 
 

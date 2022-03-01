@@ -19,6 +19,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
+
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.cardview.widget.CardView;
@@ -110,12 +112,13 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     int type;
 
     BubbleTabBar bubbleTabBar;
-    AlertDialog MyUtilitiesDialog;
-    LinearLayout llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify;
+    ShimmerFrameLayout shimmerMyAcccount;
+
+    LinearLayout  llMyProfile, llAddress, llBankDetail, llDocumentUpload, llPosp, llAbout, llNotify;
     ImageView ivMyProfile, ivAddress, ivBankDetail, ivDocumentUpload, ivPOSP, ivProfile, ivAbout,
             ivPhotoCam, ivPhotoView, ivPanCam, ivPanView, ivCancelCam, ivCancelView, ivAadharCam, ivAadharView,
             ivAadhar, ivCancel, ivPan, ivPhoto, ivUser, ivNotify;
-    RelativeLayout rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload, rlPOSP, rlAbout, rlNotify;
+    RelativeLayout rlParent, rlMyProfile, rlAddress, rlBankDetail, rlDocumentUpload, rlPOSP, rlAbout, rlNotify;
 
     EditText etSubHeading, etMobileNo, etEmailId, etAddress1, etAddress2, etAddress3, etPincode,
             etCity, etState, etAccountHolderName, etAadhaar, etPAN, etBankAcNo, etIfscCode,
@@ -184,6 +187,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         initLayouts();
         setfileView();
 
+        shimmerMyAcccount.setVisibility(View.VISIBLE);
+        rlParent.setVisibility(View.GONE);
+        shimmerMyAcccount.startShimmerAnimation();
+
+
         if (dbPersistanceController.getUserConstantsData() != null) {
             bindAboutMe();
         } else {
@@ -238,7 +246,10 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         //endregion
 
-        showDialog("Fetching Detail...");
+       // showDialog("Fetching Detail...");
+
+
+
         new RegisterController(MyAccountActivity.this).getMyAcctDtl(String.valueOf(loginEntity.getFBAId()), MyAccountActivity.this);
 
 
@@ -371,6 +382,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     private void initWidgets() {
         bubbleTabBar =  (BubbleTabBar) findViewById(R.id.bubbleTabBar);
+        shimmerMyAcccount = (ShimmerFrameLayout) findViewById(R.id.shimmerMyAcccount);
+
         mainScrollView = (ScrollView) findViewById(R.id.mainScrollView);
         ivAddress = (ImageView) findViewById(R.id.ivAddress);
         ivMyProfile = (ImageView) findViewById(R.id.ivMyProfile);
@@ -383,6 +396,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         llAbout = (LinearLayout) findViewById(R.id.llAbout);
         llNotify = (LinearLayout) findViewById(R.id.llNotify);
 
+        rlParent = (RelativeLayout) findViewById(R.id.rlParent);
         rlMyProfile = (RelativeLayout) findViewById(R.id.rlMyProfile);
         rlAddress = (RelativeLayout) findViewById(R.id.rlAddress);
         rlBankDetail = (RelativeLayout) findViewById(R.id.rlBankDetail);
@@ -1119,6 +1133,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     public void OnSuccess(APIResponse response, String message) {
 
         cancelDialog();
+
+        shimmerMyAcccount.setVisibility(View.GONE);
+        rlParent.setVisibility(View.VISIBLE);
+        shimmerMyAcccount.stopShimmerAnimation();
+
+
         if (response instanceof PincodeResponse) {
             if (response.getStatusNo() == 0) {
                 etState.setText("" + ((PincodeResponse) response).getMasterData().getState_name());
@@ -1433,6 +1453,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void OnFailure(Throwable t) {
         cancelDialog();
+        shimmerMyAcccount.setVisibility(View.GONE);
+        rlParent.setVisibility(View.VISIBLE);
+        shimmerMyAcccount.stopShimmerAnimation();
+
+
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
@@ -2142,92 +2167,12 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
     @Override
     public void ConfirmnMyUtilitiesAlert() {
 
-        if (MyUtilitiesDialog != null && MyUtilitiesDialog.isShowing()) {
+        if (loginResponseEntity != null) {
 
-            return;
-        } else {
+            ConfirmnUtilitiesAlert(loginResponseEntity);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(MyAccountActivity.this, R.style.CustomDialog);
-
-            Button btnone, btntwo;
-            TextView txtTile, txtBody, txtMob;
-            ImageView ivCross;
-            CardView cvMPS, cvIncomeCalculator,
-                    cvMyTrainingCalender, cvHelpFeedback;
-
-            LayoutInflater inflater = this.getLayoutInflater();
-
-            final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard3, null);
-
-            builder.setView(dialogView);
-            MyUtilitiesDialog = builder.create();
-            // set the custom dialog components - text, image and button
-            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
-            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
-            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
-            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
-
-            cvMPS = (CardView) dialogView.findViewById(R.id.cvMPS);
-            cvIncomeCalculator = (CardView) dialogView.findViewById(R.id.cvIncomeCalculator);
-            cvMyTrainingCalender = (CardView) dialogView.findViewById(R.id.cvMyTrainingCalender);
-            cvHelpFeedback = (CardView) dialogView.findViewById(R.id.cvHelpFeedback);
-
-
-            cvMPS.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-
-                    new MasterController(MyAccountActivity.this).getMpsData(MyAccountActivity.this);
-                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
-                    //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-                }
-            });
-
-            cvIncomeCalculator.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-                    //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
-                    startActivity(new Intent(MyAccountActivity.this, IncomePotentialActivity.class));
-                }
-            });
-
-            cvMyTrainingCalender.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-
-                    startActivity(new Intent(MyAccountActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginEntity.getFBAId()))
-                            .putExtra("NAME", "" + "My Training Calender")
-                            .putExtra("TITLE", "" + "My Training Calender"));
-
-                }
-            });
-
-            cvHelpFeedback.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-                    startActivity(new Intent(MyAccountActivity.this, HelpFeedBackActivity.class));
-                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
-
-                }
-            });
-//pending
-
-
-            ivCross.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-
-                }
-            });
-            MyUtilitiesDialog.setCancelable(false);
-            MyUtilitiesDialog.show();
         }
+
 
 
     }

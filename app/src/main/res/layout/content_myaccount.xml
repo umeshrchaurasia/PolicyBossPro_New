@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rlParent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
@@ -66,7 +67,7 @@
                                 android:layout_height="120dp"
                                 android:layout_centerInParent="true"
                                 android:transitionName="profileTransition"
-                                android:background="@drawable/circle_placeholder"
+                                android:background="@drawable/profile_photo"
                                 />
 
 
@@ -78,7 +79,7 @@
                                 android:layout_alignParentBottom="true"
                                 android:layout_alignStart="@+id/ivUser"
                                 android:layout_marginStart="90dp"
-                                android:src="@drawable/camera_new"
+                                android:src="@drawable/camera"
                                 android:visibility="visible" />
 
                         </RelativeLayout>

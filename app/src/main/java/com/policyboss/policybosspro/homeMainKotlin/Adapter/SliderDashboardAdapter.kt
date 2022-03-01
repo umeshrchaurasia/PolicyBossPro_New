@@ -165,6 +165,13 @@ class SliderDashboardAdapter(
             switchDashBoardMenus(listInsur[position])
 
         }
+        holder.cvSlider.setOnLongClickListener {
+
+
+            //Toast.makeText(mContext, "Long click detected", Toast.LENGTH_SHORT).show()
+            ( mContext as HomeMainActivity).stopViewPager()
+            true
+        }
 
         holder.imgShare.setOnClickListener {
 
@@ -320,9 +327,7 @@ class SliderDashboardAdapter(
                 //health
 
                 // mContext.startActivity(new Intent(mContext, HealthQuoteAppActivity.class));
-                if (dbPersistanceController.getConstantsData().getHealthappenable().equals("1", ignoreCase = true)) {
-                    mContext.startActivity(Intent(mContext, HealthQuoteAppActivity::class.java))
-                } else {
+
                     var healthUrl: String = dbPersistanceController.getUserConstantsData().getHealthurl()
                     //String healthUrl = new DBPersistanceController(mContext).getUserConstantsData().getHealthurltemp();
                     ipaddress = try {
@@ -334,17 +339,14 @@ class SliderDashboardAdapter(
                             + "&app_version=policyboss-" + Utility.getVersionName(mContext)
                             + "&device_id=" + Utility.getDeviceId(mContext) + "&login_ssid=" + parent_ssid)
                     healthUrl = healthUrl + append
-                    if (dbPersistanceController.getConstantsData().getHealthThrowBrowser() != null &&
-                            dbPersistanceController.getConstantsData().getHealthThrowBrowser().equals("1", ignoreCase = true)) {
-                        Utility.loadWebViewUrlInBrowser(mContext, healthUrl)
-                    } else {
+
                         mContext.startActivity(Intent(mContext, CommonWebViewActivity::class.java)
                                 .putExtra("URL", healthUrl)
                                 .putExtra("dashBoardtype", "INSURANCE")
                                 .putExtra("NAME", "Health Insurance")
                                 .putExtra("TITLE", "Health Insurance"))
-                    }
-                }
+
+
 
 
                 //new TrackingController(mContext).sendData(new TrackingRequestEntity(new TrackingData("Health insurance tab on home page"), Constants.HEALTH_INS), null);

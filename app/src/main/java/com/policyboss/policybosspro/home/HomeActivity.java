@@ -307,8 +307,7 @@ public class HomeActivity extends BaseActivity implements IResponseSubcriber, Ba
                 verifyPospNo();
                 return;
             }
-            new MasterController(this).getInsuranceSubType(this);
-            new MasterController(this).getInsurerList();
+
         }
 
 

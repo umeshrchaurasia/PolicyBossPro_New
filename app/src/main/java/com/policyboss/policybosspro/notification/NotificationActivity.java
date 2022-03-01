@@ -230,7 +230,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     @Override
     public void OnSuccess(APIResponse response, String message) {
 
-      //  cancelDialog();
+        cancelDialog();
 
 
         shimmerNotify.stopShimmerAnimation();
@@ -261,7 +261,7 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
     @Override
     public void OnFailure(Throwable t) {
-       // cancelDialog();
+        cancelDialog();
         shimmerNotify.stopShimmerAnimation();
         shimmerNotify.setVisibility(View.GONE);
         Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -362,94 +362,12 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
     @Override
     public void ConfirmnMyUtilitiesAlert() {
 
-        if (MyUtilitiesDialog != null && MyUtilitiesDialog.isShowing()) {
+        if(loginEntity != null){
 
-            return;
-        } else {
+            ConfirmnUtilitiesAlert(loginEntity);
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(NotificationActivity.this, R.style.CustomDialog);
-
-            Button btnone, btntwo;
-            TextView txtTile, txtBody, txtMob;
-            ImageView ivCross;
-            CardView cvMPS, cvIncomeCalculator,
-                    cvMyTrainingCalender, cvHelpFeedback;
-
-            LayoutInflater inflater = this.getLayoutInflater();
-
-            final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard3, null);
-
-            builder.setView(dialogView);
-            MyUtilitiesDialog = builder.create();
-            // set the custom dialog components - text, image and button
-            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
-            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
-            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
-            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
-
-            cvMPS = (CardView) dialogView.findViewById(R.id.cvMPS);
-            cvIncomeCalculator = (CardView) dialogView.findViewById(R.id.cvIncomeCalculator);
-            cvMyTrainingCalender = (CardView) dialogView.findViewById(R.id.cvMyTrainingCalender);
-            cvHelpFeedback = (CardView) dialogView.findViewById(R.id.cvHelpFeedback);
-
-
-            cvMPS.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-
-                    new MasterController(NotificationActivity.this).getMpsData(NotificationActivity.this);
-                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("MPS : MPS button in menu "), Constants.MPS), null);
-                    //  startActivity(new Intent(HomeActivity.this, UnderConstructionActivity.class));
-                }
-            });
-
-            cvIncomeCalculator.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-                    //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
-                    startActivity(new Intent(NotificationActivity.this, IncomePotentialActivity.class));
-                }
-            });
-
-            cvMyTrainingCalender.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-
-                    startActivity(new Intent(NotificationActivity.this, CommonWebViewActivity.class)
-                            .putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginEntity.getFBAId()))
-                            .putExtra("NAME", "" + "My Training Calender")
-                            .putExtra("TITLE", "" + "My Training Calender"));
-
-                }
-            });
-
-            cvHelpFeedback.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-                    startActivity(new Intent(NotificationActivity.this, HelpFeedBackActivity.class));
-                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
-
-                }
-            });
-//pending
-
-
-            ivCross.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    MyUtilitiesDialog.dismiss();
-
-                }
-            });
-            MyUtilitiesDialog.setCancelable(false);
-            MyUtilitiesDialog.show();
         }
 
-
-    }
+       }
 
 }

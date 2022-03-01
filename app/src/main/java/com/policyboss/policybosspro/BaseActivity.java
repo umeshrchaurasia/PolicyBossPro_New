@@ -55,6 +55,7 @@ import com.policyboss.policybosspro.IncomeCalculator.IncomePotentialActivity;
 import com.policyboss.policybosspro.helpfeedback.HelpFeedBackActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.policyboss.policybosspro.login.LoginActivity;
+import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.term.hdfc.HdfcTermActivity;
 import com.policyboss.policybosspro.term.icici.IciciTermActivity;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
@@ -87,6 +88,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.Utility;
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.tracking.TrackingController;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.TrackingData;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.TrackingRequestEntity;
 
@@ -111,6 +113,7 @@ public class BaseActivity extends AppCompatActivity {
     final String mapKey = "map_switchuser";
     public static final String TERM_FOR_INPUT_FRAGMENT = "for_term_input";
     Dialog webviewDialog;
+    AlertDialog MyUtilitiesDialog;
 
     public String getDateFromAge(int age) {
 
@@ -234,6 +237,88 @@ public class BaseActivity extends AppCompatActivity {
         Button positive = exitdialog.getButton(DialogInterface.BUTTON_POSITIVE);
         negative.setTextColor(getResources().getColor(R.color.header_light_text));
         positive.setTextColor(getResources().getColor(R.color.black));
+    }
+
+    public void ConfirmnUtilitiesAlert( LoginResponseEntity loginEntity) {
+
+        if (MyUtilitiesDialog != null && MyUtilitiesDialog.isShowing()) {
+
+            return;
+        } else {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.CustomDialog);
+
+            Button btnone, btntwo;
+            TextView txtTile, txtBody, txtMob;
+            ImageView ivCross;
+            CardView cvMPS, cvIncomeCalculator,
+                    cvMyTrainingCalender, cvHelpFeedback;
+
+            LayoutInflater inflater = this.getLayoutInflater();
+
+            final View dialogView = inflater.inflate(R.layout.layout_menu_dashboard3, null);
+
+            builder.setView(dialogView);
+            MyUtilitiesDialog = builder.create();
+            // set the custom dialog components - text, image and button
+            txtTile = (TextView) dialogView.findViewById(R.id.txtTile);
+            //   txtBody = (TextView) dialogView.findViewById(R.id.txtMessage);
+            //   txtMob = (TextView) dialogView.findViewById(R.id.txtOther);
+            ivCross = (ImageView) dialogView.findViewById(R.id.ivCross);
+
+            cvMPS = (CardView) dialogView.findViewById(R.id.cvMPS);
+            cvIncomeCalculator = (CardView) dialogView.findViewById(R.id.cvIncomeCalculator);
+            cvMyTrainingCalender = (CardView) dialogView.findViewById(R.id.cvMyTrainingCalender);
+            cvHelpFeedback = (CardView) dialogView.findViewById(R.id.cvHelpFeedback);
+
+
+
+            cvIncomeCalculator.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+                    //      startActivity(new Intent(HomeActivity.this, IncomeCalculatorActivity.class));
+                    startActivity(new Intent(BaseActivity.this, IncomePotentialActivity.class));
+                }
+            });
+
+            cvMyTrainingCalender.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+
+                    startActivity(new Intent(BaseActivity.this, CommonWebViewActivity.class)
+                            .putExtra("URL", " http://bo.magicfinmart.com/training-schedule-calendar/" + String.valueOf(loginEntity.getFBAId()))
+                            .putExtra("NAME", "" + "My Training Calender")
+                            .putExtra("TITLE", "" + "My Training Calender"));
+
+                }
+            });
+
+            cvHelpFeedback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+                    startActivity(new Intent(BaseActivity.this, HelpFeedBackActivity.class));
+                    //  new TrackingController(HomeActivity.this).sendData(new TrackingRequestEntity(new TrackingData("HELP & FEEDBACK : HELP & FEEDBACK button in menu "), Constants.HELP), null);
+
+                }
+            });
+//pending
+
+
+            ivCross.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    MyUtilitiesDialog.dismiss();
+
+                }
+            });
+            MyUtilitiesDialog.setCancelable(false);
+            MyUtilitiesDialog.show();
+        }
+
+
     }
 
     @Override

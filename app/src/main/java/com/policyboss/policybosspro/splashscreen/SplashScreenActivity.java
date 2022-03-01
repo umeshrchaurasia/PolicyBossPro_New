@@ -69,13 +69,13 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                 });
 
 
-        new MasterController(this).getInsurerList();
+        //new MasterController(this).getInsurerList();
 
-        if (new LoanCityFacade(this) != null) {
-            if (new LoanCityFacade(this).getLoanCity() == null) {
-                new ErpLoanController(this).getcityloan(null);
-            }
-        }
+//        if (new LoanCityFacade(this) != null) {
+//            if (new LoanCityFacade(this).getLoanCity() == null) {
+//                new ErpLoanController(this).getcityloan(null);
+//            }
+//        }
 
 
         // for user constant
@@ -138,19 +138,9 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
 
     @Override
     public void OnFailure(Throwable t) {
-        Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(this, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
     }
 
-    public boolean checkAllMastersIsUpdate() {
-        if (prefManager.IsBikeMasterUpdate())
-            return false;
-        else if (prefManager.IsCarMasterUpdate())
-            return false;
-        else if (prefManager.IsRtoMasterUpdate())
-            return false;
-        else if (prefManager.IsInsuranceMasterUpdate())
-            return false;
 
-        return true;
-    }
 }

@@ -47,8 +47,25 @@
        android:layout_above="@+id/bubbleTabBar"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         />
+
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmerMyAcccount"
+        android:layout_below="@+id/app_bar"
+        android:layout_above="@+id/bubbleTabBar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include layout="@layout/shimmer_content_myaccount"
+            android:id="@+id/included_shimmer_home_main"
+
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+            />
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
 
     <io.ak1.BubbleTabBar
         android:id="@+id/bubbleTabBar"
