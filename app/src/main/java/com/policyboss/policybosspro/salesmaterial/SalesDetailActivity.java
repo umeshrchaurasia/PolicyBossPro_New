@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
-import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
 import com.policyboss.policybosspro.utility.Constants;
 
 import java.io.ByteArrayOutputStream;
@@ -308,7 +308,7 @@ public class SalesDetailActivity extends BaseActivity implements IResponseSubcri
 
             case R.id.action_home:
 
-                Intent intent = new Intent(this, HomeActivity.class);
+                Intent intent = new Intent(this, HomeMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);

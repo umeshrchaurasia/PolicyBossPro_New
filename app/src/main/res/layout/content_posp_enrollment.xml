@@ -25,19 +25,19 @@
         <!--POSP INFORMATION START-->
         <RelativeLayout
             android:id="@+id/rlMyProfile"
-            style="@style/HeaderLayout"
+            style="@style/HeaderLayoutWhite"
             android:layout_marginBottom="2dp"
             android:padding="8dp">
 
             <ImageView
                 android:id="@+id/ivMyProfile"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/menu_arrow"
+                android:layout_height="@dimen/menu_arrow"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:padding="2dp"
-                android:src="@drawable/down_arrow" />
+                android:src="@drawable/pluse" />
 
             <TextView
                 style="@style/TextStyle.Title"
@@ -47,7 +47,7 @@
                 android:layout_marginLeft="15dp"
                 android:text="POSP INFORMATION"
                 android:textAllCaps="true"
-                android:textColor="@color/white"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="normal" />
 
 
@@ -303,19 +303,19 @@
 
         <RelativeLayout
             android:id="@+id/rlAddress"
-            style="@style/HeaderLayout"
+            style="@style/HeaderLayoutWhite"
             android:layout_marginBottom="2dp"
             android:padding="8dp">
 
             <ImageView
                 android:id="@+id/ivAddress"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/menu_arrow"
+                android:layout_height="@dimen/menu_arrow"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:padding="2dp"
-                android:src="@drawable/down_arrow" />
+                android:src="@drawable/pluse" />
 
             <TextView
                 style="@style/TextStyle.Title"
@@ -325,7 +325,7 @@
                 android:layout_marginLeft="15dp"
                 android:text="ADDRESS"
                 android:textAllCaps="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/colorPrimary" />
 
 
         </RelativeLayout>
@@ -459,19 +459,19 @@
         <!--BANK DETAIL START-->
         <RelativeLayout
             android:id="@+id/rlBankDetail"
-            style="@style/HeaderLayout"
+            style="@style/HeaderLayoutWhite"
             android:layout_marginBottom="2dp"
             android:padding="8dp">
 
             <ImageView
                 android:id="@+id/ivBankDetail"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/menu_arrow"
+                android:layout_height="@dimen/menu_arrow"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:padding="2dp"
-                android:src="@drawable/down_arrow" />
+                android:src="@drawable/pluse" />
 
             <TextView
                 style="@style/TextStyle.Title"
@@ -481,7 +481,7 @@
                 android:layout_marginLeft="15dp"
                 android:text="BANK DETAILS"
                 android:textAllCaps="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/colorPrimary" />
 
 
         </RelativeLayout>
@@ -703,18 +703,18 @@
         <!--UPLOAD DOCUMENTS START-->
         <RelativeLayout
             android:id="@+id/rlDocumentUpload"
-            style="@style/HeaderLayout"
+            style="@style/HeaderLayoutWhite"
             android:padding="8dp">
 
             <ImageView
                 android:id="@+id/ivDocumentUpload"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="@dimen/menu_arrow"
+                android:layout_height="@dimen/menu_arrow"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="10dp"
                 android:padding="2dp"
-                android:src="@drawable/down_arrow" />
+                android:src="@drawable/pluse" />
 
             <TextView
                 style="@style/TextStyle.Title"
@@ -724,7 +724,7 @@
                 android:layout_marginLeft="15dp"
                 android:text="DOCUMENTS UPLOAD"
                 android:textAllCaps="true"
-                android:textColor="@color/white" />
+                android:textColor="@color/colorPrimary" />
 
 
         </RelativeLayout>
@@ -747,8 +747,8 @@
 
                     <ImageView
                         android:id="@+id/ivPhoto"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="@dimen/menu_arrow"
+                        android:layout_height="@dimen/menu_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
@@ -804,8 +804,8 @@
 
                     <ImageView
                         android:id="@+id/ivPan"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="@dimen/menu_arrow"
+                        android:layout_height="@dimen/menu_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
@@ -862,8 +862,8 @@
 
                     <ImageView
                         android:id="@+id/ivAadhar"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="@dimen/menu_arrow"
+                        android:layout_height="@dimen/menu_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
@@ -921,8 +921,8 @@
 
                     <ImageView
                         android:id="@+id/ivAadharBack"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="@dimen/menu_arrow"
+                        android:layout_height="@dimen/menu_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
@@ -979,8 +979,8 @@
 
                     <ImageView
                         android:id="@+id/ivCancel"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="@dimen/menu_arrow"
+                        android:layout_height="@dimen/menu_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"
@@ -1038,8 +1038,8 @@
 
                     <ImageView
                         android:id="@+id/ivEdu"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
+                        android:layout_width="@dimen/menu_arrow"
+                        android:layout_height="@dimen/menu_arrow"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="10dp"

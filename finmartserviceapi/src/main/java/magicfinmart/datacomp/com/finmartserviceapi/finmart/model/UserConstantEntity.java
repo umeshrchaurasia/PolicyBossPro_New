@@ -121,6 +121,8 @@ public class UserConstantEntity extends RealmObject {
     private String PBByCrnSearch;
 
     private String ERPID;
+
+    private int androidproversion;
     /**
      * userid :
      * marketinghomepopupid : 1
@@ -1145,5 +1147,13 @@ public class UserConstantEntity extends RealmObject {
 
     public void setEnablesynccontact(String enablesynccontact) {
         this.enablesynccontact = enablesynccontact;
+    }
+
+    public int getAndroidproversion() {
+        return androidproversion;
+    }
+
+    public void setAndroidproversion(int androidproversion) {
+        this.androidproversion = androidproversion;
     }
 }

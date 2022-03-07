@@ -23,6 +23,7 @@ import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -122,7 +123,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             bitmap_image = getBitmapfromUrl(img_url);
             //  new createBitmapFromURL(NotifyData.get("img_url")).execute();
 
-            intent = new Intent(this, HomeActivity.class);
+            intent = new Intent(this, HomeMainActivity.class);
             intent.putExtra(Utility.PUSH_NOTIFY, notifyEntity);
 
         }

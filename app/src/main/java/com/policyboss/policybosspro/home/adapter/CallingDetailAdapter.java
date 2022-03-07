@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
 
 import java.util.List;
 
@@ -75,7 +76,7 @@ public class CallingDetailAdapter extends RecyclerView.Adapter<CallingDetailAdap
             @Override
             public void onClick(View v) {
 
-             ((HomeActivity) mContext).shareCallingData(userCallingEntity);
+             ((HomeMainActivity) mContext).shareCallingData(userCallingEntity);
 
             }
         });
@@ -85,7 +86,7 @@ public class CallingDetailAdapter extends RecyclerView.Adapter<CallingDetailAdap
             @Override
             public void onClick(View v) {
 
-                ((HomeActivity) mContext).shareEmailData(userCallingEntity);
+                ((HomeMainActivity) mContext).shareEmailData(userCallingEntity);
 
             }
         });

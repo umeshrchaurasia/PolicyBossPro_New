@@ -1026,7 +1026,7 @@ public class BaseActivity extends AppCompatActivity {
 
         Deeplink = Bodymsg + "\n" + link;
         if(prdSubject.isEmpty()){
-            prdSubject = "Magic Finmart";
+            prdSubject = "PolicyBoss Pro";
         }
 
         String prdDetail = Deeplink;

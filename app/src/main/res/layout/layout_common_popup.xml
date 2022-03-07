@@ -26,14 +26,15 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
+            android:layout_width="80dp"
+            android:layout_height="60dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
-            android:src="@drawable/finmart_logo_splash"
+            android:scaleType="centerInside"
+            android:src="@drawable/policybosspro_logo"
             android:visibility="visible" />
 
         <ImageView

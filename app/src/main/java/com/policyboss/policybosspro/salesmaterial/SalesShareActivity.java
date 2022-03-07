@@ -16,7 +16,7 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
-import com.policyboss.policybosspro.home.HomeActivity;
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
 import com.policyboss.policybosspro.utility.Constants;
 import com.policyboss.policybosspro.utility.TouchImageView;
 
@@ -132,7 +132,7 @@ public class SalesShareActivity extends BaseActivity implements BaseActivity.Pop
 
             case R.id.action_home:
 
-                Intent intent = new Intent(this, HomeActivity.class);
+                Intent intent = new Intent(this, HomeMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("MarkTYPE", "FROM_HOME");
                 startActivity(intent);

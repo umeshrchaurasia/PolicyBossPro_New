@@ -114,26 +114,26 @@ public class WelcomeActivity extends BaseActivity implements View.OnClickListene
     };
 
     private void setSelectedDot(int current) {
-        dot1.setImageDrawable(getResources().getDrawable(R.drawable.unselected_dot));
-        dot2.setImageDrawable(getResources().getDrawable(R.drawable.unselected_dot));
-        dot3.setImageDrawable(getResources().getDrawable(R.drawable.unselected_dot));
-        dot4.setImageDrawable(getResources().getDrawable(R.drawable.unselected_dot));
-        dot5.setImageDrawable(getResources().getDrawable(R.drawable.unselected_dot));
+        dot1.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
+        dot2.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
+        dot3.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
+        dot4.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
+        dot5.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
         switch (current) {
             case 1:
-                dot1.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
+                dot1.setImageDrawable(getResources().getDrawable(R.drawable.indicator_active));
                 break;
             case 2:
-                dot2.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
+                dot2.setImageDrawable(getResources().getDrawable(R.drawable.indicator_active));
                 break;
             case 3:
-                dot3.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
+                dot3.setImageDrawable(getResources().getDrawable(R.drawable.indicator_active));
                 break;
             case 4:
-                dot4.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
+                dot4.setImageDrawable(getResources().getDrawable(R.drawable.indicator_active));
                 break;
             case 5:
-                dot5.setImageDrawable(getResources().getDrawable(R.drawable.selected_dot));
+                dot5.setImageDrawable(getResources().getDrawable(R.drawable.indicator_active));
                 break;
         }
     }

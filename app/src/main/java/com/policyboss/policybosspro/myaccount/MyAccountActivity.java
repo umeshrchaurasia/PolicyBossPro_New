@@ -926,27 +926,27 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         if (clickedLayout.getVisibility() == View.GONE) {
 
-            downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            downImage.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
 
 
-            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage4.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage5.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage6.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage4.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage5.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage6.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
 
 
         } else {
 
-            downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
+            downImage.setImageDrawable(getResources().getDrawable(R.drawable.minus));
 
-            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage4.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage5.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage5.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage4.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage5.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage5.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
 
 
         }
@@ -959,25 +959,25 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         if (linearLayout.getVisibility() == View.GONE) {
 
             //region hideall layout
-            ivMyProfile.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            ivMyProfile.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
             llMyProfile.setVisibility(View.GONE);
 
-            ivAddress.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            ivAddress.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
             llAddress.setVisibility(View.GONE);
 
-            ivPOSP.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            ivPOSP.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
             llPosp.setVisibility(View.GONE);
 
-            ivAbout.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            ivAbout.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
             llAbout.setVisibility(View.GONE);
             //endregion
 
             linearLayout.setVisibility(View.GONE);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
 
         } else {
             linearLayout.setVisibility(View.GONE);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
         }
     }
 
@@ -1201,7 +1201,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                         dbPersistanceController.updateUserConstatntProfile(((DocumentResponse) response).getMasterData().get(0).getPrv_file());
 
                         // Todo : Firing Local BroadCase
-                        Intent profileIntent = new Intent(Utility.USER_PROFILE_ACTION);
+                        Intent profileIntent = new Intent(Utility. USER_PROFILE_ACTION);
                         profileIntent.putExtra("PROFILE_PATH", ((DocumentResponse) response).getMasterData().get(0).getPrv_file());
 
                         LocalBroadcastManager.getInstance(MyAccountActivity.this).sendBroadcast(profileIntent);

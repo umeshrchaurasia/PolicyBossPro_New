@@ -247,7 +247,8 @@ class SliderDashboardAdapter(
     }
 
 
-    private fun switchDashBoardMenus(dashboardEntity: DashboardMultiLangEntity) {
+
+       private fun switchDashBoardMenus(dashboardEntity: DashboardMultiLangEntity) {
         val productID = dashboardEntity.productId
 
         //Toast.makeText(mContext,"Produvt ID" + productID,Toast.LENGTH_LONG).show();

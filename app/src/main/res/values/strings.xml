@@ -15,6 +15,7 @@
     </array>
 
     <string name="empty_directory">Empty Directory</string>
+    <string name="NoConnection">No Internet Connection</string>
     <string name="storage_removed">Storage was removed or unmounted.</string>
     <string name="choose_file">Select a file</string>
     <string name="error_selecting_file">Error selecting File</string>

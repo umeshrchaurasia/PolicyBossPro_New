@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.Adapter.SliderDashboardAdapter
 import com.policyboss.policybosspro.R
+import com.policyboss.policybosspro.homeMainKotlin.BottomSheetDialogMenuFragment
 import magicfinmart.datacomp.com.finmartserviceapi.model.MenuChild
 import magicfinmart.datacomp.com.finmartserviceapi.model.MenuHeader
 
@@ -74,15 +75,14 @@ class MenuAdapter (
 
             if(!menuHeader.headerName.equals("LOG-OUT")){
                 rvChildMenu.adapter = MenuChildAdapter(mContext,menuHeader.menuChildSection)
-
-               // imgArrow.visibility =  View.VISIBLE
+                imgArrow.visibility = View.VISIBLE
 
 
             }else{
 
                 rvChildMenu.adapter = null
+                imgArrow.visibility = View.GONE
 
-                //imgArrow.visibility =  View.GONE
 
             }
 
@@ -117,26 +117,29 @@ class MenuAdapter (
 
             if(menuHeader.headerName.equals("LOG-OUT")){
 
-            }
-            if(menuHeader.isExpanded){
+                (mContext as BottomSheetDialogMenuFragment).getMenuLogOut()
 
 
-                holder.rvChildMenu.visibility = View.GONE
-                holder.menuView.visibility =  View.GONE
-                holder.imgArrow.setImageDrawable(ContextCompat.getDrawable(mContext.requireContext(),R.drawable.pluse))
+            }else {
 
 
-            }
-
-            else{
+                if (menuHeader.isExpanded) {
 
 
-                holder.rvChildMenu.visibility = View.VISIBLE
-                holder.menuView.visibility =  View.VISIBLE
-                holder.imgArrow.setImageDrawable(ContextCompat.getDrawable(mContext.requireContext(),R.drawable.minus))
+                    holder.rvChildMenu.visibility = View.GONE
+                    holder.menuView.visibility = View.GONE
+                    holder.imgArrow.setImageDrawable(ContextCompat.getDrawable(mContext.requireContext(), R.drawable.pluse))
 
 
+                } else {
 
+
+                    holder.rvChildMenu.visibility = View.VISIBLE
+                    holder.menuView.visibility = View.VISIBLE
+                    holder.imgArrow.setImageDrawable(ContextCompat.getDrawable(mContext.requireContext(), R.drawable.minus))
+
+
+                }
             }
 
             modifyMenu( menuHeader )

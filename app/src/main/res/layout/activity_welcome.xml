@@ -29,12 +29,10 @@
 
         <Button
             android:id="@+id/btn_next"
-            style="@style/ButtonStyle.Borderless"
-            android:layout_width="match_parent"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="@drawable/customeborder_blue"
+            android:padding="@dimen/twelve"
+            android:background="@drawable/custome_curveborder_blue"
             android:text="Next"
             android:textColor="@color/button_color" />
 
@@ -53,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:src="@drawable/selected_dot" />
+                android:src="@drawable/indicator_active" />
 
             <ImageView
                 android:id="@+id/dot2"
@@ -61,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:src="@drawable/unselected_dot" />
+                android:src="@drawable/selected_dot" />
 
             <ImageView
                 android:id="@+id/dot3"
@@ -69,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:src="@drawable/unselected_dot" />
+                android:src="@drawable/selected_dot" />
 
             <ImageView
                 android:id="@+id/dot4"
@@ -77,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:src="@drawable/unselected_dot" />
+                android:src="@drawable/selected_dot" />
 
             <ImageView
                 android:id="@+id/dot5"
@@ -85,7 +83,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="2dp"
-                android:src="@drawable/unselected_dot" />
+                android:src="@drawable/selected_dot" />
         </LinearLayout>
 
         <TextView

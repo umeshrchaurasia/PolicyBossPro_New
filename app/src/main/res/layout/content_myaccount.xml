@@ -102,13 +102,13 @@
 
                         <ImageView
                             android:id="@+id/ivMyProfile"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="@dimen/menu_arrow"
+                            android:layout_height="@dimen/menu_arrow"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:padding="2dp"
-                            android:src="@drawable/down_arrow" />
+                            android:src="@drawable/pluse" />
 
                         <TextView
                             style="@style/TextStyle.Title"
@@ -202,13 +202,13 @@
 
                         <ImageView
                             android:id="@+id/ivAddress"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="@dimen/menu_arrow"
+                            android:layout_height="@dimen/menu_arrow"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:padding="2dp"
-                            android:src="@drawable/down_arrow" />
+                            android:src="@drawable/pluse" />
 
                         <TextView
                             style="@style/TextStyle.Title"
@@ -344,13 +344,13 @@
 
                         <ImageView
                             android:id="@+id/ivBankDetail"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="@dimen/menu_arrow"
+                            android:layout_height="@dimen/menu_arrow"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:padding="2dp"
-                            android:src="@drawable/down_arrow" />
+                            android:src="@drawable/pluse" />
 
                         <TextView
                             style="@style/TextStyle.Title"
@@ -598,13 +598,13 @@
 
                         <ImageView
                             android:id="@+id/ivDocumentUpload"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="@dimen/menu_arrow"
+                            android:layout_height="@dimen/menu_arrow"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:padding="2dp"
-                            android:src="@drawable/down_arrow" />
+                            android:src="@drawable/pluse" />
 
                         <TextView
                             style="@style/TextStyle.Title"
@@ -647,8 +647,8 @@
 
                                 <ImageView
                                     android:id="@+id/ivPhoto"
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
+                                    android:layout_width="@dimen/menu_arrow"
+                                    android:layout_height="@dimen/menu_arrow"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="10dp"
@@ -705,8 +705,8 @@
 
                                 <ImageView
                                     android:id="@+id/ivPan"
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
+                                    android:layout_width="@dimen/menu_arrow"
+                                    android:layout_height="@dimen/menu_arrow"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="10dp"
@@ -762,8 +762,8 @@
 
                                 <ImageView
                                     android:id="@+id/ivCancel"
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
+                                    android:layout_width="@dimen/menu_arrow"
+                                    android:layout_height="@dimen/menu_arrow"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="10dp"
@@ -822,8 +822,8 @@
 
                                 <ImageView
                                     android:id="@+id/ivAadhar"
-                                    android:layout_width="25dp"
-                                    android:layout_height="25dp"
+                                    android:layout_width="@dimen/menu_arrow"
+                                    android:layout_height="@dimen/menu_arrow"
                                     android:layout_alignParentRight="true"
                                     android:layout_centerVertical="true"
                                     android:layout_marginRight="10dp"
@@ -873,13 +873,13 @@
 
                         <ImageView
                             android:id="@+id/ivPOSP"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="@dimen/menu_arrow"
+                            android:layout_height="@dimen/menu_arrow"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:padding="2dp"
-                            android:src="@drawable/down_arrow" />
+                            android:src="@drawable/pluse" />
 
                         <TextView
                             style="@style/TextStyle.Title"
@@ -973,13 +973,13 @@
 
                         <ImageView
                             android:id="@+id/ivAbout"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="@dimen/menu_arrow"
+                            android:layout_height="@dimen/menu_arrow"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:padding="2dp"
-                            android:src="@drawable/down_arrow" />
+                            android:src="@drawable/pluse" />
 
                         <TextView
                             style="@style/TextStyle.Title"
@@ -1525,13 +1525,13 @@
 
                         <ImageView
                             android:id="@+id/ivNotify"
-                            android:layout_width="25dp"
-                            android:layout_height="25dp"
+                            android:layout_width="@dimen/menu_arrow"
+                            android:layout_height="@dimen/menu_arrow"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
                             android:padding="2dp"
-                            android:src="@drawable/down_arrow" />
+                            android:src="@drawable/pluse" />
 
                         <TextView
                             style="@style/TextStyle.Title"

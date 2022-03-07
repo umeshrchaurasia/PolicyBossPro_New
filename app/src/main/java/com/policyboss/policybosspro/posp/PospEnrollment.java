@@ -1333,15 +1333,15 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
     private void manageImages(LinearLayout clickedLayout, ImageView downImage, ImageView upImage1, ImageView upImage2, ImageView upImage3) {
 
         if (clickedLayout.getVisibility() == View.GONE) {
-            downImage.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            downImage.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
         } else {
-            downImage.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
-            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
-            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            downImage.setImageDrawable(getResources().getDrawable(R.drawable.minus));
+            upImage1.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage2.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
+            upImage3.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
         }
 
     }
@@ -1351,19 +1351,19 @@ public class PospEnrollment extends BaseActivity implements View.OnClickListener
         if (linearLayout.getVisibility() == View.GONE) {
 
             //region hideall layout
-            ivMyProfile.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            ivMyProfile.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
             llMyProfile.setVisibility(View.GONE);
 
-            ivAddress.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            ivAddress.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
             llAddress.setVisibility(View.GONE);
             //endregion
 
             linearLayout.setVisibility(View.VISIBLE);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.up_arrow));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.minus));
 
         } else {
             linearLayout.setVisibility(View.GONE);
-            imageView.setImageDrawable(getResources().getDrawable(R.drawable.down_arrow));
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.pluse));
         }
     }
 

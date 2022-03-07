@@ -48,6 +48,7 @@ import com.policyboss.policybosspro.file_chooser.utils.FileUtilNew;
 import com.policyboss.policybosspro.health.HealthQuoteAppActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 
+import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
 import com.policyboss.policybosspro.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.policyboss.policybosspro.paymentEliteplan.RazorPaymentEliteActivity;
@@ -429,7 +430,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
         @JavascriptInterface
         public void RedirectToHomepage() {//Android.RedirectToHomepage();
-            Intent intent = new Intent(CommonWebViewActivity.this, HomeActivity.class);
+            Intent intent = new Intent(CommonWebViewActivity.this, HomeMainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
             finish();
@@ -497,7 +498,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
             case R.id.action_home:
 
-                Intent intent = new Intent(this, HomeActivity.class);
+                Intent intent = new Intent(this, HomeMainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("MarkTYPE", "FROM_HOME");
 

@@ -18,45 +18,47 @@
 
         <LinearLayout
             android:id="@+id/rlPersonalInfo"
-            style="@style/HeaderLayout"
+            style="@style/HeaderLayoutWhite"
             android:layout_marginLeft="@dimen/view_spacing_small"
             android:layout_marginRight="@dimen/view_spacing_small"
             android:layout_marginTop="@dimen/view_spacing_small"
             android:gravity="center"
             android:paddingLeft="@dimen/view_spacing_small"
-            android:weightSum="100">
+            >
 
             <TextView
+                android:padding="@dimen/twelve"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:layout_centerVertical="true"
-                android:layout_weight="90"
                 android:text="Personal Information"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextStyle.TextMedium"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/ivPersonalInfo"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="10"
-                android:padding="8dp"
-                android:src="@drawable/down_arrow" />
+                android:layout_marginRight="@dimen/eight"
+                android:layout_width="@dimen/menu_arrow"
+                android:layout_height="@dimen/menu_arrow"
+                android:src="@drawable/pluse" />
 
 
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
+
             android:id="@+id/llPersonalInfo"
             style="@style/CardStyle.Home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="4dp"
             android:visibility="visible">
 
             <LinearLayout
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:animateLayoutChanges="true"
@@ -452,32 +454,32 @@
 
         <LinearLayout
             android:id="@+id/rlProfessionalInfo"
-            style="@style/HeaderLayout"
+            style="@style/HeaderLayoutWhite"
             android:layout_marginLeft="@dimen/view_spacing_small"
             android:layout_marginRight="@dimen/view_spacing_small"
             android:layout_marginTop="8dp"
             android:gravity="center"
             android:paddingLeft="@dimen/view_spacing_small"
-            android:weightSum="100">
+           >
 
             <TextView
+                android:padding="@dimen/twelve"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:layout_weight="90"
+                android:layout_weight="1"
                 android:text="Professional Information"
                 android:textAllCaps="true"
                 android:textAppearance="@style/TextStyle.TextMedium"
-                android:textColor="@android:color/white"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
 
             <ImageView
                 android:id="@+id/ivProfessionalInfo"
-                android:layout_width="0dp"
-                android:layout_height="48dp"
-                android:layout_weight="10"
-                android:padding="8dp"
-                android:src="@drawable/down_arrow" />
+                android:layout_marginRight="@dimen/eight"
+                android:layout_width="@dimen/menu_arrow"
+                android:layout_height="@dimen/menu_arrow"
+                android:src="@drawable/pluse" />
 
 
         </LinearLayout>

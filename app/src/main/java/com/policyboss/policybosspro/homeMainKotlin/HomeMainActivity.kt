@@ -1,8 +1,11 @@
 package com.policyboss.policybosspro.homeMainKotlin
 
 import android.app.Dialog
-import android.content.Intent
+import android.content.*
+import android.content.pm.LabeledIntent
 import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -10,6 +13,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.pm.PackageInfoCompat
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -25,7 +30,7 @@ import com.policyboss.policybosspro.BuildConfig
 import com.policyboss.policybosspro.MyApplication
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ActivityHomeMainBinding
-import com.policyboss.policybosspro.homeMainKotlin.Adapter.MenuAdapter
+import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity
 import com.policyboss.policybosspro.myaccount.MyAccountActivity
 import com.policyboss.policybosspro.notification.NotificationActivity
@@ -35,6 +40,7 @@ import com.policyboss.policybosspro.utility.CircleTransform
 import com.policyboss.policybosspro.utility.Constants
 import com.policyboss.policybosspro.utility.ReadDeviceID
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
+import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.APIResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber
@@ -43,13 +49,16 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.Ma
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserCallingEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ProductURLShareResponse
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserConstatntResponse
 import magicfinmart.datacomp.com.finmartserviceapi.model.DashboardMultiLangEntity
 import java.util.*
+
 
 class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListener, BaseActivity.PopUpListener,
         BaseActivity.WebViewPopUpListener, PermissionListener , BottomSheetDialogMenuFragment.IBottomMenuCallback, SliderDashboardAdapter.IDashboardAdapterCallBack{
@@ -60,9 +69,12 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     lateinit var viewPager2 : ViewPager2
     lateinit var adapter: SliderDashboardAdapter
     lateinit var adapterImgSlider: SliderImageAdapter
-    lateinit var adapterMenu : MenuAdapter
 
-    lateinit var sliderHandler: Handler
+    lateinit var callingDetailAdapter: CallingDetailAdapter
+
+   // lateinit var sliderHandler: Handler
+
+    var sliderHandler = Handler()
     lateinit var sliderRun : Runnable
 
 
@@ -77,12 +89,13 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     var menuMasterResponse: MenuMasterResponse? = null
     var dashboardShareEntity: DashboardMultiLangEntity? = null
 
+    var isNetworkConnected : Boolean = false
 
 
     lateinit var bottomSheetDialog : BottomSheetDialog
     lateinit var ivProfile : ImageView
     lateinit var shareProdDialog: AlertDialog
-    lateinit var  MyUtilitiesDialog: AlertDialog
+    lateinit var  callingDetailDialog: AlertDialog
 
     lateinit var txtDetails : TextView
     lateinit var txtEntityName :TextView
@@ -93,7 +106,41 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     var FBAID : String = ""
     var versionNAme: String = ""
-    var pinfo: PackageInfo? = null
+    lateinit var pinfo: PackageInfo
+
+
+    //region broadcast receiver
+    var mHandleMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            if (intent.action != null) {
+//                if (intent.action.equals(Utility.PUSH_BROADCAST_ACTION, ignoreCase = true)) {
+//                    val notifyCount = prefManager.notificationCounter
+//                    if (notifyCount == 0) {
+//                        textNotifyItemCount.setVisibility(View.GONE)
+//                    } else {
+//                        textNotifyItemCount.setVisibility(View.VISIBLE)
+//                        textNotifyItemCount.setText("" + notifyCount.toString())
+//                    }
+//                }
+
+                    if (intent.action.equals(Utility.USER_PROFILE_ACTION, ignoreCase = true)) {
+                    val PROFILE_PATH = intent.getStringExtra("PROFILE_PATH")
+                    Glide.with(this@HomeMainActivity)
+                            .load(Uri.parse(PROFILE_PATH))
+                            .placeholder(R.drawable.finmart_user_icon)
+                            .diskCacheStrategy(DiskCacheStrategy.NONE)
+                            .skipMemoryCache(true)
+                            .override(64, 64)
+                            .transform(CircleTransform(this@HomeMainActivity)) // applying the image transformer
+                            .into(ivProfile)
+                }
+            }
+        }
+    }
+
+
+    //endregion
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,14 +152,51 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         init()
 
         setListener()
-
-        // region Handling Bottom bar selection
-
-
+        registerPopUp(this)
 
         bindData()
 
         checkMarketingPopup()
+
+
+        val networkConnection = NetworkConnection(applicationContext)
+        networkConnection.observe(this, androidx.lifecycle.Observer { isConnected ->
+
+            if (isConnected) {
+
+
+                isNetworkConnected = true
+                //  Toast.makeText(this,"Connected",Toast.LENGTH_SHORT).show()
+                binding.includedHomeMain.lyNotConnected.visibility = View.GONE
+
+
+                if (loginResponseEntity != null) {
+
+                        loadApi()
+
+                }
+
+
+            } else {
+
+                isNetworkConnected = false
+                binding.includedHomeMain.lyNotConnected.visibility = View.VISIBLE
+
+            }
+
+
+        })
+
+
+        // getPackage Info
+        try {
+            pinfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0)
+
+
+
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
 
 
 
@@ -125,6 +209,12 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
             when (it) {
 
                 R.id.nav_home -> {
+
+                    // called Api
+                    if (isNetworkConnected) {
+
+                        loadApi()
+                    }
 
 
                 }
@@ -158,26 +248,29 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
+
     }
 
     override fun onResume() {
         super.onResume()
        // showDialog()
 
-        binding.includedShimmerHomeMain.lyShimmerDashboardParent.visibility = View.VISIBLE
-        binding.shimmerDashboard.visibility = View.VISIBLE
-        binding.includedHomeMain.lyDashboardParent.visibility = View.GONE
-        binding.shimmerDashboard.startShimmerAnimation()
 
+        if (isNetworkConnected) {
 
-        if (loginResponseEntity != null) {
-
-            MasterController(this).geUserConstant(1, this)
-            MasterController(this).getMenuMaster(this)
-
+            loadApi()
         }
 
+
+        LocalBroadcastManager.getInstance(this@HomeMainActivity).registerReceiver(mHandleMessageReceiver, IntentFilter(Utility.PUSH_BROADCAST_ACTION))
+
+        LocalBroadcastManager.getInstance(this@HomeMainActivity)
+                .registerReceiver(mHandleMessageReceiver, IntentFilter(Utility.USER_PROFILE_ACTION))
+
+
     }
+
+
 
 
     //region Initialize Entity and DB
@@ -200,7 +293,6 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
-
     }
 
     private fun setListener(){
@@ -212,11 +304,15 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
         binding.includedHomeMain.txtSeeALL.setOnClickListener(this)
 
+        binding.includedHomeMain.ivSupport.setOnClickListener(this)
+
 
 
     }
 
     private fun bindData(){
+
+        binding.includedHomeMain.lyNotConnected.visibility = View.GONE
 
 
         if (loginResponseEntity != null) {
@@ -234,7 +330,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
                 Glide.with(this@HomeMainActivity)
                         .load(userConstantEntity.loansendphoto)
-                        .placeholder(R.drawable.circle_placeholder)
+                        .placeholder(R.drawable.profile_photo)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
                         .override(64, 64)
@@ -246,8 +342,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
             try {
 
                 Glide.with(this@HomeMainActivity)
-                        .load<Any>(R.drawable.finmart_user_icon)
-                        .placeholder(R.drawable.circle_placeholder)
+                        .load<Any>(R.drawable.profile_photo)
+                        .placeholder(R.drawable.profile_photo)
                         .transform(CircleTransform(this@HomeMainActivity)) // applying the image transformer
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
@@ -311,26 +407,26 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         //endregion
     }
 
+    private fun loadApi(){
 
-    private  fun checkMarketingPopup(){
+        // called Api
 
-       var checkfirstmsg_call = prefManager.checkMsgFirst.toInt()
-        if (checkfirstmsg_call == 0) {
-            var type = ""
-            val bundle = intent.extras
-            if (bundle != null) {
-                if (bundle.getString("MarkTYPE") != null) {
-                    type = bundle.getString("MarkTYPE", "")
-                    if (type != "FROM_HOME") {
-                        showMarketingPopup()
-                    }
-                }
-            } else {
-                prefManager.updateCheckMsgFirst("" + 1)
-                showMarketingPopup()
-            }
+        binding.shimmerDashboard.visibility = View.VISIBLE
+        binding.includedHomeMain.lyDashboardParent.visibility = View.GONE
+        binding.shimmerDashboard.startShimmerAnimation()
+
+
+        if (loginResponseEntity != null) {
+
+            MasterController(this).geUserConstant(1, this)
+            MasterController(this).getMenuMaster(this)
+
         }
+
     }
+
+
+
 
     //endregion
 
@@ -360,6 +456,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     }
 
+
+
     private fun setupCarousel(listInsur: MutableList<DashboardMultiLangEntity>){
 
         viewPager2.offscreenPageLimit = 3
@@ -371,10 +469,11 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         viewPager2.setPageTransformer(CarouselTransformer(this))
 
 
-        sliderHandler = Handler()
+
         sliderRun = Runnable {
 
             Log.d("VIEWPAGER", "viewPager Current Item position " + viewPager2.currentItem)
+
             if (viewPager2.currentItem == listInsur.size - 1 ) {
                 viewPager2.setCurrentItem(0, false)
 
@@ -383,10 +482,6 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                 viewPager2.setCurrentItem(viewPager2.currentItem + 1, true)
 
             }
-
-            //  viewPager2.currentItem = viewPager2.currentItem + 1
-
-
 
 
         }
@@ -399,7 +494,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                         super.onPageSelected(position)
 
                         sliderHandler.removeCallbacks(sliderRun)
-                        sliderHandler.postDelayed(sliderRun, 2000)
+                        sliderHandler.postDelayed(sliderRun, 3000)
 
 
                     }
@@ -407,23 +502,19 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
                 }
 
-
         )
-
-
-
-
 
     }
 
 
     fun stopViewPager()  {
 
+        if (sliderRun != null) {
 
-        // Toast.makeText(requireContext(),"Pos"+position ,Toast.LENGTH_SHORT).show()
+            sliderHandler.removeCallbacks(sliderRun)
 
-        //viewPager2.setCurrentItem(position, true)
-        sliderHandler.removeCallbacks(sliderRun)
+        }
+
 
 
     }
@@ -477,10 +568,22 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     }
 
 
+    private fun openAppMarketPlace() {
+        val appPackageName: String = this@HomeMainActivity.getPackageName() // getPackageName() from Context or Activity object
+        try {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$appPackageName")))
+        } catch (anfe: ActivityNotFoundException) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$appPackageName")))
+        }
+        // new TrackingController(getActivity()).sendData(new TrackingRequestEntity(new TrackingData("Update : User open marketplace  "), "Update"), null);
+    }
 
     //endregion
 
     // region PopUp Dialog
+
+
+
      private fun showMarketingPopup() {
 
         //region popup dashboard
@@ -529,6 +632,142 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                 dashboardMultiLangEntity.productId,
                 0,
                 this)
+    }
+
+    fun CallingDetailsPopUp(lstCallingDetail: List<UserCallingEntity>) {
+
+        if (this::callingDetailDialog.isInitialized  && callingDetailDialog.isShowing()) {
+            return
+        }
+        val builder = AlertDialog.Builder(this, R.style.CustomDialog)
+        val txtHdr: TextView
+        val txtMessage: TextView
+        val ivCross: ImageView
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.calling_user_detail_dialog, null)
+        builder.setView(dialogView)
+        callingDetailDialog = builder.create()
+        // set the custom dialog components - text, image and button
+        txtHdr = dialogView.findViewById(R.id.txtHdr)
+        txtMessage = dialogView.findViewById(R.id.txtMessage)
+        val rvCalling: RecyclerView = dialogView.findViewById(R.id.rvCalling)
+        ivCross = dialogView.findViewById<View>(R.id.ivCross) as ImageView
+        rvCalling.layoutManager = LinearLayoutManager(this)
+        rvCalling.setHasFixedSize(true)
+        rvCalling.isNestedScrollingEnabled = false
+        callingDetailAdapter = CallingDetailAdapter(this@HomeMainActivity, lstCallingDetail)
+        rvCalling.adapter = callingDetailAdapter
+        rvCalling.visibility = View.VISIBLE
+        txtMessage.text = resources.getString(R.string.RM_Calling)
+        ivCross.setOnClickListener { callingDetailDialog.dismiss() }
+        callingDetailDialog.setCancelable(false)
+        callingDetailDialog.show()
+    }
+
+    fun shareCallingData(userCallingEntity: UserCallingEntity) {
+        val intentCalling = Intent(Intent.ACTION_DIAL)
+        intentCalling.data = Uri.parse("tel:" + userCallingEntity.mobileNo)
+        startActivity(intentCalling)
+    }
+
+    fun shareEmailData(userCallingEntity: UserCallingEntity) {
+       // shareMailSmsList(this@HomeMainActivity, "", "Dear Sir/Madam,", userCallingEntity.emailId, userCallingEntity.mobileNo)
+
+
+        var subject = "Help-Desk"
+        var toMailID =   userCallingEntity.emailId
+
+        var mobileNo = userCallingEntity.mobileNo
+        var message =   "Dear Sir/Madam,"
+
+
+
+
+        try {
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+
+            shareIntent.type = "text/plain"
+            val pm: PackageManager = this.getPackageManager()
+            val resInfo = pm.queryIntentActivities(shareIntent, 0)
+            val intentList: MutableList<LabeledIntent> = ArrayList()
+            for (i in resInfo.indices) {
+                // Extract the label, append it, and repackage it in a LabeledIntent
+                val ri = resInfo[i]
+                val packageName = ri.activityInfo.packageName
+                val processName = ri.activityInfo.processName
+                val AppName = ri.activityInfo.name
+                if (packageName.contains("android.email") || packageName.contains("mms") || packageName.contains("messaging") || packageName.contains("android.gm") || packageName.contains("com.google.android.apps.plus")) {
+                    shareIntent.component = ComponentName(packageName, ri.activityInfo.name)
+                    if ((packageName.contains("android.email")) || (packageName.contains("android.gm")) ){
+
+                        shareIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(toMailID))
+
+                        shareIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, message)
+
+                        shareIntent.setType("message/rfc822");
+
+                        shareIntent.setPackage(packageName)
+                    } else if (packageName.contains("mms")) {
+                        shareIntent.type = "vnd.android-dir/mms-sms"
+                        shareIntent.data = Uri.parse("sms:$mobileNo")
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, message)
+                        shareIntent.setPackage(packageName)
+                    }  else if (packageName.contains("messaging")) {
+                        shareIntent.type = "vnd.android-dir/mms-sms"
+                        shareIntent.data = Uri.parse("sms:$mobileNo")
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, message)
+                        shareIntent.setPackage(packageName)
+                    }
+                    intentList.add(LabeledIntent(shareIntent, packageName, ri.loadLabel(pm), ri.icon))
+                }
+            }
+            if (intentList.size > 1) {
+                intentList.removeAt(intentList.size - 1)
+            }
+            val openInChooser = Intent.createChooser(shareIntent, "Share Via")
+            // convert intentList to array
+            val extraIntents = intentList.toTypedArray()
+            openInChooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, extraIntents)
+            startActivity(openInChooser)
+        } catch (e: java.lang.Exception) {
+            e.printStackTrace()
+        }
+//
+//        var emailIntent  =  Intent(Intent.ACTION_SEND)
+//
+//        emailIntent.putExtra(Intent.EXTRA_EMAIL, arrayOf<String>(toMailID))
+//
+//        emailIntent.putExtra(Intent.EXTRA_SUBJECT, subject)
+//        emailIntent.putExtra(Intent.EXTRA_TEXT, message)
+//
+//        emailIntent.setType("message/rfc822");
+
+  //      startActivity(Intent.createChooser(emailIntent, "Share  Email"));
+
+
+    }
+
+
+    private  fun checkMarketingPopup(){
+
+        var checkfirstmsg_call = prefManager.checkMsgFirst.toInt()
+        if (checkfirstmsg_call == 0) {
+            var type = ""
+            val bundle = intent.extras
+            if (bundle != null) {
+                if (bundle.getString("MarkTYPE") != null) {
+                    type = bundle.getString("MarkTYPE", "")
+                    if (type != "FROM_HOME") {
+                        showMarketingPopup()
+                    }
+                }
+            } else {
+                prefManager.updateCheckMsgFirst("" + 1)
+                showMarketingPopup()
+            }
+        }
     }
 
     override fun shareProductPopUp(shareEntity: DashboardMultiLangEntity) {
@@ -588,11 +827,12 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     // region Listener of Callback
     override fun onPositiveButtonClick(dialog: Dialog?, view: View?) {
-        TODO("Not yet implemented")
+        dialog!!.cancel()
+        openAppMarketPlace()
     }
 
     override fun onCancelButtonClick(dialog: Dialog?, view: View?) {
-        TODO("Not yet implemented")
+        dialog!!.cancel()
     }
 
     override fun onCancelClick(dialog: Dialog?, view: View?) {
@@ -639,6 +879,23 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
           }
 
+          R.id.ivSupport -> {
+
+              if (userConstantEntity.mangMobile != null) {
+                  if (userConstantEntity.managName != null) {
+                      // ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                      if (this::callingDetailDialog.isInitialized && callingDetailDialog.isShowing()) {
+                          return
+                      } else {
+                          showDialog()
+                          RegisterController(this).getUserCallingDetail(loginResponseEntity.fbaId.toString(), this)
+                      }
+                  }
+              }
+
+
+          }
+
       }
     }
 
@@ -674,8 +931,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
         cancelDialog()
 
-        binding.includedShimmerHomeMain.lyShimmerDashboardParent.visibility = View.GONE
-        binding.shimmerDashboard.visibility = View.VISIBLE
+
+        binding.shimmerDashboard.visibility = View.GONE
         binding.includedHomeMain.lyDashboardParent.visibility = View.VISIBLE
         binding.shimmerDashboard.stopShimmerAnimation()
         if (response is UserConstatntResponse) {
@@ -686,10 +943,24 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                     userConstantEntity = response.masterData
                     bindData()
                     //init_headers()
-                    if (prefManager.popUpCounter == "0") {
+                    val VersionCode = PackageInfoCompat.getLongVersionCode(pinfo)
+
+                    userConstantEntity?.androidproversion?.let {
+
+
+                         if(pinfo != null &&  VersionCode.toInt() < it) {
+
+                             openPopUp(viewPager2, "UPDATE", "New version available on play store!!!! Please update.", "OK", false)
+                         }
+                     }
+
+
+                     if (prefManager.popUpCounter == "0") {
                         showMarketingPopup()
+
                     }
 
+                    //region Not IN Used
                     //Notification Url :-1 November
                     val localNotificationenable = prefManager.notificationsetting.toInt()
                     if (userConstantEntity.notificationpopupurltype.toUpperCase() == "SM") {
@@ -708,6 +979,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                             }
                         }
                     }
+                    //endregion
                 }
 
             }
@@ -730,7 +1002,15 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                     }
                 }
             }
-        }else if (response is LoginResponse) {
+        }else  if(response is UserCallingResponse){
+
+            if(response.getStatusNo() == 0){
+
+                CallingDetailsPopUp(response.masterData)
+            }
+        }
+
+        else if (response is LoginResponse) {
             if (response.getStatusNo() == 0) {
 
                 // prefManager.setIsUserLogin(true);
@@ -747,7 +1027,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     override fun OnFailure(t: Throwable?) {
         cancelDialog()
 
-        binding.includedShimmerHomeMain.lyShimmerDashboardParent.visibility = View.GONE
+
+        binding.shimmerDashboard.visibility = View.GONE
         binding.includedHomeMain.lyDashboardParent.visibility = View.VISIBLE
         binding.shimmerDashboard.stopShimmerAnimation()
     }
