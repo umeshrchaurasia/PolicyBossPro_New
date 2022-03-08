@@ -13,7 +13,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.pm.PackageInfoCompat
+import androidx.core.view.get
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -23,6 +25,8 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.Adapter.SliderDashboardAdapter
 import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.Adapter.SliderImageAdapter
 import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.CarouselTransformer
+import com.google.android.material.bottomnavigation.BottomNavigationItemView
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.policyboss.policybosspro.BaseActivity
 import com.policyboss.policybosspro.BaseActivity.PermissionListener
@@ -39,6 +43,7 @@ import com.policyboss.policybosspro.switchuser.SwitchUserActivity
 import com.policyboss.policybosspro.utility.CircleTransform
 import com.policyboss.policybosspro.utility.Constants
 import com.policyboss.policybosspro.utility.ReadDeviceID
+import io.ak1.BubbleTabBar
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
@@ -108,6 +113,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     var versionNAme: String = ""
     lateinit var pinfo: PackageInfo
 
+    lateinit var notificationBadges : View
+
 
     //region broadcast receiver
     var mHandleMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
@@ -158,6 +165,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
         checkMarketingPopup()
 
+        updateBadgeCount(2)
 
         val networkConnection = NetworkConnection(applicationContext)
         networkConnection.observe(this, androidx.lifecycle.Observer { isConnected ->
@@ -200,8 +208,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
-        binding.bubbleTabBar.setSelected(0)
-        binding.bubbleTabBar.setSelectedWithId(R.id.nav_home, true)
+       // binding.bubbleTabBar.setSelected(0)
+      //  binding.bubbleTabBar.setSelectedWithId(R.id.nav_home, true)
 
         binding.bubbleTabBar.addBubbleListener({
 
@@ -269,6 +277,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
     }
+
 
 
 
@@ -422,6 +431,39 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
             MasterController(this).getMenuMaster(this)
 
         }
+
+    }
+
+
+
+    private fun updateBadgeCount(count: Int = 1 ){
+
+
+
+        val itemView = binding.bubbleTabBar.getChildAt(2) as? BottomNavigationMenuView
+
+
+         notificationBadges = LayoutInflater.from(this).
+                                    inflate(R.layout.notification_text,itemView,false)
+
+
+        var notify_badge : TextView = notificationBadges.findViewById(R.id.notify_badge)
+
+        notify_badge.text =  count.toString()
+
+
+       // binding.bubbleTabBar?.resources(this, R.menu.bottom_navigation_tab_menu)
+
+        binding.bubbleTabBar?.removeViewAt(1)
+        binding.bubbleTabBar?.addView(notificationBadges,1)
+
+
+
+
+
+
+
+
 
     }
 

@@ -150,6 +150,8 @@ dependencies {
 
     implementation  'io.ak1:bubbletabbar:1.0.8'
 
+   // implementation 'com.gauravk.bubblenavigation:bubblenavigation:1.0.7'
+
     implementation "androidx.viewpager2:viewpager2:1.0.0"
 
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'  // shimmer effect
