@@ -244,7 +244,6 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
                     //  showBottomSheetDialog()
 
-
                     val bottomSheetDialogMenuFragment = BottomSheetDialogMenuFragment()
                     // bottomSheetDialogMenuFragment.registerCallBack(this@HomeMainActivity)
                     bottomSheetDialogMenuFragment.show(supportFragmentManager, bottomSheetDialogMenuFragment.tag)
@@ -328,7 +327,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
             FBAID =  loginResponseEntity.fbaId.toString()
             txtDetails.text = "" + loginResponseEntity.fullName
-            txtEntityName.text = "V"+ BuildConfig.VERSION_NAME
+          //  txtEntityName.text = "V"+ BuildConfig.VERSION_NAME
+            txtEntityName.text = "V" + pinfo.versionName
 
         }else{
             txtDetails.text = ""
@@ -459,6 +459,10 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
+        notificationBadges.setOnClickListener {
+
+            Toast.makeText(this@HomeMainActivity, "notify", Toast.LENGTH_LONG).show()
+        }
 
 
 
