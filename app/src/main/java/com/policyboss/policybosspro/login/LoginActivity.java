@@ -316,6 +316,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 if (!isValideEmailID(etEmail)) {
                     etEmail.setError("Invalid Email ID");
                     etEmail.setFocusable(true);

@@ -8,14 +8,13 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.pm.PackageInfoCompat
-import androidx.core.view.get
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,7 +24,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.Adapter.SliderDashboardAdapter
 import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.Adapter.SliderImageAdapter
 import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.CarouselTransformer
-import com.google.android.material.bottomnavigation.BottomNavigationItemView
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.policyboss.policybosspro.BaseActivity
@@ -38,12 +36,14 @@ import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity
 import com.policyboss.policybosspro.myaccount.MyAccountActivity
 import com.policyboss.policybosspro.notification.NotificationActivity
+import com.policyboss.policybosspro.notification.NotificationSmsActivity
 import com.policyboss.policybosspro.salesmaterial.SalesMaterialActivity
+import com.policyboss.policybosspro.splashscreen.SplashScreenActivity
 import com.policyboss.policybosspro.switchuser.SwitchUserActivity
 import com.policyboss.policybosspro.utility.CircleTransform
 import com.policyboss.policybosspro.utility.Constants
 import com.policyboss.policybosspro.utility.ReadDeviceID
-import io.ak1.BubbleTabBar
+import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.Utility
 import magicfinmart.datacomp.com.finmartserviceapi.database.DBPersistanceController
@@ -52,10 +52,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.IResponseSubcriber
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.login.LoginController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.masters.MasterController
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.controller.register.RegisterController
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.LoginResponseEntity
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.MenuMasterResponse
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserCallingEntity
-import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.UserConstantEntity
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.model.*
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.requestentity.LoginRequestEntity
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.LoginResponse
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.ProductURLShareResponse
@@ -154,16 +151,21 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
         setContentView(binding.root)
 
+
+
         init()
 
         setListener()
+
+        getNotificationAction()
+
         registerPopUp(this)
 
         bindData()
 
         checkMarketingPopup()
 
-        updateBadgeCount( prefManager.notificationCounter)
+        updateBadgeCount(prefManager.notificationCounter)
 
         val networkConnection = NetworkConnection(applicationContext)
         networkConnection.observe(this, androidx.lifecycle.Observer { isConnected ->
@@ -178,7 +180,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
                 if (loginResponseEntity != null) {
 
-                        loadApi()
+                    loadApi()
 
                 }
 
@@ -272,11 +274,15 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
     //region Initialize Entity and DB
+
+
     private fun init(){
 
 
         db = DBPersistanceController(this)
         loginResponseEntity = db.userData
+
+        userConstantEntity = db.userConstantsData
 
         prefManager = PrefManager(this)
 
@@ -415,6 +421,124 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         //endregion
     }
 
+    private fun getNotificationAction() {
+
+        // region Activity Open Using Notification
+        if (intent.extras != null) {
+
+            // For getting User Click Action
+            if (intent.extras!!.getParcelable<Parcelable?>(Utility.PUSH_NOTIFY) != null) {
+                val notifyEntity: NotifyEntity? = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
+                val MESSAGEID = notifyEntity?.message_id?:"0"
+                RegisterController(this@HomeMainActivity).getUserClickActionOnNotification(MESSAGEID, null)
+            }
+            // step1: boolean verifyLogin = prefManager.getIsUserLogin();
+            // region verifyUser : when user logout and when Apps in background
+            if (loginResponseEntity == null) {
+                val notifyEntity: NotifyEntity = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
+                        ?: return
+                prefManager.pushNotifyPreference = notifyEntity
+                prefManager.sharePushType = notifyEntity.notifyFlag
+                val intent = Intent(this, SplashScreenActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+
+            //  region step2: For Notification come via Login for user credential  (step2 perform after step1)
+            else if (intent.getStringExtra(Utility.PUSH_LOGIN_PAGE) != null) {
+                val pushLogin = intent.getStringExtra(Utility.PUSH_LOGIN_PAGE)
+                if (pushLogin == "555") {
+                    val notifyEntity: NotifyEntity
+                    var type = ""
+                    var title: String? = ""
+                    var body: String? = ""
+                    var web_url: String? = ""
+                    var web_title: String? = ""
+                    val web_name = ""
+                    if (prefManager.pushNotifyPreference != null) {
+                        notifyEntity = prefManager.pushNotifyPreference
+                        type = notifyEntity.notifyFlag
+                        title = notifyEntity.title
+                        body = notifyEntity.body
+                        web_url = notifyEntity.web_url
+                        web_title = notifyEntity.web_title
+                    }
+                    prefManager.clearNotification()
+                    if (type.equals("NL")) {
+                        val intent = Intent(this, NotificationActivity::class.java)
+                        startActivity(intent)
+                    } else if (type.equals("MSG")) {
+                        startActivity(Intent(this@HomeMainActivity, NotificationSmsActivity::class.java)
+                                .putExtra("NOTIFY_TITLE", title)
+                                .putExtra("NOTIFY_BODY", body))
+                    } else if (type.equals("WB")) {
+                        startActivity(Intent(this@HomeMainActivity, CommonWebViewActivity::class.java)
+                                .putExtra("URL", web_url)
+                                .putExtra("NAME", web_name)
+                                .putExtra("TITLE", web_title))
+                    }
+                }
+            }
+            // region user already logged in and app in forground /background
+            else if (intent.extras!!.getParcelable<Parcelable?>(Utility.PUSH_NOTIFY) != null) {
+                val notificationEntity: NotifyEntity? = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
+
+                if (notificationEntity?.web_url != null) {
+
+                    navigateViaNotification(notificationEntity.notifyFlag, notificationEntity.web_url, notificationEntity.web_title)
+                }
+            }
+
+            //endregion
+        }
+
+        //endregion
+    }
+
+    private fun navigateViaNotification(prdID: String, WebURL: String, Title: String) {
+
+        //   if (prdID.equals("18")) {
+        //       startActivity(new Intent(HomeActivity.this, TermSelectionActivity.class));
+        //   }
+        var WebURL = WebURL
+        if (prdID == "WB") {
+            startActivity(Intent(this@HomeMainActivity, CommonWebViewActivity::class.java)
+                    .putExtra("URL", WebURL)
+                    .putExtra("NAME", Title)
+                    .putExtra("TITLE", Title))
+        } else if (prdID == "CB") {
+            Utility.loadWebViewUrlInBrowser(this@HomeMainActivity, WebURL)
+        }
+        else {
+
+            if(WebURL.trim().length ==0 || Title.trim().length == 0){
+
+                return
+            }
+
+            var ipaddress = "0.0.0.0"
+            ipaddress = try {
+                Utility.getMacAddress(this@HomeMainActivity)
+            } catch (io: java.lang.Exception) {
+                "0.0.0.0"
+            }
+
+
+            //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+            val append = ("&ss_id=" + userConstantEntity.pospNo + "&fba_id=" + userConstantEntity.fbaId + "&sub_fba_id=" +
+                    "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                    + "&app_version=" + BuildConfig.VERSION_NAME
+                    + "&device_id=" + Utility.getDeviceId(this@HomeMainActivity)
+                    + "&product_id=" + prdID
+                    + "&login_ssid=")
+            WebURL = WebURL + append
+            startActivity(Intent(this@HomeMainActivity, CommonWebViewActivity::class.java)
+                    .putExtra("URL", WebURL)
+                    .putExtra("NAME", Title)
+                    .putExtra("TITLE", Title))
+        }
+    }
+
     private fun loadApi(){
 
         // called Api
@@ -435,7 +559,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
-    private fun updateBadgeCount(count: Int = 0 ){
+    private fun updateBadgeCount(count: Int = 0){
 
 
         if(count == 0){
@@ -473,7 +597,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                 }
 
 
-            }catch (ex : Exception){}
+            }catch (ex: Exception){}
 
 
 
