@@ -41,8 +41,8 @@
             <ImageView
                 android:id="@+id/ivPersonalInfo"
                 android:layout_marginRight="@dimen/eight"
-                android:layout_width="@dimen/menu_arrow"
-                android:layout_height="@dimen/menu_arrow"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:src="@drawable/pluse" />
 
 
@@ -52,10 +52,11 @@
 
             android:id="@+id/llPersonalInfo"
             style="@style/CardStyle.Home"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <LinearLayout
                 android:background="@color/white"
@@ -477,8 +478,8 @@
             <ImageView
                 android:id="@+id/ivProfessionalInfo"
                 android:layout_marginRight="@dimen/eight"
-                android:layout_width="@dimen/menu_arrow"
-                android:layout_height="@dimen/menu_arrow"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:src="@drawable/pluse" />
 
 

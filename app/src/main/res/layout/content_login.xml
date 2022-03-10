@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/login_bg"
+    android:background="@color/blue_bg"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.policyboss.policybosspro.login.LoginActivity"
     tools:showIn="@layout/activity_login">
@@ -23,60 +23,68 @@
         android:padding="12dp">
 
         <ImageView
-            android:layout_width="300dp"
-            android:layout_height="130dp"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
             android:layout_marginTop="16dp"
-            android:src="@mipmap/pb_splash_bg" />
+            android:src="@drawable/login"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:visibility="gone"
-            android:text="ONE STOP FINANCIAL SOLUTION"
-            android:textAppearance="@style/TextStyle.Title" />
+            android:text="Welcome Back !"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextViewStyle.BannerBold" />
 
-        <com.google.android.material.textfield.TextInputLayout
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:hint="Email/User Id"
-            android:textColorHint="@color/white"
-            app:hintTextAppearance="@style/TextLabel">
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="Log in to your existant Account"
+            android:textColor="@color/black"
+            android:textAppearance="@style/TextViewStyle.BannerRegular.small" />
+
+
 
             <EditText
                 android:id="@+id/etEmail"
-                style="@style/Style.edittext"
-                android:drawableRight="@drawable/vector_email_white"
+                style="@style/Style.edittextCurve"
+                android:hint="Email/User Id"
+                 android:drawableRight="@drawable/ic_email_24"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/white" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:background="@drawable/round_rect_shape"
+                android:textColor="@color/black" />
+
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
-            android:textColorHint="@color/white"
-            app:hintTextAppearance="@style/TextLabel"
+            android:hint="   "
+
             app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/white">
+            app:passwordToggleTint="@color/colorPrimary">
 
             <EditText
                 android:id="@+id/etPassword"
-                style="@style/Style.edittext"
-                android:drawableRight="@drawable/vector_password"
+                style="@style/Style.edittextCurve"
+                android:hint="Password"
+
+                android:drawableRight="@drawable/ic_lock_24"
+                android:background="@drawable/round_rect_shape"
                 android:inputType="textPassword"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
+
         </com.google.android.material.textfield.TextInputLayout>
+
 
         <Button
             android:id="@+id/btnSignIn"
-            style="@style/ButtonStyle"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
-            android:background="@color/button_color"
+            style="@style/ButtonStyleCurve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
             android:minHeight="42dp"
             android:text="SIGN IN" />
 
@@ -95,7 +103,7 @@
                 android:gravity="left"
                 android:text="@string/signup"
                 android:textAppearance="@style/TextStyle.TextMedium"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:visibility="visible" />
 
             <TextView
@@ -107,7 +115,7 @@
                 android:gravity="right"
                 android:text="@string/forgot_password"
                 android:textAppearance="@style/TextStyle.TextMedium"
-                android:textColor="@color/white" />
+                android:textColor="@color/black" />
 
         </LinearLayout>
 
@@ -127,7 +135,7 @@
                 android:layout_gravity="center_vertical"
                 android:text="Raise Ticket"
                 android:textAppearance="@style/TextStyle.TextMedium"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:visibility="visible" />
 
             <ImageView

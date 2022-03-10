@@ -120,15 +120,13 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     var mHandleMessageReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             if (intent.action != null) {
-//                if (intent.action.equals(Utility.PUSH_BROADCAST_ACTION, ignoreCase = true)) {
-//                    val notifyCount = prefManager.notificationCounter
-//                    if (notifyCount == 0) {
-//                        textNotifyItemCount.setVisibility(View.GONE)
-//                    } else {
-//                        textNotifyItemCount.setVisibility(View.VISIBLE)
-//                        textNotifyItemCount.setText("" + notifyCount.toString())
-//                    }
-//                }
+                if (intent.action.equals(Utility.PUSH_BROADCAST_ACTION, ignoreCase = true)) {
+                    val notifyCount = prefManager.notificationCounter
+                    if (notifyCount > 0) {
+                       // Visibilty Gone
+                        updateBadgeCount(notifyCount)
+                    }
+                }
 
                     if (intent.action.equals(Utility.USER_PROFILE_ACTION, ignoreCase = true)) {
                     val PROFILE_PATH = intent.getStringExtra("PROFILE_PATH")
@@ -165,7 +163,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
         checkMarketingPopup()
 
-        updateBadgeCount(2)
+        updateBadgeCount( prefManager.notificationCounter)
 
         val networkConnection = NetworkConnection(applicationContext)
         networkConnection.observe(this, androidx.lifecycle.Observer { isConnected ->
@@ -196,15 +194,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         })
 
 
-        // getPackage Info
-        try {
-            pinfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0)
 
-
-
-        } catch (e: PackageManager.NameNotFoundException) {
-            e.printStackTrace()
-        }
 
 
 
@@ -300,6 +290,15 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         bottomSheetDialog = BottomSheetDialog(this, R.style.bottomSheetDialogMax)
 
 
+        // getPackage Info
+        try {
+            pinfo = this.getPackageManager().getPackageInfo(this.getPackageName(), 0)
+
+
+
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
 
     }
 
@@ -436,36 +435,45 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
-    private fun updateBadgeCount(count: Int = 1 ){
+    private fun updateBadgeCount(count: Int = 0 ){
 
 
-
-        val itemView = binding.bubbleTabBar.getChildAt(2) as? BottomNavigationMenuView
-
-
-         notificationBadges = LayoutInflater.from(this).
-                                    inflate(R.layout.notification_text,itemView,false)
-
-
-        var notify_badge : TextView = notificationBadges.findViewById(R.id.notify_badge)
-
-        notify_badge.text =  count.toString()
-
-
-       // binding.bubbleTabBar?.resources(this, R.menu.bottom_navigation_tab_menu)
-
-        binding.bubbleTabBar?.removeViewAt(1)
-        binding.bubbleTabBar?.addView(notificationBadges,1)
-
-
-
-        notificationBadges.setOnClickListener {
-
-            Toast.makeText(this@HomeMainActivity, "notify", Toast.LENGTH_LONG).show()
+        if(count == 0){
+            return
         }
+        try {
+
+
+                val itemView = binding.bubbleTabBar.getChildAt(2) as? BottomNavigationMenuView
+
+
+                notificationBadges = LayoutInflater.from(this).inflate(R.layout.notification_text, itemView, false)
+
+
+                var notify_badge: TextView = notificationBadges.findViewById(R.id.notify_badge)
+
+                notify_badge.text = count.toString()
+
+
+                // binding.bubbleTabBar?.resources(this, R.menu.bottom_navigation_tab_menu)
+
+                binding.bubbleTabBar?.removeViewAt(1)
+                binding.bubbleTabBar?.addView(notificationBadges, 1)
 
 
 
+                notificationBadges.setOnClickListener {
+
+                    // Toast.makeText(this@HomeMainActivity, "notify", Toast.LENGTH_LONG).show()
+
+
+                    startActivity(Intent(this@HomeMainActivity, NotificationActivity::class.java))
+                    overridePendingTransition(0, 0)
+
+                }
+
+
+            }catch (ex : Exception){}
 
 
 

@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -21,8 +22,11 @@ import android.provider.MediaStore;
 import android.provider.Settings;
 
 import com.facebook.shimmer.ShimmerFrameLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -36,6 +40,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -186,6 +191,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         setListener();
         initLayouts();
         setfileView();
+
+
 
         shimmerMyAcccount.setVisibility(View.VISIBLE);
         rlParent.setVisibility(View.GONE);
@@ -486,6 +493,8 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
     }
+
+
 
     private void bindAboutMe() {
         UserConstantEntity userConstantEntity = dbPersistanceController.getUserConstantsData();

@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    android:id="@+id/flParent"
+    android:id="@+id/nav_notification"
 
     style="?attr/actionButtonStyle"
+    android:padding="4dp"
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
@@ -11,8 +12,8 @@
     android:focusable="true">
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_gravity="center"
         android:src="@drawable/notification24"/>
 

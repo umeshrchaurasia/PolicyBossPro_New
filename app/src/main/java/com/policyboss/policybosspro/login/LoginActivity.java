@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -292,7 +293,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
     private void dialogForgotPassword() {
 
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,R.style.CustomDialog);
         builder.setCancelable(true);
         // builder.setTitle("FORGOT PASSWORD");
         LayoutInflater inflater = this.getLayoutInflater();
@@ -303,13 +304,14 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
 
         final EditText etEmail = (EditText) view.findViewById(R.id.etEmail);
         Button btnReset = (Button) view.findViewById(R.id.btnReset);
-       /* Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
-       btnCancel.setOnClickListener(new View.OnClickListener() {
+        ImageView ivClose = (ImageView) view.findViewById(R.id.ivClose);
+       //Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        ivClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dialog.dismiss();
             }
-        });*/
+        });
 
         btnReset.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -174,7 +174,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setContentText(NotifyData.get("body"))
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
-                .setTicker("Finmart")
+                .setTicker("PolicyBossPro")
                 .setDefaults(NotificationCompat.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_HIGH)
                 .setWhen(System.currentTimeMillis())
@@ -221,7 +221,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             channel.enableLights(true);
             channel.enableVibration(true);
             channel.setLightColor(Color.BLUE);
-            channel.setDescription("Finmart");
+            channel.setDescription("PolicyBossPro");
             // Sets whether notifications posted to this channel appear on the lockscreen or not
             channel.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);    // Notification.VISIBILITY_PRIVATE
             getManager().createNotificationChannel(channel);
