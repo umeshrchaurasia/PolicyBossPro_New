@@ -28,7 +28,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.policyboss.policybosspro.BaseActivity
 import com.policyboss.policybosspro.BaseActivity.PermissionListener
-import com.policyboss.policybosspro.BuildConfig
+//import com.policyboss.policybosspro.BuildConfig
 import com.policyboss.policybosspro.MyApplication
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ActivityHomeMainBinding
@@ -85,8 +85,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     lateinit var db: DBPersistanceController
     lateinit var prefManager: PrefManager
-    lateinit var loginResponseEntity: LoginResponseEntity
-    lateinit var userConstantEntity: UserConstantEntity
+    var loginResponseEntity: LoginResponseEntity ? = null
+    var userConstantEntity: UserConstantEntity? = null
 
     var menuMasterResponse: MenuMasterResponse? = null
     var dashboardShareEntity: DashboardMultiLangEntity? = null
@@ -281,7 +281,6 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
         db = DBPersistanceController(this)
         loginResponseEntity = db.userData
-
         userConstantEntity = db.userConstantsData
 
         prefManager = PrefManager(this)
@@ -330,8 +329,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
         if (loginResponseEntity != null) {
 
-            FBAID =  loginResponseEntity.fbaId.toString()
-            txtDetails.text = "" + loginResponseEntity.fullName
+            FBAID =  loginResponseEntity!!.fbaId.toString()
+            txtDetails.text = "" + loginResponseEntity!!.fullName
           //  txtEntityName.text = "V"+ BuildConfig.VERSION_NAME
             txtEntityName.text = "V" + pinfo.versionName
 
@@ -339,11 +338,11 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
             txtDetails.text = ""
         }
 
-        if (this::userConstantEntity.isInitialized) {
+        if (userConstantEntity != null) {
             try {
 
                 Glide.with(this@HomeMainActivity)
-                        .load(userConstantEntity.loansendphoto)
+                        .load(userConstantEntity!!.loansendphoto)
                         .placeholder(R.drawable.profile_photo)
                         .diskCacheStrategy(DiskCacheStrategy.NONE)
                         .skipMemoryCache(true)
@@ -424,73 +423,88 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     private fun getNotificationAction() {
 
         // region Activity Open Using Notification
-        if (intent.extras != null) {
+        Toast.makeText(this, "stat\rt", Toast.LENGTH_SHORT).show()
+        Log.d("NOTIFY", "stat\rt")
+        if(loginResponseEntity == null){
 
-            // For getting User Click Action
-            if (intent.extras!!.getParcelable<Parcelable?>(Utility.PUSH_NOTIFY) != null) {
-                val notifyEntity: NotifyEntity? = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
-                val MESSAGEID = notifyEntity?.message_id?:"0"
-                RegisterController(this@HomeMainActivity).getUserClickActionOnNotification(MESSAGEID, null)
-            }
-            // step1: boolean verifyLogin = prefManager.getIsUserLogin();
-            // region verifyUser : when user logout and when Apps in background
-            if (loginResponseEntity == null) {
-                val notifyEntity: NotifyEntity = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
-                        ?: return
-                prefManager.pushNotifyPreference = notifyEntity
-                prefManager.sharePushType = notifyEntity.notifyFlag
-                val intent = Intent(this, SplashScreenActivity::class.java)
-                startActivity(intent)
-                finish()
-            }
+            Toast.makeText(this, "Inside", Toast.LENGTH_SHORT).show()
+            Log.d("NOTIFY", "Insidet")
+            val intent = Intent(this@HomeMainActivity, SplashScreenActivity::class.java)
+            startActivity(intent)
+            finish()
+        }else{
 
-            //  region step2: For Notification come via Login for user credential  (step2 perform after step1)
-            else if (intent.getStringExtra(Utility.PUSH_LOGIN_PAGE) != null) {
-                val pushLogin = intent.getStringExtra(Utility.PUSH_LOGIN_PAGE)
-                if (pushLogin == "555") {
-                    val notifyEntity: NotifyEntity
-                    var type = ""
-                    var title: String? = ""
-                    var body: String? = ""
-                    var web_url: String? = ""
-                    var web_title: String? = ""
-                    val web_name = ""
-                    if (prefManager.pushNotifyPreference != null) {
-                        notifyEntity = prefManager.pushNotifyPreference
-                        type = notifyEntity.notifyFlag
-                        title = notifyEntity.title
-                        body = notifyEntity.body
-                        web_url = notifyEntity.web_url
-                        web_title = notifyEntity.web_title
-                    }
-                    prefManager.clearNotification()
-                    if (type.equals("NL")) {
-                        val intent = Intent(this, NotificationActivity::class.java)
-                        startActivity(intent)
-                    } else if (type.equals("MSG")) {
-                        startActivity(Intent(this@HomeMainActivity, NotificationSmsActivity::class.java)
-                                .putExtra("NOTIFY_TITLE", title)
-                                .putExtra("NOTIFY_BODY", body))
-                    } else if (type.equals("WB")) {
-                        startActivity(Intent(this@HomeMainActivity, CommonWebViewActivity::class.java)
-                                .putExtra("URL", web_url)
-                                .putExtra("NAME", web_name)
-                                .putExtra("TITLE", web_title))
+            if (intent.extras != null) {
+
+                Toast.makeText(this, "Outside", Toast.LENGTH_SHORT).show()
+                Log.d("NOTIFY", "Outside")
+                // For getting User Click Action
+                if (intent.extras!!.getParcelable<Parcelable?>(Utility.PUSH_NOTIFY) != null) {
+                    val notifyEntity: NotifyEntity? = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
+                    val MESSAGEID = notifyEntity?.message_id?:"0"
+                    RegisterController(this@HomeMainActivity).getUserClickActionOnNotification(MESSAGEID, null)
+                }
+                // step1: boolean verifyLogin = prefManager.getIsUserLogin();
+                // region verifyUser : when user logout and when Apps in background
+                if (loginResponseEntity != null) {
+                    val notifyEntity: NotifyEntity = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
+                            ?: return
+                    prefManager.pushNotifyPreference = notifyEntity
+                    prefManager.sharePushType = notifyEntity.notifyFlag
+                    val intent = Intent(this, SplashScreenActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+
+                //  region step2: For Notification come via Login for user credential  (step2 perform after step1)
+                else if (intent.getStringExtra(Utility.PUSH_LOGIN_PAGE) != null) {
+                    val pushLogin = intent.getStringExtra(Utility.PUSH_LOGIN_PAGE)
+                    if (pushLogin == "555") {
+                        val notifyEntity: NotifyEntity
+                        var type = ""
+                        var title: String? = ""
+                        var body: String? = ""
+                        var web_url: String? = ""
+                        var web_title: String? = ""
+                        val web_name = ""
+                        if (prefManager.pushNotifyPreference != null) {
+                            notifyEntity = prefManager.pushNotifyPreference
+                            type = notifyEntity.notifyFlag
+                            title = notifyEntity.title
+                            body = notifyEntity.body
+                            web_url = notifyEntity.web_url
+                            web_title = notifyEntity.web_title
+                        }
+                        prefManager.clearNotification()
+                        if (type.equals("NL")) {
+                            val intent = Intent(this, NotificationActivity::class.java)
+                            startActivity(intent)
+                        } else if (type.equals("MSG")) {
+                            startActivity(Intent(this@HomeMainActivity, NotificationSmsActivity::class.java)
+                                    .putExtra("NOTIFY_TITLE", title)
+                                    .putExtra("NOTIFY_BODY", body))
+                        } else if (type.equals("WB")) {
+                            startActivity(Intent(this@HomeMainActivity, CommonWebViewActivity::class.java)
+                                    .putExtra("URL", web_url)
+                                    .putExtra("NAME", web_name)
+                                    .putExtra("TITLE", web_title))
+                        }
                     }
                 }
-            }
-            // region user already logged in and app in forground /background
-            else if (intent.extras!!.getParcelable<Parcelable?>(Utility.PUSH_NOTIFY) != null) {
-                val notificationEntity: NotifyEntity? = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
+                // region user already logged in and app in forground /background
+                else if (intent.extras!!.getParcelable<Parcelable?>(Utility.PUSH_NOTIFY) != null) {
+                    val notificationEntity: NotifyEntity? = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
 
-                if (notificationEntity?.web_url != null) {
+                    if (notificationEntity?.web_url != null) {
 
-                    navigateViaNotification(notificationEntity.notifyFlag, notificationEntity.web_url, notificationEntity.web_title)
+                        navigateViaNotification(notificationEntity.notifyFlag, notificationEntity.web_url, notificationEntity.web_title)
+                    }
                 }
-            }
 
-            //endregion
+                //endregion
+            }
         }
+
 
         //endregion
     }
@@ -500,6 +514,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         //   if (prdID.equals("18")) {
         //       startActivity(new Intent(HomeActivity.this, TermSelectionActivity.class));
         //   }
+
+        userConstantEntity = db.userConstantsData
         var WebURL = WebURL
         if (prdID == "WB") {
             startActivity(Intent(this@HomeMainActivity, CommonWebViewActivity::class.java)
@@ -525,9 +541,9 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
             //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-            val append = ("&ss_id=" + userConstantEntity.pospNo + "&fba_id=" + userConstantEntity.fbaId + "&sub_fba_id=" +
+            val append = ("&ss_id=" + userConstantEntity!!.pospNo + "&fba_id=" + userConstantEntity!!.fbaId + "&sub_fba_id=" +
                     "&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                    + "&app_version=" + BuildConfig.VERSION_NAME
+                    + "&app_version=" + pinfo.versionName
                     + "&device_id=" + Utility.getDeviceId(this@HomeMainActivity)
                     + "&product_id=" + prdID
                     + "&login_ssid=")
@@ -765,11 +781,11 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
      private fun showMarketingPopup() {
 
         //region popup dashboard
-        if (this::userConstantEntity.isInitialized) {
-            if (userConstantEntity.marketinghomeenabled != null && userConstantEntity.marketinghomeenabled == "1") {
-                val serverPopUpCount = userConstantEntity.marketinghomemaxcount.toInt()
+        if (userConstantEntity != null) {
+            if (userConstantEntity!!.marketinghomeenabled != null && userConstantEntity!!.marketinghomeenabled == "1") {
+                val serverPopUpCount = userConstantEntity!!.marketinghomemaxcount.toInt()
                 var localPopupCount = prefManager.popUpCounter.toInt()
-                val serverId = userConstantEntity.marketinghomepopupid.toInt()
+                val serverId = userConstantEntity!!.marketinghomepopupid.toInt()
                 val localId = prefManager.popUpId.toInt()
                 if (localId == 0) {
                     prefManager.updatePopUpId("" + serverId)
@@ -780,7 +796,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                     if (localPopupCount < serverPopUpCount) {
                         localPopupCount = localPopupCount + 1
                         prefManager.updatePopUpCounter("" + localPopupCount)
-                        openPopUp(ivProfile, userConstantEntity.marketinghometitle, userConstantEntity.marketinghomedesciption, "OK", true)
+                        openPopUp(ivProfile, userConstantEntity!!.marketinghometitle, userConstantEntity!!.marketinghomedesciption, "OK", true)
                     }
                 } else {
                     prefManager.updatePopUpId("" + serverId)
@@ -790,7 +806,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                     if (localPopupCount < serverPopUpCount) {
                         localPopupCount = localPopupCount + 1
                         prefManager.updatePopUpCounter("" + localPopupCount)
-                        openPopUp(ivProfile, userConstantEntity.marketinghometitle, userConstantEntity.marketinghomedesciption, "OK", true)
+                        openPopUp(ivProfile, userConstantEntity!!.marketinghometitle, userConstantEntity!!.marketinghomedesciption, "OK", true)
                     }
                 }
             }
@@ -805,8 +821,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         showDialog()
         //loginResponseEntity.getFBAId()
         RegisterController(this).getProductShareUrl(
-                loginResponseEntity.fbaId,
-                Integer.valueOf(loginResponseEntity.pospNo),
+                loginResponseEntity!!.fbaId,
+                Integer.valueOf(loginResponseEntity!!.pospNo),
                 dashboardMultiLangEntity.productId,
                 0,
                 this)
@@ -1044,8 +1060,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
           R.id.txtknwyour -> {
 
-              if (this::userConstantEntity.isInitialized) {
-                  openWebViewPopUp(viewPager2, userConstantEntity.notificationpopupurl, true, "")
+              if (userConstantEntity != null) {
+                  openWebViewPopUp(viewPager2, userConstantEntity!!.notificationpopupurl, true, "")
 
               }
 
@@ -1059,14 +1075,14 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
           R.id.ivSupport -> {
 
-              if (userConstantEntity.mangMobile != null) {
-                  if (userConstantEntity.managName != null) {
+              if (userConstantEntity!!.mangMobile != null) {
+                  if (userConstantEntity!!.managName != null) {
                       // ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
                       if (this::callingDetailDialog.isInitialized && callingDetailDialog.isShowing()) {
                           return
                       } else {
                           showDialog()
-                          RegisterController(this).getUserCallingDetail(loginResponseEntity.fbaId.toString(), this)
+                          RegisterController(this).getUserCallingDetail(loginResponseEntity!!.fbaId.toString(), this)
                       }
                   }
               }
@@ -1141,18 +1157,18 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                     //region Not IN Used
                     //Notification Url :-1 November
                     val localNotificationenable = prefManager.notificationsetting.toInt()
-                    if (userConstantEntity.notificationpopupurltype.toUpperCase() == "SM") {
-                        if (userConstantEntity.notificationpopupurl != "") {
+                    if (userConstantEntity!!.notificationpopupurltype.toUpperCase() == "SM") {
+                        if (userConstantEntity!!.notificationpopupurl != "") {
                             if (prefManager.isSeasonal) {
-                                openWebViewPopUp(viewPager2, userConstantEntity.notificationpopupurl, true, "")
+                                openWebViewPopUp(viewPager2, userConstantEntity!!.notificationpopupurl, true, "")
                                 prefManager.isSeasonal = false
                             }
                         }
                     } else if (localNotificationenable == 0) {
                         // prefManager.updatePopUpId("" + serverId);
-                        if (userConstantEntity.notificationpopupurl != "") {
+                        if (userConstantEntity!!.notificationpopupurl != "") {
                             if (prefManager.isSeasonal) {
-                                openWebViewPopUp(viewPager2, userConstantEntity.notificationpopupurl, true, "")
+                                openWebViewPopUp(viewPager2, userConstantEntity!!.notificationpopupurl, true, "")
                                 prefManager.isSeasonal = false
                             }
                         }
