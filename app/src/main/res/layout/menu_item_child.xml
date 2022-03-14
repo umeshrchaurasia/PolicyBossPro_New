@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/lyParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/eight"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/imgMenu"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:src="@drawable/menu24">
+
+    </ImageView>
+
+    <TextView
+        android:id="@+id/txtMenuName"
+        android:text=""
+       android:layout_marginTop="@dimen/_2dp"
+        android:layout_marginLeft="@dimen/eight"
+       style="@style/TextViewStyle.BannerLarge"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        />
+
+    <ImageView
+        android:id="@+id/imgArrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+
+        android:backgroundTint="@color/blue"
+        android:src="@drawable/pluse">
+
+    </ImageView>
+
+    </LinearLayout>
+
+    <View
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="0.6dp"
+        android:background="@color/lightGrey"
+        />
+
+
+    <TextView
+        android:id="@+id/txtBottom"
+        android:text="bigygyfhvhh"
+        android:visibility="gone"
+        android:layout_marginLeft="@dimen/eight"
+        style="@style/TextViewStyle.BannerRegular"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/twenty_four" />
+
+
+</LinearLayout>

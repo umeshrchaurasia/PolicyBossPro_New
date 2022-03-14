@@ -2,9 +2,8 @@ package com.policyboss.policybosspro.homeMainKotlin
 
 import android.app.Dialog
 import android.content.*
-import android.content.pm.LabeledIntent
-import android.content.pm.PackageInfo
-import android.content.pm.PackageManager
+import android.content.pm.*
+import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -28,12 +27,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.policyboss.policybosspro.BaseActivity
 import com.policyboss.policybosspro.BaseActivity.PermissionListener
+import com.policyboss.policybosspro.BuildConfig
 //import com.policyboss.policybosspro.BuildConfig
 import com.policyboss.policybosspro.MyApplication
 import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ActivityHomeMainBinding
 import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity
+import com.policyboss.policybosspro.motor.privatecar.activity.PrivateCarDetailActivity
 import com.policyboss.policybosspro.myaccount.MyAccountActivity
 import com.policyboss.policybosspro.notification.NotificationActivity
 import com.policyboss.policybosspro.notification.NotificationSmsActivity
@@ -197,8 +198,176 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N_MR1) {
+            var  shortcutManager=    getSystemService(ShortcutManager::class.java)
+
+//            val intent = Intent(this, MyAccountActivity::class.java)
+//            intent.setAction(Intent.ACTION_VIEW)
 
 
+             var intentPrivateCar : Intent? = null
+            var intentBike : Intent? = null
+            var intentExpressUrl: Intent? = null
+            var intenthealthInsAdv : Intent? = null
+
+            val map = loadMap()
+            var parent_ssid: String? = ""
+            if (map?.size?: 0 > 0) {
+                parent_ssid = map!!["Parent_POSPNo"]
+            }
+            var ipaddress = "0.0.0.0"
+
+                var motorUrl: String = db.getUserConstantsData().getFourWheelerUrl()
+
+                 var bikeUrl: String = db.getUserConstantsData().getTwoWheelerUrl()
+
+                var expressUrl: String = ""
+
+                var healthInsAdvUrl: String = ""
+
+            for (entity in db.getUserConstantsData().getDashboardarray()) {
+                if (Integer.valueOf(entity.prodId) == 33) {
+                    healthInsAdvUrl = entity.url
+
+                }else if (Integer.valueOf(entity.prodId) == 35) {
+                    expressUrl = entity.url
+
+                }
+            }
+
+            ipaddress = try {
+                    Utility.getMacAddress(this@HomeMainActivity)
+                } catch (io: Exception) {
+                    "0.0.0.0"
+                }
+
+
+                //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
+                val append = ("&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                        + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                        + "&device_id=" + Utility.getDeviceId(this@HomeMainActivity)
+                        + "&product_id=1&login_ssid=" + parent_ssid)
+                 motorUrl = motorUrl + append
+
+                 bikeUrl = bikeUrl + append
+
+                 expressUrl = expressUrl + append
+
+                 healthInsAdvUrl = healthInsAdvUrl + append
+
+
+            intentPrivateCar = Intent(this, CommonWebViewActivity::class.java)
+                        .putExtra("URL", motorUrl)
+                        .putExtra("dashBoardtype", "INSURANCE")
+                        .putExtra("NAME", "Motor Insurance")
+                        .putExtra("TITLE", "Motor Insurance")
+                intentPrivateCar.setAction(Intent.ACTION_VIEW)
+
+
+
+            intentBike = Intent(this, CommonWebViewActivity::class.java)
+                        .putExtra("URL", bikeUrl)
+                        .putExtra("dashBoardtype", "INSURANCE")
+                        .putExtra("NAME", "Two Wheeler Insurance")
+                        .putExtra("TITLE", "Two Wheeler Insurance")
+            intentBike.setAction(Intent.ACTION_VIEW)
+
+            intentExpressUrl = Intent(this, CommonWebViewActivity::class.java)
+                    .putExtra("URL", bikeUrl)
+                    .putExtra("dashBoardtype", "INSURANCE")
+                    .putExtra("NAME", "Two Wheeler Insurance")
+                    .putExtra("TITLE", "Two Wheeler Insurance")
+            intentExpressUrl.setAction(Intent.ACTION_VIEW)
+
+            intenthealthInsAdv = Intent(this, CommonWebViewActivity::class.java)
+                    .putExtra("URL", bikeUrl)
+                    .putExtra("dashBoardtype", "INSURANCE")
+                    .putExtra("NAME", "Two Wheeler Insurance")
+                    .putExtra("TITLE", "Two Wheeler Insurance")
+            intenthealthInsAdv.setAction(Intent.ACTION_VIEW)
+
+
+
+            val shortcutInfo1 = ShortcutInfo.Builder(this, "ID1")
+                    .setShortLabel("Home Page")
+                    .setLongLabel("Open Home Page")
+                    .setIcon(Icon.createWithResource(this, R.drawable.raise_ticket))
+                    //.setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://programmerworld.co/")))
+                    .setIntent(intentPrivateCar)
+                    .setRank(2)
+                    .build()
+
+            val shortcutInfo2 = ShortcutInfo.Builder(this, "ID2")
+                    .setShortLabel("Android Page")
+                    .setLongLabel("Open Android Page")
+                    .setIcon(Icon.createWithResource(this, R.drawable.enrol_as_posp))
+                    .setIntent(intentBike)
+                    .setRank(3)
+                    .build()
+
+
+            val shortcutInfo3 = ShortcutInfo.Builder(this, "ID3")
+                    .setShortLabel("Home Page 3")
+                    .setLongLabel("Open Home Page 3")
+                    .setIcon(Icon.createWithResource(this, R.drawable.home24))
+                    .setIntent(intentExpressUrl)
+                    .setRank(0)
+                     .build()
+
+            val shortcutInfo4 = ShortcutInfo.Builder(this, "ID4")
+                    .setShortLabel("Android Page 4")
+                    .setLongLabel("Open Android Page 4")
+                    .setIcon(Icon.createWithResource(this, R.drawable.ic_email_24))
+                    .setIntent(intenthealthInsAdv)
+                    .setRank(1)
+                    .build()
+
+
+
+            val shortcutInfo5 = ShortcutInfo.Builder(this, "ID5")
+                    .setShortLabel("Home Page")
+                    .setLongLabel("Open Home Page")
+                    .setIcon(Icon.createWithResource(this, R.drawable.legal_menu))
+                    .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://programmerworld.co/")))
+                    .build()
+
+            val shortcutInfo6 = ShortcutInfo.Builder(this, "ID6")
+                    .setShortLabel("Android Page")
+                    .setLongLabel("Open Android Page")
+                    .setIcon(Icon.createWithResource(this, R.drawable.leads_menu))
+                    .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://programmerworld.co/android/")))
+                    .build()
+
+
+            val shortcutInfo7 = ShortcutInfo.Builder(this, "ID7")
+                    .setShortLabel("Home Page 3")
+                    .setLongLabel("Open Home Page 3")
+                    .setIcon(Icon.createWithResource(this, R.drawable.transaction_menu))
+                    .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://programmerworld.co/")))
+                    .build()
+
+            val shortcutInfo8 = ShortcutInfo.Builder(this, "ID8")
+                    .setShortLabel("Android Page 4")
+                    .setLongLabel("Open Android Page 4")
+                    .setIcon(Icon.createWithResource(this, R.drawable.document_menu))
+                    .setIntent(Intent(Intent.ACTION_VIEW, Uri.parse("https://programmerworld.co/android/")))
+                    .build()
+
+            val shortcutInfoList: MutableList<ShortcutInfo> = ArrayList()
+            shortcutInfoList.add(shortcutInfo1)
+            shortcutInfoList.add(shortcutInfo2)
+
+            shortcutInfoList.add(shortcutInfo3)
+            shortcutInfoList.add(shortcutInfo4)
+
+            shortcutInfoList.add(shortcutInfo5)
+            shortcutInfoList.add(shortcutInfo6)
+
+            shortcutInfoList.add(shortcutInfo7)
+            shortcutInfoList.add(shortcutInfo8)
+
+            shortcutManager.setDynamicShortcuts(shortcutInfoList)
+        }
 
        // binding.bubbleTabBar.setSelected(0)
       //  binding.bubbleTabBar.setSelectedWithId(R.id.nav_home, true)
@@ -422,13 +591,10 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     private fun getNotificationAction() {
 
-        // region Activity Open Using Notification
-        Toast.makeText(this, "stat\rt", Toast.LENGTH_SHORT).show()
-        Log.d("NOTIFY", "stat\rt")
+         //region Activity Open Using Notification
+
         if(loginResponseEntity == null){
 
-            Toast.makeText(this, "Inside", Toast.LENGTH_SHORT).show()
-            Log.d("NOTIFY", "Insidet")
             val intent = Intent(this@HomeMainActivity, SplashScreenActivity::class.java)
             startActivity(intent)
             finish()
@@ -436,8 +602,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
             if (intent.extras != null) {
 
-                Toast.makeText(this, "Outside", Toast.LENGTH_SHORT).show()
-                Log.d("NOTIFY", "Outside")
+
                 // For getting User Click Action
                 if (intent.extras!!.getParcelable<Parcelable?>(Utility.PUSH_NOTIFY) != null) {
                     val notifyEntity: NotifyEntity? = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
@@ -446,7 +611,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                 }
                 // step1: boolean verifyLogin = prefManager.getIsUserLogin();
                 // region verifyUser : when user logout and when Apps in background
-                if (loginResponseEntity != null) {
+                if (loginResponseEntity == null) {
                     val notifyEntity: NotifyEntity = intent.extras!!.getParcelable(Utility.PUSH_NOTIFY)
                             ?: return
                     prefManager.pushNotifyPreference = notifyEntity

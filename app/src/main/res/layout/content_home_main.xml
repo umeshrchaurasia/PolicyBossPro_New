@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/lyDashboardParent"
+    android:background="@color/bg_dashboard"
+    android:visibility="visible"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        android:background="@drawable/background_top">
+
+    </ImageView>
+
+
+    <LinearLayout
+        android:id="@+id/lyHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/twenty_four"
+
+        android:paddingTop="@dimen/twelve"
+        android:paddingRight="@dimen/eight">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/fab_margin"
+            android:orientation="horizontal">
+            <TextView
+                style="@style/TextViewStyle.BannerRegular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Hello,"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/ivSupport"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/support_ic"/>
+
+
+
+        </LinearLayout>
+
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <ImageView
+                android:id="@+id/ivProfile"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/eight"
+                android:background="@drawable/profile_photo"
+                android:transitionName="profileTransition" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/ivProfile"
+                android:orientation="vertical">
+
+
+                <TextView
+                    android:id="@+id/txtDetails"
+                    style="@style/TextViewStyle.BannerBold"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Dheeraj Mehata,"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="left|center"
+                    android:layout_marginTop="0dp">
+
+                    <TextView
+                        android:id="@+id/txtknwyour"
+                        style="@style/TextViewStyle.BannerMedium"
+                        android:layout_width="wrap_content"
+                        android:textSize="13sp"
+                        android:gravity="bottom"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_centerInParent="true"
+
+
+                        android:text="@string/Finmart_underline"
+                        android:textColor="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/txtEntityName"
+                        android:gravity="bottom"
+                        style="@style/TextViewStyle.BannerMedium"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_toRightOf="@+id/txtknwyour"
+                        android:paddingLeft="@dimen/eight"
+
+                        android:text=""
+                        android:textColor="@android:color/white"
+                        />
+
+                </RelativeLayout>
+
+
+
+
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_marginRight="@dimen/twenty_four"
+            android:layout_height="0.6dp"
+            android:layout_marginTop="@dimen/eight"
+            android:background="@color/lightGrey"></View>
+
+
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyNotConnected"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent_color"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/fab_margin">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/TextViewStyle.BannerBold"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/fab_margin"
+                android:text="@string/NoConnection"
+                android:textColor="@color/white">
+
+            </TextView>
+
+            <ImageView
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginRight="@dimen/twelve"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_no_internet"
+                />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/svContainer"
+        android:layout_below="@+id/lyHeader"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                style="@style/TextViewStyle.BannerRegular"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twelve"
+                android:background="@drawable/custom_curve"
+                android:cursorVisible="false"
+                android:drawableRight="@drawable/search"
+                android:hint="Serach.."
+               android:layout_marginLeft="@dimen/twenty_four"
+                android:layout_marginRight="@dimen/eight"
+                android:paddingRight="@dimen/eight">
+
+            </EditText>
+
+            <LinearLayout
+                android:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twelve"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_alignParentTop="true"
+                        android:layout_width="145dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:clipToPadding="false"
+
+                        >
+
+                        <View
+
+                            android:elevation="@dimen/twelve"
+                            android:clipToPadding="false"
+                            android:layout_width="130dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/custom_curve_blue" />
+                    </LinearLayout>
+
+                  <androidx.cardview.widget.CardView
+                       android:layout_marginTop="@dimen/eight"
+                        android:id="@+id/tvSalesMat"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        app:cardCornerRadius="@dimen/eight"
+                        app:cardElevation="0dp"
+
+                        app:cardUseCompatPadding="false">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/twelve"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/analytics" />
+
+                            <TextView
+
+                                style="@style/TextViewStyle.BannerMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/twelve"
+                                android:layout_marginBottom="@dimen/_3dp"
+                                android:text="Sales Material"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_alignParentTop="true"
+                        android:layout_width="145dp"
+                        android:layout_height="30dp"
+                        android:gravity="center"
+                        android:clipToPadding="false"
+
+                        >
+
+                        <View
+
+                            android:elevation="@dimen/twelve"
+                            android:clipToPadding="false"
+                            android:layout_width="130dp"
+                            android:layout_height="match_parent"
+                            android:background="@drawable/custom_curve_blue" />
+                    </LinearLayout>
+
+                    <androidx.cardview.widget.CardView
+                        android:id="@+id/tvKnowledge"
+                        android:layout_marginTop="@dimen/eight"
+                        android:layout_width="145dp"
+                        android:layout_height="wrap_content"
+
+                        app:cardCornerRadius="@dimen/eight"
+                        app:cardElevation="0dp"
+                        app:cardUseCompatPadding="false">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/twelve"
+                            android:gravity="center"
+                            android:orientation="vertical">
+
+                            <ImageView
+                                android:layout_width="42dp"
+                                android:layout_height="42dp"
+                                android:layout_gravity="center"
+                                android:src="@drawable/knowdege_guru" />
+
+                            <TextView
+                                style="@style/TextViewStyle.BannerMedium"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/twelve"
+                                android:layout_marginBottom="@dimen/_3dp"
+                                android:gravity="center"
+                                android:text="Knowledge Guru"
+                                android:textColor="@color/black"
+                                android:textSize="14sp" />
+
+                        </LinearLayout>
+
+                    </androidx.cardview.widget.CardView>
+
+                </RelativeLayout>
+
+
+
+
+
+            </LinearLayout>
+
+            <RelativeLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/eight"
+                android:layout_marginLeft="@dimen/twelve"
+                android:layout_marginRight="@dimen/twelve">
+
+                <TextView
+                    android:id="@+id/txtSeeALL"
+                    style="@style/TextViewStyle.BannerMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_vertical"
+                    android:text="See ALL" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/txtSeeALL"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        style="@style/TextViewStyle.BannerRegular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Find Your"
+
+                        />
+
+                    <TextView
+                        style="@style/TextViewStyle.BannerMedium"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Best Insurance Plan"
+                        android:textSize="18sp" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/twelve"
+                android:background="@color/bg_dashboard"
+                android:clipChildren="false"
+                android:clipToPadding="false"
+                android:orientation="horizontal"
+                android:scrollbars="vertical"
+                android:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+
+                android:id="@+id/rvImgSlide"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/fab_margin"
+                android:background="@color/bg_dashboard"
+                android:nestedScrollingEnabled="false"
+                android:visibility="visible">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+</RelativeLayout>

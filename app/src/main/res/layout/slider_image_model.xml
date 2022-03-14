@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/twelve"
+    android:layout_marginTop="@dimen/eight"
+    android:layout_marginBottom="@dimen/eight"
+    android:layout_marginRight="@dimen/eight"
+    app:cardCornerRadius="@dimen/twelve"
+    app:cardElevation="@dimen/_3dp"
+    android:elevation="5dp">
+
+    <LinearLayout
+        android:id="@+id/sliderLinearParent"
+        android:layout_width="85dp"
+        android:layout_height="90dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="6dp"
+        android:paddingBottom="@dimen/twelve"
+        >
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgSlide"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:scaleType="fitXY"
+
+            app:srcCompat="@drawable/business_ic" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+
+            android:id="@+id/txtSlideImg"
+            android:layout_marginTop="3dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+              style="@style/TextViewStyle.BannerMedium"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:text="travel"
+            android:textColor="@color/black"
+            android:textSize="8sp"
+            />
+
+
+
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home24"
+        android:title="Home"
+
+        android:color="#2196F3"
+       />
+
+    <item
+        android:id="@+id/nav_notification"
+        android:icon="@drawable/notification24"
+        android:title="Notification"
+        android:color="#2196F3"/>
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/user24"
+        android:checked="true"
+        android:title="Profile"
+        android:color="#2196F3"/>
+
+    <item
+        android:id="@+id/nav_menu"
+        android:icon="@drawable/menu24"
+        android:title="Menu"
+        android:color="#2196F3"/>
+
+
+
+
+
+</menu>

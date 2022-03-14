@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/_40dp"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    android:animateLayoutChanges="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/lyParent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/rounded_dialog"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/BtnDismiss"
+            android:layout_gravity="right"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/ic_close">
+
+        </androidx.appcompat.widget.AppCompatImageView>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtFbaID"
+
+                style="@style/TextViewStyle.BannerRegular.small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="Fba Id :"
+
+                android:textColor="@android:color/black" />
+
+
+            <TextView
+                android:id="@+id/txtReferalCode"
+                style="@style/TextViewStyle.BannerRegular.small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="Referal Code "
+                android:textColor="@android:color/black"
+                android:visibility="visible" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/txtPospNo"
+                style="@style/TextViewStyle.BannerRegular.small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:text="Posp No."
+                android:textColor="@android:color/black"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/txtErpID"
+                style="@style/TextViewStyle.BannerRegular.small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"
+
+                android:text="Erp ID"
+                android:textColor="@android:color/black"
+                android:visibility="visible" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:layout_marginTop="4dp"
+
+            android:orientation="horizontal"
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+
+                android:layout_marginRight="2dp"
+
+                android:orientation="horizontal"
+                android:id="@+id/lstswitchuser">
+                <TextView
+                    android:id="@+id/txtswitchuser"
+                    style="@style/TextViewStyle.BannerRegular.small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="Switch User"
+                    android:textColor="@android:color/black"
+                    />
+                <ImageView
+                    android:id="@+id/ivAdd"
+                    android:layout_width="24dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    app:srcCompat="@drawable/ic_add_white" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:layout_marginRight="2dp"
+                android:orientation="horizontal"
+                android:id="@+id/lstswitchChild_user">
+                <TextView
+                    android:id="@+id/txtparentuser"
+                    style="@style/TextViewStyle.BannerRegular.small"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:text="Parent Name"
+                    android:textColor="@android:color/black"
+
+                    />
+                <TextView
+                    android:id="@+id/txtchilduser"
+                    style="@style/TextViewStyle.BannerRegular.small"
+
+                    android:layout_marginLeft="15dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:text="Child Name"
+                    android:textColor="@android:color/black"
+                    />
+                <ImageView
+                    android:id="@+id/ivCancel"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_marginLeft="5dp"
+                    android:visibility="gone"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/close" />
+
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_marginTop="@dimen/eight"
+            android:layout_marginBottom="8dp"
+            android:layout_width="match_parent"
+            android:background="@color/description_text"
+            android:layout_height="1dp"></View>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginBottom="@dimen/eight"
+            android:id="@+id/rvBottomMenuDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
+
