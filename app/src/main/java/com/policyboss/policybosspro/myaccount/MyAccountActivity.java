@@ -2,6 +2,7 @@ package com.policyboss.policybosspro.myaccount;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -9,6 +10,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ShortcutManager;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -76,6 +78,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -2152,7 +2155,18 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
     }
 
+    @TargetApi(25)
+    private void removeShorcuts() {
+        try {
+            ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+            shortcutManager.disableShortcuts(Arrays.asList("ID1"));
+            shortcutManager.disableShortcuts(Arrays.asList("ID2"));
+            shortcutManager.disableShortcuts(Arrays.asList("ID3"));
+            shortcutManager.disableShortcuts(Arrays.asList("ID4"));
+            shortcutManager.removeAllDynamicShortcuts();
+        }catch (Exception ex){}
 
+    }
 
     @Override
     public void onClickLogout() {
@@ -2162,6 +2176,9 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         editor.clear();
         editor.commit();
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
+            removeShorcuts();
+        }
 
         dialogLogout(MyAccountActivity.this);
     }

@@ -1,9 +1,11 @@
 package com.policyboss.policybosspro.notification;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ShortcutManager;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -40,6 +42,7 @@ import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.utility.Constants;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import io.ak1.BubbleTabBar;
@@ -334,6 +337,18 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
     }
 
+    @TargetApi(25)
+    private void removeShorcuts() {
+        try {
+            ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+            shortcutManager.disableShortcuts(Arrays.asList("ID1"));
+            shortcutManager.disableShortcuts(Arrays.asList("ID2"));
+            shortcutManager.disableShortcuts(Arrays.asList("ID3"));
+            shortcutManager.disableShortcuts(Arrays.asList("ID4"));
+            shortcutManager.removeAllDynamicShortcuts();
+        }
+        catch (Exception ex) { }
+    }
 
     @Override
     public void onClickLogout() {
@@ -344,10 +359,11 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
         editor.commit();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N_MR1) {
-            //  shortcutManager.removeAllDynamicShortcuts();
+            removeShorcuts();
         }
         dialogLogout(NotificationActivity.this);
     }
+
 
     @Override
     public void onSwitchUser() {

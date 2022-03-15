@@ -520,16 +520,16 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        if (dashBoardtype.equals("INSURANCE")) {
-            getMenuInflater().inflate(R.menu.insurance_menu, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.home_menu, menu);
-        }
-
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        if (dashBoardtype.equals("INSURANCE")) {
+//            getMenuInflater().inflate(R.menu.insurance_menu, menu);
+//        } else {
+//            getMenuInflater().inflate(R.menu.home_menu, menu);
+//        }
+//
+//        return true;
+//    }
 
     @Override
     protected void onResume() {
