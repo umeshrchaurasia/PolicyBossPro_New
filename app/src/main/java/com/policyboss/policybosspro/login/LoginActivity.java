@@ -280,10 +280,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                 loginRequestEntity.setPassword(etPassword.getText().toString());
                 loginRequestEntity.setDeviceId("" + new ReadDeviceID(this).getAndroidID());
                 loginRequestEntity.setTokenId(prefManager.getToken());
+
                 loginRequestEntity.setIsChildLogin("");
 
                 prefManager.setFirstTimeLaunch(false);
 
+                Log.d("TOKEN" , prefManager.getToken());
                 showDialog();
                 new LoginController(this).login(loginRequestEntity, this);
                 break;
