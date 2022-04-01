@@ -506,6 +506,23 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         //endregion
     }
 
+    private  fun getURLStringBYID(prodID: String, _parent_ssid: String?) : String {
+
+        var ipaddress = "0.0.0.0"
+        ipaddress = try {
+            Utility.getMacAddress(this@HomeMainActivity)
+        } catch (io: Exception) {
+            "0.0.0.0"
+        }
+        val append = ("&ip_address=" + ipaddress + "&mac_address=" + ipaddress
+                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
+                + "&device_id=" + Utility.getDeviceId(this@HomeMainActivity)
+                + "&product_id=" + prodID
+                +"&login_ssid=" + _parent_ssid)
+
+        return  append
+
+    }
     private fun shortcutAppMenu(){
 
 
@@ -523,7 +540,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                         var intentPrivateCar: Intent? = null
                         var intentBike: Intent? = null
                         var intentExpressUrl: Intent? = null
-                        var intenthealthInsAdv: Intent? = null
+                        var intenthealthIns: Intent? = null
 
                         val map = loadMap()
                         var parent_ssid: String? = ""
@@ -536,15 +553,14 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
                         var bikeUrl: String = userConstantEntity?.getTwoWheelerUrl() ?: ""
 
+                        var healthInsUrl: String = userConstantEntity?.healthurl ?: ""
+
                         var expressUrl: String = ""
 
-                        var healthInsAdvUrl: String = ""
+
 
                         for (entity in userConstantEntity!!.getDashboardarray()) {
-                            if (Integer.valueOf(entity.prodId) == 33) {
-                                healthInsAdvUrl = entity.url
-
-                            } else if (Integer.valueOf(entity.prodId) == 35) {
+                            if (Integer.valueOf(entity.prodId) == 35) {
                                 expressUrl = entity.url
 
                             }
@@ -558,17 +574,18 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
                         //&ip_address=10.0.3.64&mac_address=10.0.3.64&app_version=2.2.0&product_id=1
-                        val append = ("&ip_address=" + ipaddress + "&mac_address=" + ipaddress
-                                + "&app_version=policyboss-" + BuildConfig.VERSION_NAME
-                                + "&device_id=" + Utility.getDeviceId(this@HomeMainActivity)
-                                + "&product_id=1&login_ssid=" + parent_ssid)
-                        motorUrl = motorUrl + append
 
-                        bikeUrl = bikeUrl + append
+                        val Health_data = ("&ip_address=" + ipaddress
+                                + "&app_version=policyboss-"+ BuildConfig.VERSION_NAME
+                                + "&device_id=" +  Utility.getDeviceId(this@HomeMainActivity) + "&login_ssid=" + parent_ssid)
 
-                        expressUrl = expressUrl + append
+                        motorUrl = motorUrl + getURLStringBYID(prodID = "1", _parent_ssid = parent_ssid)
 
-                        healthInsAdvUrl = healthInsAdvUrl + append
+                        bikeUrl = bikeUrl + getURLStringBYID(prodID = "10", _parent_ssid = parent_ssid)
+
+                        expressUrl = expressUrl +  getURLStringBYID(prodID = "35", _parent_ssid = parent_ssid)
+
+                        healthInsUrl = healthInsUrl +   Health_data
 
 
                         intentPrivateCar = Intent(this, CommonWebViewActivity::class.java)
@@ -576,6 +593,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                                 .putExtra("dashBoardtype", "INSURANCE")
                                 .putExtra("NAME", "Motor Insurance")
                                 .putExtra("TITLE", "Motor Insurance")
+                                .putExtra("APPMENU", "Y")
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or  Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         intentPrivateCar.setAction(Intent.ACTION_VIEW)
 
 
@@ -585,6 +604,8 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                                 .putExtra("dashBoardtype", "INSURANCE")
                                 .putExtra("NAME", "Two Wheeler Insurance")
                                 .putExtra("TITLE", "Two Wheeler Insurance")
+                                .putExtra("APPMENU", "Y")
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or  Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         intentBike.setAction(Intent.ACTION_VIEW)
 
                         intentExpressUrl = Intent(this, CommonWebViewActivity::class.java)
@@ -592,14 +613,19 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                                 .putExtra("dashBoardtype", "INSURANCE")
                                 .putExtra("NAME", "2W Express Insurance")
                                 .putExtra("TITLE", "2W Express Insurance")
+                                .putExtra("TITLE", "2W Express Insurance")
+                                .putExtra("APPMENU", "Y")
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or  Intent.FLAG_ACTIVITY_CLEAR_TASK)
                         intentExpressUrl.setAction(Intent.ACTION_VIEW)
 
-                        intenthealthInsAdv = Intent(this, CommonWebViewActivity::class.java)
-                                .putExtra("URL", healthInsAdvUrl)
+                        intenthealthIns = Intent(this, CommonWebViewActivity::class.java)
+                                .putExtra("URL", healthInsUrl)
                                 .putExtra("dashBoardtype", "INSURANCE")
-                                .putExtra("NAME", "Health Insurance Advisory")
-                                .putExtra("TITLE", "Health Insurance Advisory")
-                        intenthealthInsAdv.setAction(Intent.ACTION_VIEW)
+                                .putExtra("NAME", "Health Insurance")
+                                .putExtra("TITLE", "Health Insurance")
+                                .putExtra("APPMENU", "Y")
+                                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or  Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        intenthealthIns.setAction(Intent.ACTION_VIEW)
 
 
                         //two_wheeler_express
@@ -613,10 +639,10 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
                         //health_advisory
                         val shortcutInfo2 = ShortcutInfo.Builder(this, "ID2")
-                                .setShortLabel("Health Insurance Advisory")
-                                .setLongLabel("Health Insurance Advisory")
-                                .setIcon(Icon.createWithResource(this, R.drawable.health_advisory))
-                                .setIntent(intenthealthInsAdv)
+                                .setShortLabel("Health Insurance")
+                                .setLongLabel("Health Insurance")
+                                .setIcon(Icon.createWithResource(this, R.drawable.health_insurance_new_img))
+                                .setIntent(intenthealthIns)
                                 .setRank(1)
                                 .build()
 
@@ -1404,7 +1430,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                 shortcutManager.disableShortcuts(Arrays.asList("ID3"))
                 shortcutManager.disableShortcuts(Arrays.asList("ID4"))
                 shortcutManager.removeAllDynamicShortcuts()
-            }catch (ex : java.lang.Exception){
+            }catch (ex: java.lang.Exception){
                 Log.d("SHORTCUTMENU", ex.toString())
             }
 

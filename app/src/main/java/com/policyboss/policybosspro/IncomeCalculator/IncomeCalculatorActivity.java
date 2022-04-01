@@ -176,7 +176,7 @@ public class IncomeCalculatorActivity extends BaseActivity implements View.OnCli
                 edittotalloan.setText(spnTwoWheeler.getText().toString());
                 break;
             case R.id.llHealthIns:
-                imgDynamic.setImageResource(R.drawable.health_insurance_img);
+                imgDynamic.setImageResource(R.drawable.health_insurance_new_img);
 
                 setAllBacgroundGrey();
                 setBacground(llHealthIns);

@@ -83,6 +83,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     String name = "";
     String title = "";
     String dashBoardtype = "";
+    String APPMENU = "";
 
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
@@ -138,6 +139,12 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             dashBoardtype = getIntent().getStringExtra("dashBoardtype");
         }
 
+        // For Handling Activity Back when URL Open using ShortCut Menu of app
+        if (getIntent().getStringExtra("APPMENU") != null) {
+
+            APPMENU = getIntent().getStringExtra("APPMENU");
+        }
+
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -172,6 +179,15 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
             Toast.makeText(this, "Check your internet connection", Toast.LENGTH_SHORT).show();
     }
 
+    private void navigateToHome(){
+
+        Intent intent = new Intent(this, HomeMainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("MarkTYPE", "FROM_HOME");
+
+        startActivity(intent);
+        finish();
+    }
     private void startCountDownTimer() {
         countDownTimer = new CountDownTimer(30000, 1000) {
 
@@ -334,7 +350,12 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                     if (webView.canGoBack()) {
                         webView.goBack();
                     } else {
-                        finish();
+                        if (!APPMENU.equals("")) {
+                            navigateToHome();
+                        }else{
+                            finish();
+                        }
+
                     }
                     return true;
             }
@@ -493,17 +514,18 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
+
+                if(APPMENU.equals("")){
+                    finish();
+                }else{
+                    navigateToHome();
+                }
+
                 return true;
 
             case R.id.action_home:
 
-                Intent intent = new Intent(this, HomeMainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("MarkTYPE", "FROM_HOME");
-
-                startActivity(intent);
-                finish();
+                navigateToHome();
                 return true;
 
             case R.id.action_raise:
@@ -520,17 +542,18 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        if (dashBoardtype.equals("INSURANCE")) {
-//            getMenuInflater().inflate(R.menu.insurance_menu, menu);
-//        } else {
-//            getMenuInflater().inflate(R.menu.home_menu, menu);
-//        }
-//
-//        return true;
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (dashBoardtype.equals("INSURANCE")) {
+            getMenuInflater().inflate(R.menu.insurance_menu, menu);
+       } else {
+            getMenuInflater().inflate(R.menu.home_menu, menu);
+       }
 
+        return true;
+   }
+
+   /*
     @Override
     protected void onResume() {
         super.onResume();
@@ -544,7 +567,7 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         if (countDownTimer != null)
             countDownTimer.cancel();
     }
-
+*/
 
     private void getSyncPaymentDetail(String transactionId) {
 
@@ -934,6 +957,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
 
     }
+
+
 
 
     @Override
