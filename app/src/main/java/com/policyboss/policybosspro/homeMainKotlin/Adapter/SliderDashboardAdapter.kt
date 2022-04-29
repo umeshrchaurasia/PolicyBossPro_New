@@ -13,6 +13,7 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.policyboss.policybosspro.BuildConfig
@@ -39,10 +40,6 @@ import java.util.HashMap
 class SliderDashboardAdapter(
         val mContext: Context,
 
-        var listInsur: MutableList<DashboardMultiLangEntity>,
-        var type : Int,
-        var mCallback : IDashboardAdapterCallBack
-
 )
     : RecyclerView.Adapter<SliderDashboardAdapter.ModelViewHolder>(){
 
@@ -50,14 +47,48 @@ class SliderDashboardAdapter(
     var loanurl = ""
     val mapKey = "map_switchuser"
 
-   // var mCallBack : IDashboardAdapterCallBack
+    lateinit var  viewPager2 : ViewPager2
+    lateinit var listInsur: MutableList<DashboardMultiLangEntity>
+    var type : Int = 0
+    lateinit var mCallback : IDashboardAdapterCallBack
+
+    // var mCallBack : IDashboardAdapterCallBack
 
     init {
         dbPersistanceController = DBPersistanceController(mContext)
        // this.mCallBack = mCallback
+    }
+
+    // called HomeMainActivity : required viewPager2
+    // secondary constructor called after init method
+    constructor(  mContext: Context,
+                    viewPager2 : ViewPager2,
+                    listInsur: MutableList<DashboardMultiLangEntity>,
+                    type : Int,
+                    mCallback : IDashboardAdapterCallBack
+                   ) : this(mContext) {
+
+
+        this.viewPager2 = viewPager2
+        this.listInsur = listInsur
+        this.type = type
+        this.mCallback = mCallback
 
     }
 
+    // called HomeListProduct :we don't have viewPager2 in it
+    constructor(  mContext: Context,
+                  listInsur: MutableList<DashboardMultiLangEntity>,
+                  type : Int,
+                  mCallback : IDashboardAdapterCallBack
+    ) : this(mContext) {
+
+        this.listInsur = listInsur
+        this.type = type
+        this.mCallback = mCallback
+
+
+    }
 
     open interface IDashboardAdapterCallBack {
 
@@ -91,12 +122,21 @@ class SliderDashboardAdapter(
         holder.txtProductName.text = listInsur[position].productName
         holder.txtProductDesc.text = listInsur[position].productDetails
 
+        if(type == 0 &&  this::viewPager2.isInitialized){
+
+             if(position == listInsur.size -2){
+
+                viewPager2.post(slideRun)
+           }
+        }
+
 
         if (listInsur[position].icon == -1) {
             Glide.with(mContext)
                     .load(listInsur[position].serverIcon)
                     .into((holder.imgIcon))
-        } else {
+        }
+        else {
             holder.imgIcon.setImageResource(listInsur[position].icon)
         }
 
@@ -196,9 +236,17 @@ class SliderDashboardAdapter(
 
     override fun getItemCount() = listInsur.size
 
+    val slideRun = object : Runnable{
+        override fun run() {
 
+            listInsur.addAll(listInsur)
 
-  inner  class ModelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+            notifyDataSetChanged()
+        }
+        //runnable
+
+    }
+    inner  class ModelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var cvSlider : MaterialCardView
       var imgIcon : AppCompatImageView
@@ -248,7 +296,7 @@ class SliderDashboardAdapter(
 
 
 
-       private fun switchDashBoardMenus(dashboardEntity: DashboardMultiLangEntity) {
+    private fun switchDashBoardMenus(dashboardEntity: DashboardMultiLangEntity) {
         val productID = dashboardEntity.productId
 
         //Toast.makeText(mContext,"Produvt ID" + productID,Toast.LENGTH_LONG).show();

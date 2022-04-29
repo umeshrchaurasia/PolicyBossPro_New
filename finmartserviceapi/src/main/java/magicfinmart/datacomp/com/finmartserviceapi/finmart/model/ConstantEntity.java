@@ -1,4 +1,4 @@
-package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
+     package magicfinmart.datacomp.com.finmartserviceapi.finmart.model;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;

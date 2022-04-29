@@ -269,6 +269,17 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     }
 
 
+    override fun onPause() {
+        super.onPause()
+
+        if (sliderRun != null) {
+
+          if(this::sliderRun.isInitialized)
+
+            sliderHandler.removeCallbacks(sliderRun)
+
+        }
+    }
 
 
 
@@ -523,6 +534,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
         return  append
 
     }
+
     private fun shortcutAppMenu(){
 
 
@@ -811,7 +823,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
-        adapter = SliderDashboardAdapter(this, listInsur, 0, this)
+        adapter = SliderDashboardAdapter(this,viewPager2, listInsur, 0, this)
         viewPager2.adapter = adapter
 
 
@@ -847,14 +859,21 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
             Log.d("VIEWPAGER", "viewPager Current Item position " + viewPager2.currentItem)
 
-            if (viewPager2.currentItem == listInsur.size - 1 ) {
-                viewPager2.setCurrentItem(0, false)
+            viewPager2.setCurrentItem(viewPager2.currentItem + 1, true)
 
+            // region commented { Logic is used in Adapter to add same list in existing hence in auto scroll
+            // when list is ended it add itself again
 
-            }else{
-                viewPager2.setCurrentItem(viewPager2.currentItem + 1, true)
+//            if (viewPager2.currentItem == listInsur.size - 1 ) {
+//                viewPager2.setCurrentItem(0, false)
+//
+//
+//            }else{
+//                viewPager2.setCurrentItem(viewPager2.currentItem + 1, true)
+//
+//            }
 
-            }
+            //endregion
 
 
         }
@@ -884,7 +903,9 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
         if (sliderRun != null) {
 
-            sliderHandler.removeCallbacks(sliderRun)
+            if(this::sliderRun.isInitialized)
+
+                sliderHandler.removeCallbacks(sliderRun)
 
         }
 
