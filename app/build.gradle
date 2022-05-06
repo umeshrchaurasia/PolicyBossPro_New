@@ -17,7 +17,7 @@ repositories {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
 
     lintOptions {
         checkReleaseBuilds false
@@ -43,7 +43,7 @@ android {
         multiDexEnabled true
         applicationId "com.policyboss.policybosspro"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 8
 
         versionName "0.0.7"

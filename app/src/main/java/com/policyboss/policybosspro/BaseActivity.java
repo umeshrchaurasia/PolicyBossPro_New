@@ -947,7 +947,7 @@ public class BaseActivity extends AppCompatActivity {
 
                 ContentResolver resolver = getContentResolver();
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(MediaStore.Images.Media.DISPLAY_NAME,Utility.getNewFileName("Finmart_product"));
+                contentValues.put(MediaStore.Images.Media.DISPLAY_NAME,Utility.getNewFileName("PolicyBossPro_product"));
                 contentValues.put(MediaStore.Images.Media.MIME_TYPE,"image/jpg");
                 contentValues.put(MediaStore.Images.Media.RELATIVE_PATH,Utility.getImageDirectoryPath());
 
@@ -979,7 +979,7 @@ public class BaseActivity extends AppCompatActivity {
 
                 //  File imagesDir  = getAppSpecificAlbumStorageDir(PermissionActivity.this, Environment.DIRECTORY_PICTURES,"DemoLatest1");
 
-                file = new File(imagesDir, "Finmart_product" + ".jpg");
+                file = new File(imagesDir, "PolicyBossPro_product" + ".jpg");
                 fos = new FileOutputStream(file);
 
                 screenshotUri = FileProvider.getUriForFile(BaseActivity.this,

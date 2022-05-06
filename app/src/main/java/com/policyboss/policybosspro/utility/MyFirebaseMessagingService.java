@@ -51,8 +51,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
      **************************************************/
     private NotificationManager mManager;
     private static final String TAG = "MyFirebaseMsgService";
-    public static final String CHANNEL_ID = "com.datacomp.magicfinmart.NotifyID";
-    public static final String CHANNEL_NAME = "FINMART CHANNEL";
+    public static final String CHANNEL_ID = "com.policyboss.policybosspro.NotifyID";
+    public static final String CHANNEL_NAME = "POLICYBOSSPRO CHANNEL";
     Bitmap bitmap_image = null;
     String type;
     String WebURL, WebTitle, messageId;

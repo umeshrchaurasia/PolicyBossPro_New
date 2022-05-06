@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="LockedOrientationActivity"
     package="com.policyboss.policybosspro">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -179,7 +180,8 @@
             android:noHistory="true"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -1085,19 +1087,22 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <receiver android:name=".broadcast.SMSBroadCastReceiver">
+        <receiver android:name=".broadcast.SMSBroadCastReceiver"
+            android:exported="true">
             <intent-filter android:priority="5822">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".broadcast.UpdateAppBroadCastReceiver">
+        <receiver android:name=".broadcast.UpdateAppBroadCastReceiver"
+            android:exported="true">
             <intent-filter android:priority="5823">
                 <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name="com.google.android.gms.analytics.AnalyticsReceiver"
-            android:enabled="true">
+            android:enabled="true"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
             </intent-filter>
@@ -1127,6 +1132,28 @@
             android:enabled="true"
             android:exported="false" />
         <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+
+        <!-- Todo        : RazorPay  Added for Android 12 or heigher-->
+        <receiver
+            android:name="com.razorpay.RzpTokenReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="rzp.device_token.share" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name="com.razorpay.CheckoutActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:theme="@style/CheckoutTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <data
+                    android:host="rzp.io"
+                    android:scheme="io.rzp" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

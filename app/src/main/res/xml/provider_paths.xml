@@ -8,4 +8,8 @@
     <external-files-path
         name="external_files_files"
         path="." />
+
+    <external-files-path
+        name="files_root"
+        path="/" />
 </paths>

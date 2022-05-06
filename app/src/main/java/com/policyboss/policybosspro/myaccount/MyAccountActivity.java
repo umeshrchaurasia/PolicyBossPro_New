@@ -774,7 +774,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString());
             registerRequestEntity.setMobile_1("" + etMobileNo.getText().toString());
-            registerRequestEntity.setEmailId("" + etEmailId.getText().toString());
+            registerRequestEntity.setEmailId("" + etEmailId.getText().toString().trim());
             registerRequestEntity.setType("1");
 
             new RegisterController(MyAccountActivity.this).saveAccDtl(registerRequestEntity, MyAccountActivity.this);
@@ -789,7 +789,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
             registerRequestEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString().toUpperCase());
             registerRequestEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
-            registerRequestEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
+            registerRequestEntity.setDisplayEmail("" + etEmailId_posp.getText().toString().trim());
             registerRequestEntity.setType("4");
 
             new RegisterController(MyAccountActivity.this).saveAccDtl(registerRequestEntity, MyAccountActivity.this);
@@ -840,11 +840,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
         registerRequestEntity.setType("0");
         registerRequestEntity.setFBA_Designation("" + etSubHeading.getText().toString());
         registerRequestEntity.setMobile_1("" + etMobileNo.getText().toString());
-        registerRequestEntity.setEmailId("" + etEmailId.getText().toString());
+        registerRequestEntity.setEmailId("" + etEmailId.getText().toString().trim());
 
         registerRequestEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString().toUpperCase());
         registerRequestEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
-        registerRequestEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
+        registerRequestEntity.setDisplayEmail("" + etEmailId_posp.getText().toString().trim());
 
         registerRequestEntity.setAddress_1("" + etAddress1.getText().toString());
         registerRequestEntity.setAddress_2("" + etAddress2.getText().toString());
@@ -1265,7 +1265,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         etSubHeading.setText("" + accountDtlEntity.getDesignation());
         etMobileNo.setText("" + accountDtlEntity.getEditMobiNumb());
-        etEmailId.setText("" + accountDtlEntity.getEditEmailId());
+        etEmailId.setText("" + accountDtlEntity.getEditEmailId().trim());
 
 
         etAddress1.setText("" + accountDtlEntity.getAddress_1());
@@ -1292,7 +1292,7 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
         etSubHeading_posp.setText("" + accountDtlEntity.getDisplayDesignation().toString().toUpperCase());
         etMobileNo_posp.setText("" + accountDtlEntity.getDisplayPhoneNo());
-        etEmailId_posp.setText("" + accountDtlEntity.getDisplayEmail());
+        etEmailId_posp.setText("" + accountDtlEntity.getDisplayEmail().trim());
 
         if (accountDtlEntity.getDoc_available().size() > 0) {
             List<DocAvailableEntity> docList = accountDtlEntity.getDoc_available();
@@ -1315,19 +1315,19 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
             if (type == 1) {
                 accountDtlEntity.setDesignation("" + etSubHeading.getText().toString().toString());
                 accountDtlEntity.setEditMobiNumb("" + etMobileNo.getText().toString());
-                accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString());
+                accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString().trim());
             } else if (type == 4) {
                 accountDtlEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString().toUpperCase());
                 accountDtlEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
-                accountDtlEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
+                accountDtlEntity.setDisplayEmail("" + etEmailId_posp.getText().toString().trim());
             } else if (type == 0) {
                 accountDtlEntity.setDesignation("" + etSubHeading.getText().toString());
                 accountDtlEntity.setEditMobiNumb("" + etMobileNo.getText().toString());
-                accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString());
+                accountDtlEntity.setEditEmailId("" + etEmailId.getText().toString().trim());
 
                 accountDtlEntity.setDisplayDesignation("" + etSubHeading_posp.getText().toString().toString());
                 accountDtlEntity.setDisplayPhoneNo("" + etMobileNo_posp.getText().toString());
-                accountDtlEntity.setDisplayEmail("" + etEmailId_posp.getText().toString());
+                accountDtlEntity.setDisplayEmail("" + etEmailId_posp.getText().toString().trim());
             }
         }
 
