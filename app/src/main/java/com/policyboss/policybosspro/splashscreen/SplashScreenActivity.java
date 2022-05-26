@@ -101,16 +101,11 @@ public class SplashScreenActivity extends BaseActivity implements IResponseSubcr
                 @Override
                 public void run() {
 
-                    //region comment
-
                         if (loginResponseEntity != null) {
                             startActivity(new Intent(SplashScreenActivity.this, HomeMainActivity.class));
                         } else {
                             startActivity(new Intent(SplashScreenActivity.this, LoginActivity.class));
                         }
-
-
-                    //endregion
 
 
                 }

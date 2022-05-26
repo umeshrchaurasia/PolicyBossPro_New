@@ -138,7 +138,7 @@ dependencies {
     implementation 'com.borjabravo:readmoretextview:2.1.0'
 
 
-    implementation 'org.matomo.sdk:tracker:4.0.2'
+
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "androidx.core:core-ktx:1.7.0"

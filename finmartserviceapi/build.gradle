@@ -9,10 +9,10 @@ android {
             storePassword 'PolicyBossPro'
         }
     }
-    compileSdkVersion 28
+    compileSdkVersion 32
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 28
+        targetSdkVersion 32
         versionCode 55
         versionName "2.3.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -92,4 +92,6 @@ dependencies {
 
 
 }
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'realm-android'
