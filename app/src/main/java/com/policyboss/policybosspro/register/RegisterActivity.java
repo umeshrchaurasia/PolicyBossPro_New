@@ -144,7 +144,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         setListener();
         initLayouts();
         setSpinnerListener();
-
+        setGender();
         txtsale.setVisibility(View.GONE);
         prefManager = new PrefManager(this);
 
@@ -1038,6 +1038,13 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
     };
     //endregion
+
+    private void setGender(){
+
+        isFemale = false;
+        isMale = true;
+        setGender(txtMale, txtFemale);
+    }
 
     private void setGender(TextView clickedText, TextView textView1) {
 

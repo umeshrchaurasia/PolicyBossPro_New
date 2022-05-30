@@ -36,6 +36,7 @@ import com.policyboss.policybosspro.R
 import com.policyboss.policybosspro.databinding.ActivityHomeMainBinding
 import com.policyboss.policybosspro.home.adapter.CallingDetailAdapter
 import com.policyboss.policybosspro.knowledgeguru.KnowledgeGuruActivity
+import com.policyboss.policybosspro.login.LoginActivity
 import com.policyboss.policybosspro.myaccount.MyAccountActivity
 import com.policyboss.policybosspro.notification.NotificationActivity
 import com.policyboss.policybosspro.notification.NotificationSmsActivity
@@ -765,6 +766,43 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     }
 
 
+    fun verifyPospNo() {
+        val builder = AlertDialog.Builder(this@HomeMainActivity, R.style.CustomDialog)
+        val txtTitle: TextView
+        val txtMessage: TextView
+        val btnClose: Button
+        val ivCross: ImageView
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.layout_failure_popup, null)
+        builder.setView(dialogView)
+        val verifyDialog = builder.create()
+        // set the custom dialog components - text, image and button
+        txtTitle = dialogView.findViewById<View>(R.id.txtTitle) as TextView
+        txtMessage = dialogView.findViewById<View>(R.id.txtMessage) as TextView
+        btnClose = dialogView.findViewById<View>(R.id.btnClose) as Button
+        ivCross = dialogView.findViewById<View>(R.id.ivCross) as ImageView
+        txtTitle.text = "Authorization"
+        txtMessage.text = resources.getString(R.string.verify_SSID)
+        btnClose.setOnClickListener {
+            verifyDialog.dismiss()
+            val intent = Intent(this@HomeMainActivity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finish()
+        }
+        ivCross.setOnClickListener {
+            verifyDialog.dismiss()
+            val intent = Intent(this@HomeMainActivity, LoginActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(intent)
+            finish()
+        }
+        verifyDialog.setCancelable(false)
+        verifyDialog.show()
+        //  alertDialog.getWindow().setLayout(900, 600);
+
+        // for user define height and width..
+    }
 
     private fun updateBadgeCount(count: Int = 0){
 
