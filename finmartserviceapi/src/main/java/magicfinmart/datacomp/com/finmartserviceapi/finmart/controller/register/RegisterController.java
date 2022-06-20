@@ -38,6 +38,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RazorPayResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterationPospAmountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SendSyncSmsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SmsTemplateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
@@ -83,6 +84,40 @@ public class RegisterController implements IRegister {
 
             @Override
             public void onFailure(Call<RegisterSourceResponse> call, Throwable t) {
+                if (t instanceof ConnectException) {
+                    iResponseSubcriber.OnFailure(t);
+                } else if (t instanceof SocketTimeoutException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof UnknownHostException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Check your internet connection"));
+                } else if (t instanceof NumberFormatException) {
+                    iResponseSubcriber.OnFailure(new RuntimeException("Unexpected server response"));
+                } else {
+                    iResponseSubcriber.OnFailure(new RuntimeException(t.getMessage()));
+                }
+            }
+        });
+    }
+
+    @Override
+    public void getRegistPospAmount(final IResponseSubcriber iResponseSubcriber) {
+
+        registerQuotesNetworkService.getRegistPospAmount().enqueue(new Callback<RegisterationPospAmountResponse>() {
+            @Override
+            public void onResponse(Call<RegisterationPospAmountResponse> call, Response<RegisterationPospAmountResponse> response) {
+                if (response.body() != null) {
+
+                    //callback of data
+                    iResponseSubcriber.OnSuccess(response.body(), "");
+
+                } else {
+                    //failure
+                    iResponseSubcriber.OnFailure(new RuntimeException("Enable to reach server, Try again later"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<RegisterationPospAmountResponse> call, Throwable t) {
                 if (t instanceof ConnectException) {
                     iResponseSubcriber.OnFailure(t);
                 } else if (t instanceof SocketTimeoutException) {

@@ -28,6 +28,7 @@ import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RazorPayResp
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterFbaResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSaleResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterSourceResponse;
+import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.RegisterationPospAmountResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SendSyncSmsResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.SmsTemplateResponse;
 import magicfinmart.datacomp.com.finmartserviceapi.finmart.response.UserCallingResponse;
@@ -106,6 +107,9 @@ public class RegisterRequestBuilder extends FinmartRetroRequestBuilder {
         @POST("/quote/Postfm/get-registration-source")
         Call<RegisterSourceResponse> getRegSource();
 
+        @Headers("token:" + token)
+        @POST("/quote/Postfm/get-registration-pospamount")
+        Call<RegisterationPospAmountResponse> getRegistPospAmount();
 
         @Headers("token:" + token)
         @Multipart

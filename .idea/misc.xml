@@ -8,14 +8,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/Rahul Proj/PolicyBoss_Finmart/app/src/main/res/layout/dashboard_prod_item_model.xml" value="0.1331521739130435" />
-        <entry key="..\:/Rahul Proj/PolicyBoss_Finmart/app/src/main/res/layout/menu_item.xml" value="0.1331521739130435" />
-        <entry key="..\:/Rahul Proj/PolicyBoss_Finmart/app/src/main/res/layout/slider_image_model.xml" value="0.25" />
-        <entry key="..\:/Rahul Proj/PolicyBoss_Finmart/app/src/main/res/menu/nav_menu_drawer.xml" value="0.171875" />
+        <entry key="..\:/Umesh/PolicyBossPro_2022_NEW/app/src/main/res/layout/layout_posp_amount_popup.xml" value="0.1" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK (3)" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
