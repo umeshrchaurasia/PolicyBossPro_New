@@ -104,6 +104,7 @@ public class UserConstantEntity extends RealmObject {
 
     private String finmartwhatsappno;
     private int isactive;
+    private String enablemyaccountupdate;
 
     /**
      * plbanner :https://horizon.policyboss.com:5443/images/plbanner.gif
@@ -1155,5 +1156,13 @@ public class UserConstantEntity extends RealmObject {
 
     public void setAndroidproversion(int androidproversion) {
         this.androidproversion = androidproversion;
+    }
+
+    public String getEnablemyaccountupdate() {
+        return enablemyaccountupdate;
+    }
+
+    public void setEnablemyaccountupdate(String enablemyaccountupdate) {
+        this.enablemyaccountupdate = enablemyaccountupdate;
     }
 }

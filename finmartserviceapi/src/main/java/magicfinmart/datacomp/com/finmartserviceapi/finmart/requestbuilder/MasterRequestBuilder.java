@@ -73,7 +73,7 @@ public class MasterRequestBuilder extends FinmartRetroRequestBuilder {
         Call<MpsResponse> applyPromoCode(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)
-        @POST("/quote/Postfm/user-constant-pb")
+        @POST("/quote/Postfm/user-constant-pb-new")
         Call<UserConstatntResponse> getUserConstatnt(@Body HashMap<String, String> body);
 
         @Headers("token:" + token)

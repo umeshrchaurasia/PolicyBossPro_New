@@ -84,6 +84,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
 
 
+
     ////////////////////////////////////////////
 
     lateinit var db: DBPersistanceController
@@ -101,6 +102,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     lateinit var ivProfile : ImageView
     lateinit var shareProdDialog: AlertDialog
     lateinit var  callingDetailDialog: AlertDialog
+    lateinit var MyAccountDialog: AlertDialog
 
     lateinit var txtDetails : TextView
     lateinit var txtEntityName :TextView
@@ -273,13 +275,16 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
     override fun onPause() {
         super.onPause()
 
-        if (sliderRun != null) {
+        try {
+            if (sliderRun != null) {
 
-          if(this::sliderRun.isInitialized)
+                if(this::sliderRun.isInitialized)
 
-            sliderHandler.removeCallbacks(sliderRun)
+                    sliderHandler.removeCallbacks(sliderRun)
 
-        }
+            }
+        }catch (ex : Exception){ }
+
     }
 
 
@@ -1066,6 +1071,44 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                 this)
     }
 
+    fun showMyAccountAlert() {
+
+        if (this::MyAccountDialog.isInitialized  && MyAccountDialog.isShowing()) {
+            return
+        }
+        val builder = AlertDialog.Builder(this, R.style.CustomDialog)
+        val txtTile: TextView
+        val txtMessage: TextView
+        val ivCross: ImageView
+        val ivMessage: ImageView
+        val btnAllow: Button
+        val inflater = this.layoutInflater
+        val dialogView = inflater.inflate(R.layout.layout_verify_mycontact_popup, null)
+        builder.setView(dialogView)
+        MyAccountDialog = builder.create()
+        // set the custom dialog components - text, image and button
+        txtTile = dialogView.findViewById(R.id.txtTile)
+        txtMessage = dialogView.findViewById(R.id.txtMessage)
+        ivCross = dialogView.findViewById<View>(R.id.ivCross) as ImageView
+        ivMessage = dialogView.findViewById<View>(R.id.ivMessage) as ImageView
+        btnAllow = dialogView.findViewById<View>(R.id.btnAllow) as Button
+        val url =
+            "https://api.magicfinmart.com/images/in_miss1.jpeg?" + Math.round(Math.random() * 1000)
+        Glide.with(this@HomeMainActivity)
+            .load(url) //.placeholder(R.drawable.circle_placeholder)
+            .into(ivMessage)
+        txtTile.text = "Update Profile Photo!!"
+        // txtMessage.setText(getResources().getString(R.string.myaccount_update));
+        ivCross.setOnClickListener { MyAccountDialog.dismiss() }
+        btnAllow.setOnClickListener {
+            MyAccountDialog.dismiss()
+            startActivity(Intent(this@HomeMainActivity, MyAccountActivity::class.java))
+        }
+        MyAccountDialog.setCancelable(true)
+        MyAccountDialog.setCanceledOnTouchOutside(true)
+        MyAccountDialog.show()
+    }
+
     fun CallingDetailsPopUp(lstCallingDetail: List<UserCallingEntity>) {
 
         if (this::callingDetailDialog.isInitialized  && callingDetailDialog.isShowing()) {
@@ -1394,6 +1437,13 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
                     }
 
+                    if (userConstantEntity?.getEnablemyaccountupdate() != null) {
+                        if (userConstantEntity?.getEnablemyaccountupdate().equals("1")) {
+                            if (userConstantEntity?.getLoanselfphoto().isNullOrEmpty()) {
+                                showMyAccountAlert()
+                            }
+                        }
+                    }
                     //region Not IN Used
                     //Notification Url :-1 November
                     val localNotificationenable = prefManager.notificationsetting.toInt()
