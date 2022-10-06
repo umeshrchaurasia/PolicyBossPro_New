@@ -14,6 +14,7 @@
         <entry key="app/src/main/res/drawable/lightblue_border.xml" value="0.196" />
         <entry key="app/src/main/res/drawable/lightgreywhite_border.xml" value="0.196" />
         <entry key="app/src/main/res/drawable/white_border_offwhite_background.xml" value="0.196" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.23020833333333332" />
         <entry key="app/src/main/res/layout/content_myaccount.xml" value="0.18802083333333333" />
         <entry key="app/src/main/res/layout/content_posp_enrollment.xml" value="0.25" />
         <entry key="app/src/main/res/layout/layout_verify_mycontact_popup.xml" value="0.171875" />

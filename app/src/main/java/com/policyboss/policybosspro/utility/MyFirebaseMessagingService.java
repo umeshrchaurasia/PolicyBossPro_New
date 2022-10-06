@@ -59,7 +59,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     NotifyEntity notifyEntity;
     PrefManager prefManager;
 
-
+    int flag;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
@@ -130,8 +130,13 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.M){
+            flag =   PendingIntent.FLAG_IMMUTABLE;
+        }else{
+            flag =  0;
+        }
         PendingIntent pendingIntent = PendingIntent.getActivity(this, (int) Math.round(Math.random() * 1000), intent,
-                PendingIntent.FLAG_CANCEL_CURRENT);
+                flag);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
@@ -169,7 +174,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
 
         notificationBuilder
-                .setColor(ContextCompat.getColor(getApplicationContext(), R.color.lightGrey))
+                .setColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
                 .setContentTitle(NotifyData.get("title"))
                 .setContentText(NotifyData.get("body"))
                 .setAutoCancel(true)
