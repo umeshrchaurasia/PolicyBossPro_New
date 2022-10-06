@@ -7,10 +7,7 @@ import android.content.*
 import android.content.pm.*
 import android.graphics.drawable.Icon
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.Handler
-import android.os.Parcelable
+import android.os.*
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -28,6 +25,7 @@ import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.Adapter.SliderImageAdap
 import com.demo.kotlindemoapp.HomeMain.CarouselViewPager.CarouselTransformer
 import com.google.android.material.bottomnavigation.BottomNavigationMenuView
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.policyboss.policybosspro.BaseActivity
 import com.policyboss.policybosspro.BaseActivity.PermissionListener
 import com.policyboss.policybosspro.BuildConfig
@@ -45,6 +43,7 @@ import com.policyboss.policybosspro.splashscreen.SplashScreenActivity
 import com.policyboss.policybosspro.switchuser.SwitchUserActivity
 import com.policyboss.policybosspro.utility.CircleTransform
 import com.policyboss.policybosspro.utility.Constants
+import com.policyboss.policybosspro.utility.NetworkUtils
 import com.policyboss.policybosspro.utility.ReadDeviceID
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
@@ -79,7 +78,7 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
    // lateinit var sliderHandler: Handler
 
-    var sliderHandler = Handler()
+    var sliderHandler = Handler(Looper.getMainLooper())
     lateinit var sliderRun : Runnable
 
 
@@ -221,12 +220,24 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
                 }
                 R.id.nav_notification -> {
+                    if (!NetworkUtils.isNetworkAvailable(this)) {
+
+                        Snackbar.make( binding.root, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()
+                        return@addBubbleListener
+                    }
                     startActivity(Intent(this@HomeMainActivity, NotificationActivity::class.java))
                     overridePendingTransition(0, 0)
 
 
                 }
                 R.id.nav_profile -> {
+
+
+                    if (!NetworkUtils.isNetworkAvailable(this)) {
+
+                        Snackbar.make( binding.root, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()
+                        return@addBubbleListener
+                    }
 
                     startActivity(Intent(this@HomeMainActivity, MyAccountActivity::class.java))
                     overridePendingTransition(0, 0)

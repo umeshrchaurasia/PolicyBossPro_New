@@ -25,6 +25,7 @@
     <string name="camera_access_required">Camera access is required to display the camera.</string>
 
     <string name="signup">Not a Member? <b><u>Sign up now!</u></b></string>
+    <string name="noInternet">No Internet Connection</string>
 
     <string name="threedots">&#8942;</string>
     <string name="disclosure"><b><u>DISCLOSURE</u></b></string>
