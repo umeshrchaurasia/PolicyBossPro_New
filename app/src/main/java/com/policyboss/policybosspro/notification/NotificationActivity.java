@@ -20,6 +20,7 @@ import com.policyboss.policybosspro.login.LoginActivity;
 import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.switchuser.SwitchUserActivity;
 import com.policyboss.policybosspro.term.termselection.TermSelectionActivity;
+import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -128,30 +129,32 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
         new RegisterController(NotificationActivity.this).getNotificationData(String.valueOf(loginEntity.getFBAId()), NotificationActivity.this);
 
 
-
-
         bubbleTabBar.addBubbleListener(new OnBubbleClickListener() {
             @Override
             public void onBubbleClick(int id) {
 
+                if (!NetworkUtils.isNetworkAvailable(NotificationActivity.this)) {
+
+                    Snackbar.make(rvNotify, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
 
 
-
-                switch (id){
+                switch (id) {
                     case R.id.nav_home:
 
                         Intent intent = new Intent(NotificationActivity.this, HomeMainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra(Constants.BOTTOM_TYPE,"nav_home");
+                        intent.putExtra(Constants.BOTTOM_TYPE, "nav_home");
                         startActivity(intent);
                         finish();
 
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                         break;
 
                     case R.id.nav_menu:
 
-                        BottomSheetDialogMenuFragment bottomSheetDialogMenuFragment =new  BottomSheetDialogMenuFragment();
+                        BottomSheetDialogMenuFragment bottomSheetDialogMenuFragment = new BottomSheetDialogMenuFragment();
                         bottomSheetDialogMenuFragment.show(getSupportFragmentManager(), bottomSheetDialogMenuFragment.getTag());
 
 
@@ -161,19 +164,18 @@ public class NotificationActivity extends BaseActivity implements IResponseSubcr
 
                         Intent intent3 = new Intent(NotificationActivity.this, MyAccountActivity.class);
                         intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent3.putExtra(Constants.BOTTOM_TYPE,"nav_profile");
+                        intent3.putExtra(Constants.BOTTOM_TYPE, "nav_profile");
                         startActivity(intent3);
                         finish();
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
 
                         break;
 
 
-                    }
-
-
-
                 }
+
+
+            }
 
         });
 

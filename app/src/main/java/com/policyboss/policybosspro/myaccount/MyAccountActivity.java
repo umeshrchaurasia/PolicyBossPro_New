@@ -71,6 +71,7 @@ import com.policyboss.policybosspro.splashscreen.SplashScreenActivity;
 import com.policyboss.policybosspro.switchuser.SwitchUserActivity;
 import com.policyboss.policybosspro.utility.CircleTransform;
 import com.policyboss.policybosspro.utility.Constants;
+import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
@@ -354,6 +355,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                switch (id){
                    case R.id.nav_home:
 
+                       if (!NetworkUtils.isNetworkAvailable(MyAccountActivity.this)) {
+
+                           Snackbar.make( llMyProfile, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                           return;
+                       }
 
                        Intent intent = new Intent(MyAccountActivity.this, HomeMainActivity.class);
                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -365,7 +371,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
                        break;
 
                    case R.id.nav_menu:
+                       if (!NetworkUtils.isNetworkAvailable(MyAccountActivity.this)) {
 
+                           Snackbar.make( llMyProfile, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                           return;
+                       }
 
                        BottomSheetDialogMenuFragment bottomSheetDialogMenuFragment =new  BottomSheetDialogMenuFragment();
                        bottomSheetDialogMenuFragment.show(getSupportFragmentManager(), bottomSheetDialogMenuFragment.getTag());
@@ -374,7 +384,11 @@ public class MyAccountActivity extends BaseActivity implements View.OnClickListe
 
 
                    case R.id.nav_notification:
+                       if (!NetworkUtils.isNetworkAvailable(MyAccountActivity.this)) {
 
+                           Snackbar.make( llMyProfile, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
+                           return;
+                       }
                        Intent intent3 = new Intent(MyAccountActivity.this, NotificationActivity.class);
                        intent3.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                        intent3.putExtra(Constants.BOTTOM_TYPE,"nav_notification");

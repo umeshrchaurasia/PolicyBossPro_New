@@ -24,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.policyboss.policybosspro.BaseActivity;
 import com.policyboss.policybosspro.R;
 import com.policyboss.policybosspro.helpfeedback.raiseticketDialog.RaiseTicketDialogActivity;
@@ -32,6 +33,7 @@ import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
 import com.policyboss.policybosspro.myaccount.MyAccountActivity;
 import com.policyboss.policybosspro.register.RegisterActivity;
 import com.policyboss.policybosspro.utility.Constants;
+import com.policyboss.policybosspro.utility.NetworkUtils;
 import com.policyboss.policybosspro.utility.ReadDeviceID;
 
 import io.realm.Realm;
@@ -267,6 +269,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener,
                     etPassword.requestFocus();
                     Toast.makeText(this, "Enter Password", Toast.LENGTH_SHORT).show();
                     //etPassword.setError("Enter Password");
+                    return;
+                }
+
+                if (!NetworkUtils.isNetworkAvailable(this)) {
+
+                    Snackbar.make( view, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 //   Toast.makeText(this,prefManager.getToken(),Toast.LENGTH_LONG).show();

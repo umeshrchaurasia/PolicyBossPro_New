@@ -36,6 +36,7 @@ import com.policyboss.policybosspro.posp.PospListActivity
 import com.policyboss.policybosspro.sendTemplateSms.SendTemplateSmsActivity
 import com.policyboss.policybosspro.transactionhistory.nav_transactionhistoryActivity
 import com.policyboss.policybosspro.utility.Constants
+import com.policyboss.policybosspro.utility.NetworkUtils
 import com.policyboss.policybosspro.webviews.CommonWebViewActivity
 import magicfinmart.datacomp.com.finmartserviceapi.PrefManager
 import magicfinmart.datacomp.com.finmartserviceapi.Utility
@@ -261,7 +262,13 @@ open class BottomSheetDialogMenuFragment : BottomSheetDialogFragment() , IRespon
     fun getNavigationMenu(menuChild: MenuChild)  {
 
 
+        if (!NetworkUtils.isNetworkAvailable(this.requireContext())) {
 
+
+            Toast.makeText(this.requireContext(),getString(R.string.noInternet), Toast.LENGTH_SHORT ).show()
+
+            return
+        }
             this.dismiss()
 
 

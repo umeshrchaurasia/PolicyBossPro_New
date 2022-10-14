@@ -248,7 +248,11 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
                 R.id.nav_menu -> {
 
                     //  showBottomSheetDialog()
+                    if (!NetworkUtils.isNetworkAvailable(this)) {
 
+                        Snackbar.make( binding.root, getString(R.string.noInternet), Snackbar.LENGTH_SHORT).show()
+                        return@addBubbleListener
+                    }
                     val bottomSheetDialogMenuFragment = BottomSheetDialogMenuFragment()
                     // bottomSheetDialogMenuFragment.registerCallBack(this@HomeMainActivity)
                     bottomSheetDialogMenuFragment.show(supportFragmentManager, bottomSheetDialogMenuFragment.tag)
@@ -1331,58 +1335,80 @@ class HomeMainActivity : BaseActivity() , IResponseSubcriber , View.OnClickListe
 
     override fun onClick(view: View?) {
 
-      when(view!!.id){
+        if (!NetworkUtils.isNetworkAvailable(this)) {
 
-          //redirect to knowledge guru
-          R.id.tvKnowledge -> {
-              startActivity(Intent(this, KnowledgeGuruActivity::class.java))
+            Snackbar.make(binding.root, getString(R.string.noInternet), Snackbar.LENGTH_SHORT)
+                .show()
+            return
+        }
+        when (view!!.id) {
 
-              MyApplication.getInstance().trackEvent(Constants.KNOWLEDGE_GURU, "Clicked", "Knowledge Guru From Dashboard")
+            //redirect to knowledge guru
+            R.id.tvKnowledge -> {
+                startActivity(Intent(this, KnowledgeGuruActivity::class.java))
 
-          }
+                MyApplication.getInstance().trackEvent(
+                    Constants.KNOWLEDGE_GURU,
+                    "Clicked",
+                    "Knowledge Guru From Dashboard"
+                )
 
-          R.id.tvSalesMat -> {
+            }
 
-              //redirect to sales
-              startActivity(Intent(this, SalesMaterialActivity::class.java))
-              MyApplication.getInstance().trackEvent(Constants.SALES_MATERIAL, "Clicked", "CUSTOMER COMM. From Dashboard")
+            R.id.tvSalesMat -> {
 
-          }
+                //redirect to sales
+                startActivity(Intent(this, SalesMaterialActivity::class.java))
+                MyApplication.getInstance().trackEvent(
+                    Constants.SALES_MATERIAL,
+                    "Clicked",
+                    "CUSTOMER COMM. From Dashboard"
+                )
 
-
-          R.id.txtknwyour -> {
-
-              if (userConstantEntity != null) {
-                  openWebViewPopUp(viewPager2, userConstantEntity!!.notificationpopupurl, true, "")
-
-              }
-
-
-          }
-
-          R.id.txtSeeALL -> {
-              startActivity(Intent(this, HomeListProductActivity::class.java))
-
-          }
-
-          R.id.ivSupport -> {
-
-              if (userConstantEntity!!.mangMobile != null) {
-                  if (userConstantEntity!!.managName != null) {
-                      // ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
-                      if (this::callingDetailDialog.isInitialized && callingDetailDialog.isShowing()) {
-                          return
-                      } else {
-                          showDialog()
-                          RegisterController(this).getUserCallingDetail(loginResponseEntity!!.fbaId.toString(), this)
-                      }
-                  }
-              }
+            }
 
 
-          }
+            R.id.txtknwyour -> {
 
-      }
+                if (userConstantEntity != null) {
+                    openWebViewPopUp(
+                        viewPager2,
+                        userConstantEntity!!.notificationpopupurl,
+                        true,
+                        ""
+                    )
+
+                }
+
+
+            }
+
+            R.id.txtSeeALL -> {
+                startActivity(Intent(this, HomeListProductActivity::class.java))
+
+            }
+
+            R.id.ivSupport -> {
+
+                if (userConstantEntity!!.mangMobile != null) {
+                    if (userConstantEntity!!.managName != null) {
+                        // ConfirmAlert("Manager Support", getResources().getString(R.string.RM_Calling) + " " + userConstantEntity.getManagName());
+                        if (this::callingDetailDialog.isInitialized && callingDetailDialog.isShowing()) {
+                            return
+                        } else {
+                            showDialog()
+                            RegisterController(this).getUserCallingDetail(
+                                loginResponseEntity!!.fbaId.toString(),
+                                this
+                            )
+                        }
+                    }
+                }
+
+
+            }
+
+        }
     }
 
 
