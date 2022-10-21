@@ -139,6 +139,7 @@ open class DBMenuRepository() {
 
         fun getMenuLegalList(userConstantEntity: UserConstantEntity, prefManager: PrefManager): MutableList<MenuChild> {
             val menuChild: MutableList<MenuChild> = ArrayList()
+            menuChild.add(MenuChild("nav_demo", "Demo", R.drawable.disclosure1))
             menuChild.add(MenuChild("nav_disclosure", "Disclosure", R.drawable.disclosure1))
             menuChild.add(MenuChild("nav_policy", "Privacy Policy", R.drawable.privacy_policy))
 

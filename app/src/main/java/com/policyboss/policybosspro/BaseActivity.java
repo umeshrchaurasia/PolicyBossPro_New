@@ -970,7 +970,7 @@ public class BaseActivity extends AppCompatActivity {
             File file = null;
 
             try{
-                File imagesDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + "FINMART");
+                File imagesDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).toString() + File.separator + "PolicyBossPro");
 
 
                 if (!imagesDir.exists()){
@@ -1347,7 +1347,7 @@ public class BaseActivity extends AppCompatActivity {
     public void showAlert(String strBody) {
         try {
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(BaseActivity.this);
-            builder.setTitle("Finmart");
+            builder.setTitle("PolicyBossPro");
 
             builder.setMessage(strBody);
             String positiveText = "Ok";

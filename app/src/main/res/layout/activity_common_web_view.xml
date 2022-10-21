@@ -39,10 +39,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_common_web_view"
-        android:layout_height="match_parent"
+    <include
+        layout="@layout/content_common_web_view"
         android:layout_width="match_parent"
-        android:layout_below="@+id/app_bar"/>
+        android:layout_height="match_parent"
+        android:layout_below="@+id/app_bar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

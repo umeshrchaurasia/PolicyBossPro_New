@@ -16,6 +16,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.provider.Settings;
@@ -49,6 +51,7 @@ import com.policyboss.policybosspro.health.HealthQuoteAppActivity;
 import com.policyboss.policybosspro.home.HomeActivity;
 
 import com.policyboss.policybosspro.homeMainKotlin.HomeMainActivity;
+import com.policyboss.policybosspro.homeMainKotlin.Util;
 import com.policyboss.policybosspro.motor.privatecar.activity.InputQuoteBottmActivity;
 import com.policyboss.policybosspro.motor.twowheeler.activity.TwoWheelerQuoteAppActivity;
 import com.policyboss.policybosspro.paymentEliteplan.RazorPaymentEliteActivity;
@@ -84,10 +87,13 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
     String title = "";
     String dashBoardtype = "";
     String APPMENU = "";
+    String CRNID = "";
+    String RACResult = "";
 
     CountDownTimer countDownTimer;
     public static boolean isActive = false;
     Toolbar toolbar;
+     String TAG = "POLICYBOSSPRO";
 
     LoginResponseEntity loginResponseEntity;
     DBPersistanceController db;
@@ -154,6 +160,8 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         db = new DBPersistanceController(this);
         loginResponseEntity = db.getUserData();
         userConstantEntity = db.getUserConstantsData();
+        CRNID = "";
+        RACResult = "";
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         if (name.equals("ICICI PRUDENTIAL DOWNLOAD")
@@ -406,6 +414,48 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
 
         // endregion
 
+
+        //region RAC Form
+        @JavascriptInterface
+        public void getraccamera(String crnid) {
+
+            CRNID = crnid;
+            galleryCamRACPopUp(crnid);
+
+
+        }
+
+
+        @JavascriptInterface
+        public String savecameraimage() {
+
+            return  CRNID  +"||"+ RACResult;
+
+
+        }
+
+        @JavascriptInterface
+        public String showpreview() {
+
+            return  CRNID  +"||"+ RACResult;
+
+
+        }
+
+
+        @JavascriptInterface
+
+        public void getchromeurl(String url) {
+
+
+            Utility.loadWebViewUrlInBrowser(CommonWebViewActivity.this,  url);
+
+
+        }
+
+
+        //endregion
+
         @JavascriptInterface
         public void SendShareQuotePdf(String url, String shareHtml) {
 
@@ -605,6 +655,33 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         }
     }
 
+    public void galleryCamRACPopUp(String crnid) {
+
+        PHOTO_File = "";
+        PHOTO_File =  crnid;
+        Log.d(TAG,"RAC CRN NO "+ PHOTO_File);
+
+        if (!checkPermission()) {
+
+            if (checkRationalePermission()) {
+                //Show Information about why you need the permission
+                requestPermission();
+
+            } else {
+                //Previously Permission Request was cancelled with 'Dont Ask Again',
+                // Redirect to Settings after showing Information about why you need the permission
+
+                //  permissionAlert(navigationView,"Need Call Permission","This app needs Call permission.");
+                openPopUp(ivUser, "Need  Permission", "This app needs all permissions.", "GRANT", true);
+
+
+            }
+        } else {
+
+            showCamerGalleryPopUp();
+        }
+    }
+
     private void startCropImageActivity(Uri imageUri) {
         CropImage.activity(imageUri)
                 .setGuidelines(CropImageView.Guidelines.ON)
@@ -700,6 +777,15 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
         lyCamera = (LinearLayout) dialogView.findViewById(R.id.lyCamera);
         lyGallery = (LinearLayout) dialogView.findViewById(R.id.lyGallery);
         lyPdf = (LinearLayout) dialogView.findViewById(R.id.lyPdf);
+
+        if(!CRNID.equals("")){
+
+            lyPdf.setVisibility(View.GONE);
+
+        }else{
+
+            lyPdf.setVisibility(View.VISIBLE);
+        }
 
         lyCamera.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -925,8 +1011,10 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                     try {
                         cropImageUri = result.getUri();
                         Bitmap mphoto = null;
+
                         try {
-                            mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                           // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), cropImageUri);
+                            mphoto = getBitmapFromContentResolver(cropImageUri);
                             //  mphoto = getResizedBitmap(mphoto, 800);
 
 
@@ -935,13 +1023,41 @@ public class CommonWebViewActivity extends BaseActivity implements BaseActivity.
                         }
                         showDialog();
 
+                        if(!CRNID.equals("")){
 
-                        file = saveImageToStorage(mphoto, PHOTO_File);
-                        // setProfilePhoto(mphoto);
+                            Handler hndler= new Handler(Looper.getMainLooper());
+                            Bitmap finalMphoto = mphoto;
 
-                        part = Utility.getMultipartImage(file, "doc_type");
+                            hndler.postDelayed(new Runnable() {
 
-                        new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
+                                @Override
+                                public void run() {
+
+                                    try {
+                                        RACResult =   Util.bitmapToBase64(finalMphoto);
+                                    }catch (Exception e){}
+                                    finally {
+
+                                        cancelDialog();
+                                    }
+
+                                }
+
+                            },1000);
+
+
+
+                        }else{
+
+                            file = saveImageToStorage(mphoto, PHOTO_File);
+                            // setProfilePhoto(mphoto);
+
+                            part = Utility.getMultipartImage(file, "doc_type");
+
+                            new ZohoController(this).uploadRaiseTicketDocWeb(part, this);
+
+                        }
+
 
                     } catch (Exception e) {
                         Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG).show();

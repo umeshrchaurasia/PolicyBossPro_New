@@ -517,7 +517,7 @@ public class BaseFragment extends Fragment {
     public void showAlert(String strBody) {
         try {
             androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(getActivity());
-            builder.setTitle("Finmart");
+            builder.setTitle("PolicyBossPro");
 
             builder.setMessage(strBody);
             String positiveText = "Ok";

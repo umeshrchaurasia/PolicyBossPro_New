@@ -390,6 +390,13 @@ open class BottomSheetDialogMenuFragment : BottomSheetDialogFragment() , IRespon
 
                     mCallback.ConfirmnMyUtilitiesAlert()
                 }
+                "nav_demo" -> {
+
+                    startActivity(Intent(requireContext(), CommonWebViewActivity::class.java)
+                        .putExtra("URL", "http://api.magicfinmart.com/images/android.html")
+                        .putExtra("NAME", "Demo")
+                        .putExtra("TITLE", "Demo"))
+                }
                 "nav_disclosure" -> {
 
                     startActivity(Intent(requireContext(), CommonWebViewActivity::class.java)

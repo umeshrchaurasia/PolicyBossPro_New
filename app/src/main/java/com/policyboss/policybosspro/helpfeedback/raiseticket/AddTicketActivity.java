@@ -557,7 +557,8 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
             Uri selectedImageUri = data.getData();
             Bitmap mphoto = null;
             try {
-                mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+               // mphoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+                mphoto = getBitmapFromContentResolver(selectedImageUri);
                 mphoto = getResizedBitmap(mphoto, 400);
 
                 showDialog();
@@ -566,8 +567,8 @@ public class AddTicketActivity extends BaseActivity implements IResponseSubcribe
                 body = Utility.getBody(this, loginResponseEntity.getFBAId(), 12, "Tiket");
                 new RegisterController(this).uploadDocuments(part, body, this);
 
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (Exception ex) {
+
             }
         }
 
